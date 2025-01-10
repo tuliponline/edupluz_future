@@ -1,7 +1,16 @@
+import 'package:edupluz_future/configs/prod/firebase_options.dart';
+import 'package:edupluz_future/init_app.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app.dart';
 
-void main() {
-  // Add any development-specific configurations here
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "env/env.prod");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await initApp();
   runApp(App());
 }

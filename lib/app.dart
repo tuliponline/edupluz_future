@@ -1,11 +1,7 @@
+import 'package:edupluz_future/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'core/theme/app_theme.dart';
-import 'features/auth/presentation/pages/forgot_password_page.dart';
-import 'features/auth/presentation/pages/sign_in_page.dart';
-import 'features/auth/presentation/pages/sign_up_page.dart';
-import 'features/splash/presentation/pages/splash_page.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -28,33 +24,11 @@ class _AppState extends State<App> {
     });
   }
 
-  final _router = GoRouter(
-    initialLocation: '/',
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const SplashPage(),
-      ),
-      GoRoute(
-        path: '/signin',
-        builder: (context, state) => const SignInPage(),
-      ),
-      GoRoute(
-        path: '/signup',
-        builder: (context, state) => const SignUpPage(),
-      ),
-      GoRoute(
-        path: '/forgot-password',
-        builder: (context, state) => const ForgotPasswordPage(),
-      ),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _router,
-      title: 'My App',
+      routerConfig: getRouter(),
+      title: 'Edupluz',
       theme: AppTheme.lightTheme,
       locale: _locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

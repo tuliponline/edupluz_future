@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,9 +17,13 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _navigateToSignIn() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      context.go('/signin');
+    if (await RemoteConfigService().isMaintenance()) {
+      context.go('/maintenance');
+    } else {
+      await Future.delayed(const Duration(seconds: 2));
+      if (mounted) {
+        context.go('/signin');
+      }
     }
   }
 
