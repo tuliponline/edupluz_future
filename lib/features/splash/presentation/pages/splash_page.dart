@@ -1,6 +1,11 @@
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
+import 'package:edupluz_future/core/services/shorebird/shorebird_service.dart';
+import 'package:edupluz_future/features/splash/presentation/wisgets/patch_dialog.dart';
+import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restart_app/restart_app.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -17,12 +22,22 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _navigateToSignIn() async {
+    await RemoteConfigService().isShowPatchDialog();
     if (await RemoteConfigService().isMaintenance()) {
-      context.go('/maintenance');
+      context.goNamed(Routes.maintenance.name);
     } else {
+      ShorebirdUpdater? shorebirdUpdater =
+          await ShorebirdService().checkForUpdates();
+      if (shorebirdUpdater != null) {
+        await showDialog(
+          context: context,
+          builder: (context) => PatchDialog(shorebirdUpdater: shorebirdUpdater),
+        );
+        Restart.restartApp();
+      }
       await Future.delayed(const Duration(seconds: 2));
       if (mounted) {
-        context.go('/signin');
+        context.goNamed(Routes.signin.name);
       }
     }
   }

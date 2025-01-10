@@ -1,7 +1,26 @@
+import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:flutter/material.dart';
 
-class MaintenancePage extends StatelessWidget {
+class MaintenancePage extends StatefulWidget {
   const MaintenancePage({super.key});
+
+  @override
+  State<MaintenancePage> createState() => _MaintenancePageState();
+}
+
+class _MaintenancePageState extends State<MaintenancePage> {
+  String? _version;
+
+  Future<void> _getVersion() async {
+    _version = await RemoteConfigService().romoteVersion();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getVersion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +44,11 @@ class MaintenancePage extends StatelessWidget {
               'We\'re working to improve our service.\nPlease check back later.',
               textAlign: TextAlign.center,
             ),
+            if (_version != null)
+              Text(
+                'Version $_version',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
           ],
         ),
       ),
