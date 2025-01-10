@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "appTitle": "My App",
+  "welcome": "Welcome",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "error": "Error",
+  "success": "Success"
+}

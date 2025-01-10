@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>19616661900-osoklrrte9f4k2t43g8pqtqs8o1o76g4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.19616661900-osoklrrte9f4k2t43g8pqtqs8o1o76g4</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>19616661900-jn3nldcskbck357apblp2oehfq3ik8qu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBWnLRjS4m3_VHMoQQZB9PWUn3REH25-uE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>19616661900</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.edupluz.edupluzapp.nonProd</string>
+	<key>PROJECT_ID</key>
+	<string>edupluz-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>edupluz-dev.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:19616661900:ios:e695efbf9e7835640d56a9</string>
+</dict>
+</plist>

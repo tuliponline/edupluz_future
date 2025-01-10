@@ -1,0 +1,23 @@
+package_rename_config-nonprod:
+  android:
+    app_name: Edupluz Nonprod
+    package_name: com.edupluz.edupluzapp
+
+
+  ios:
+    app_name: Edupluz Nonprod
+    bundle_name: Edupluz Nonprod
+    package_name: com.edupluz.edupluzapp.nonProd
+
+
+package_rename_config-prod:
+  android:
+    app_name: Edupluz
+    package_name: com.edupluz.edupluzapp
+
+
+  ios:
+    app_name: Edupluz
+    bundle_name: Edupluz
+    package_name: com.edupluz.edupluzapp
+

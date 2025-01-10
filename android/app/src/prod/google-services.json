@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "943208255310",
+    "project_id": "edupluz-prod-49faa",
+    "storage_bucket": "edupluz-prod-49faa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943208255310:android:e4e66ec7a79b23866a181f",
+        "android_client_info": {
+          "package_name": "com.edupluz.adnroid.tv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIunIC7dPIqKOtnAc6qKyQqxNEmF2N-ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943208255310:android:8ce5e4b390bab7c06a181f",
+        "android_client_info": {
+          "package_name": "com.edupluz.edupluzapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIunIC7dPIqKOtnAc6qKyQqxNEmF2N-ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943208255310:android:aa5dfd91157c62586a181f",
+        "android_client_info": {
+          "package_name": "com.edupluz.edupluzapp.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIunIC7dPIqKOtnAc6qKyQqxNEmF2N-ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

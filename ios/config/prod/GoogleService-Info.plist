@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAUeTJOoT3yGS3Rd37b1A8LwGrFmaIb5Is</string>
+	<key>GCM_SENDER_ID</key>
+	<string>943208255310</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.edupluz.edupluzapp</string>
+	<key>PROJECT_ID</key>
+	<string>edupluz-prod-49faa</string>
+	<key>STORAGE_BUCKET</key>
+	<string>edupluz-prod-49faa.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:943208255310:ios:41f489b52b5046516a181f</string>
+</dict>
+</plist>

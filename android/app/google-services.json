@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "19616661900",
+    "project_id": "edupluz-dev",
+    "storage_bucket": "edupluz-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19616661900:android:71cb3a8b4bd850ac0d56a9",
+        "android_client_info": {
+          "package_name": "com.edupluz.edupluzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19616661900-19ikmfa1eocqckhni4h98p7jviruuope.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6WUGy9D_3UIStUhyuRlYVlBn_lZwr54c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19616661900-19ikmfa1eocqckhni4h98p7jviruuope.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "19616661900-em8qcn5ogl01meli3a958l3e9afgft73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.edupluz.edupluzapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19616661900:android:b9dcc916a7cafebd0d56a9",
+        "android_client_info": {
+          "package_name": "com.edupluz.edupluzapp.nonprod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19616661900-jn3nldcskbck357apblp2oehfq3ik8qu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edupluz.edupluzapp.nonprod",
+            "certificate_hash": "4d10d3f57a3bbfbc72d25109c018d8d584b63122"
+          }
+        },
+        {
+          "client_id": "19616661900-19ikmfa1eocqckhni4h98p7jviruuope.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6WUGy9D_3UIStUhyuRlYVlBn_lZwr54c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19616661900-19ikmfa1eocqckhni4h98p7jviruuope.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "19616661900-em8qcn5ogl01meli3a958l3e9afgft73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.edupluz.edupluzapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
