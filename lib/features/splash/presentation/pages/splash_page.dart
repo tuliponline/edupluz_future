@@ -18,22 +18,27 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _navigateToSignIn();
+    _initApp();
   }
 
-  Future<void> _navigateToSignIn() async {
-    await RemoteConfigService().isShowPatchDialog();
+  Future<void> _initApp() async {
     if (await RemoteConfigService().isMaintenance()) {
       context.goNamed(Routes.maintenance.name);
     } else {
       ShorebirdUpdater? shorebirdUpdater =
           await ShorebirdService().checkForUpdates();
       if (shorebirdUpdater != null) {
-        await showDialog(
-          context: context,
-          builder: (context) => PatchDialog(shorebirdUpdater: shorebirdUpdater),
-        );
-        Restart.restartApp();
+        bool showPatchDialog = await RemoteConfigService().isShowPatchDialog();
+        if (showPatchDialog) {
+          await showDialog(
+            context: context,
+            builder: (context) =>
+                PatchDialog(shorebirdUpdater: shorebirdUpdater),
+          );
+          Restart.restartApp();
+        } else {
+          shorebirdUpdater.update();
+        }
       }
       await Future.delayed(const Duration(seconds: 2));
       if (mounted) {

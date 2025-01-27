@@ -29,7 +29,6 @@ class AppColors {
   static const Color inputBorder = Color(0xFFE0E0E0);
   static const Color inputFocused = Color(0xFF2196F3);
   static const Color inputError = Color(0xFFE53935);
-  
   // Button Colors
   static const Color buttonPrimary = primary;
   static const Color buttonSecondary = secondary;
