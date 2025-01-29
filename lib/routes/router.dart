@@ -3,6 +3,7 @@ import 'package:edupluz_future/features/auth/presentation/pages/sign_in_page.dar
 import 'package:edupluz_future/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:edupluz_future/features/maintenance/presentation/pages/maintenance_page.dart';
 import 'package:edupluz_future/features/onboarding/onboarding_page.dart';
+import 'package:edupluz_future/features/presentation/question_page.dart';
 import 'package:edupluz_future/features/splash/presentation/pages/splash_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class NavigationService {
 
 // https://www.kodeco.com/19457817-flutter-navigator-2-0-and-deep-links
 
-GoRouter getRouter({String initialLocation = '/splash'}) {
+GoRouter getRouter({String initialLocation = '/question'}) {
   return GoRouter(
     initialLocation: initialLocation,
     navigatorKey: NavigationService.navigatorKey,
@@ -43,33 +44,38 @@ GoRouter getRouter({String initialLocation = '/splash'}) {
     routes: [
       GoRoute(
         name: Routes.splash.name,
-        path: '/splash',
+        path: Routes.splash.path,
         builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
         name: Routes.maintenance.name,
-        path: '/maintenance',
+        path: Routes.maintenance.path,
         builder: (context, state) => const MaintenancePage(),
       ),
       GoRoute(
         name: Routes.signin.name,
-        path: '/signin',
+        path: Routes.signin.path,
         builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
         name: Routes.signup.name,
-        path: '/signup',
+        path: Routes.signup.path,
         builder: (context, state) => const SignUpPage(),
       ),
       GoRoute(
         name: Routes.forgotpassword.name,
-        path: '/forgotpassword',
+        path: Routes.forgotpassword.path,
         builder: (context, state) => const ForgotPasswordPage(),
       ),
       GoRoute(
         name: Routes.onboarding.name,
-        path: '/onboarding',
+        path: Routes.onboarding.path,
         builder: (context, state) => const OnboardingPage(),
+      ),
+      GoRoute(
+        name: Routes.question.name,
+        path: Routes.question.path,
+        builder: (context, state) => const QuestionPage(),
       ),
     ],
   );

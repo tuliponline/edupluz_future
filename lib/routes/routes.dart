@@ -4,9 +4,14 @@ enum Routes {
   signin,
   signup,
   forgotpassword,
-  onboarding;
+  onboarding,
+  question;
 
   String get name {
     return toString().split('.').last;
+  }
+
+  String get path {
+    return '/$name';
   }
 }

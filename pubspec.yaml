@@ -54,6 +54,8 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  flutter_svg: ^2.0.17
+  flutter_staggered_grid_view: ^0.7.0
 
 
 dev_dependencies:
@@ -89,6 +91,11 @@ flutter:
     - assets/splash/
     - assets/social/
     - assets/onboarding/
+    - assets/images/question/
+    - assets/images/question/age_select/
+    - assets/images/question/looking_for/
+
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
