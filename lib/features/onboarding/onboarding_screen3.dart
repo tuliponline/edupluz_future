@@ -1,7 +1,6 @@
 import 'package:edupluz_future/constant/app_size.dart';
-import 'package:edupluz_future/core/theme/app_colors.dart';
+import 'package:edupluz_future/core/services/storages/storage_services.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
-import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,8 +33,8 @@ Container onBoardingScreen3(BuildContext context) {
                 padding: const EdgeInsets.only(top: 28),
                 child: InkWell(
                   onTap: () async {
-                    // await StorageServices.setOpenAppFirstTime(false);
-                    // context.goNamed(Routes.signin.name);
+                    await StorageServices.setOpenAppFirstTime(false);
+                    context.goNamed(Routes.signin.name);
                   },
                   child: Text(
                     "ข้าม",

@@ -33,7 +33,7 @@ class NavigationService {
 
 // https://www.kodeco.com/19457817-flutter-navigator-2-0-and-deep-links
 
-GoRouter getRouter({String initialLocation = '/onboarding'}) {
+GoRouter getRouter({String initialLocation = '/splash'}) {
   return GoRouter(
     initialLocation: initialLocation,
     navigatorKey: NavigationService.navigatorKey,

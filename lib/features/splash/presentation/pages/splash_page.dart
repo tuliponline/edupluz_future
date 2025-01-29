@@ -1,5 +1,6 @@
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/services/shorebird/shorebird_service.dart';
+import 'package:edupluz_future/core/services/storages/storage_services.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/features/splash/presentation/wisgets/patch_dialog.dart';
 import 'package:edupluz_future/routes/routes.dart';
@@ -52,9 +53,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
           shorebirdUpdater.update();
         }
       }
+
       await Future.delayed(const Duration(seconds: 5));
       if (mounted) {
-        context.goNamed(Routes.signin.name);
+        bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
+        if (isOpenAppFirstTime) {
+          context.goNamed(Routes.onboarding.name);
+        } else {
+          context.goNamed(Routes.signin.name);
+        }
       }
     }
   }
