@@ -3,7 +3,8 @@ enum Routes {
   maintenance,
   signin,
   signup,
-  forgotpassword;
+  forgotpassword,
+  onboarding;
 
   String get name {
     return toString().split('.').last;
