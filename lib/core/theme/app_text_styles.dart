@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
   // Display Styles
-  static const TextStyle displayLarge = TextStyle(
+  static TextStyle displayLarge = GoogleFonts.notoSansThai(
     fontSize: 57,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
@@ -11,7 +12,7 @@ class AppTextStyles {
     height: 1.12,
   );
 
-  static const TextStyle displayMedium = TextStyle(
+  static TextStyle displayMedium = GoogleFonts.notoSansThai(
     fontSize: 45,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
@@ -19,7 +20,7 @@ class AppTextStyles {
     height: 1.16,
   );
 
-  static const TextStyle displaySmall = TextStyle(
+  static TextStyle displaySmall = GoogleFonts.notoSansThai(
     fontSize: 36,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
@@ -28,7 +29,7 @@ class AppTextStyles {
   );
 
   // Headline Styles
-  static const TextStyle h1 = TextStyle(
+  static TextStyle h1 = GoogleFonts.notoSansThai(
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
@@ -36,7 +37,7 @@ class AppTextStyles {
     height: 1.25,
   );
 
-  static const TextStyle h2 = TextStyle(
+  static TextStyle h2 = GoogleFonts.notoSansThai(
     fontSize: 28,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
@@ -44,7 +45,7 @@ class AppTextStyles {
     height: 1.29,
   );
 
-  static const TextStyle h3 = TextStyle(
+  static TextStyle h3 = GoogleFonts.notoSansThai(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
@@ -52,7 +53,7 @@ class AppTextStyles {
     height: 1.33,
   );
 
-  static const TextStyle h4 = TextStyle(
+  static TextStyle h4 = GoogleFonts.notoSansThai(
     fontSize: 20,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
@@ -61,7 +62,7 @@ class AppTextStyles {
   );
 
   // Body Text Styles
-  static const TextStyle bodyLarge = TextStyle(
+  static TextStyle bodyLarge = GoogleFonts.notoSansThai(
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
@@ -69,7 +70,7 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  static const TextStyle bodyMedium = TextStyle(
+  static TextStyle bodyMedium = GoogleFonts.notoSansThai(
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
@@ -77,7 +78,7 @@ class AppTextStyles {
     height: 1.43,
   );
 
-  static const TextStyle bodySmall = TextStyle(
+  static TextStyle bodySmall = GoogleFonts.notoSansThai(
     fontSize: 12,
     fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
@@ -86,7 +87,7 @@ class AppTextStyles {
   );
 
   // Button Text Styles
-  static const TextStyle button = TextStyle(
+  static TextStyle button = GoogleFonts.notoSansThai(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     color: Colors.white,
@@ -94,7 +95,7 @@ class AppTextStyles {
     height: 1.43,
   );
 
-  static const TextStyle buttonLarge = TextStyle(
+  static TextStyle buttonLarge = GoogleFonts.notoSansThai(
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: Colors.white,
@@ -103,7 +104,7 @@ class AppTextStyles {
   );
 
   // Label Styles
-  static const TextStyle labelLarge = TextStyle(
+  static TextStyle labelLarge = GoogleFonts.notoSansThai(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.textPrimary,
@@ -111,7 +112,7 @@ class AppTextStyles {
     height: 1.43,
   );
 
-  static const TextStyle labelMedium = TextStyle(
+  static TextStyle labelMedium = GoogleFonts.notoSansThai(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: AppColors.textPrimary,
@@ -119,7 +120,7 @@ class AppTextStyles {
     height: 1.33,
   );
 
-  static const TextStyle labelSmall = TextStyle(
+  static TextStyle labelSmall = GoogleFonts.notoSansThai(
     fontSize: 11,
     fontWeight: FontWeight.w500,
     color: AppColors.textPrimary,
@@ -128,7 +129,7 @@ class AppTextStyles {
   );
 
   // Caption and Overline
-  static const TextStyle caption = TextStyle(
+  static TextStyle caption = GoogleFonts.notoSansThai(
     fontSize: 12,
     fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
@@ -136,7 +137,7 @@ class AppTextStyles {
     height: 1.33,
   );
 
-  static const TextStyle overline = TextStyle(
+  static TextStyle overline = GoogleFonts.notoSansThai(
     fontSize: 10,
     fontWeight: FontWeight.w500,
     color: AppColors.textSecondary,
@@ -145,7 +146,7 @@ class AppTextStyles {
   );
 
   // Link Styles
-  static const TextStyle link = TextStyle(
+  static TextStyle link = GoogleFonts.notoSansThai(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.primary,
@@ -155,7 +156,7 @@ class AppTextStyles {
   );
 
   // Error and Success Text
-  static const TextStyle error = TextStyle(
+  static TextStyle error = GoogleFonts.notoSansThai(
     fontSize: 12,
     fontWeight: FontWeight.normal,
     color: AppColors.error,
@@ -163,7 +164,7 @@ class AppTextStyles {
     height: 1.33,
   );
 
-  static const TextStyle success = TextStyle(
+  static TextStyle success = GoogleFonts.notoSansThai(
     fontSize: 12,
     fontWeight: FontWeight.normal,
     color: AppColors.success,

@@ -8,5 +8,22 @@
   "signIn": "เข้าสู่ระบบ",
   "signUp": "ลงทะเบียน",
   "error": "ข้อผิดพลาด",
-  "success": "สำเร็จ"
+  "success": "สำเร็จ",
+  "forgotPassword": "ลืมรหัสผ่าน",
+  "rememberPassword": "จำรหัสผ่านได้ ?",
+  "enterEmailReset": "ป้อนที่อยู่อีเมลที่ใช้สมัครสมาชิก เราจะส่งคำแนะนำเพื่อรีเซ็ต รหัสผ่านให้คุณ",
+  "resetPassword": "รีเซ็ตรหัสผ่าน",
+  "pleaseEnterEmail": "กรุณากรอกอีเมล",
+  "invalidEmail": "อีเมลไม่ถูกต้อง",
+  "pleaseEnterValidEmail": "กรุณากรอกอีเมลให้ถูกต้อง",
+  "createNewPassword": "สร้างรหัสผ่านใหม่",
+  "newPassword": "รหัสผ่านใหม่",
+  "confirmPassword": "ยืนยันรหัสผ่าน",
+  "pleaseEnterPassword": "กรุณากรอกรหัสผ่าน",
+  "passwordTooShort": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+  "pleaseConfirmPassword": "กรุณายืนยันรหัสผ่าน",
+  "passwordsDoNotMatch": "รหัสผ่านไม่ตรงกัน",
+  "passwordResetSuccess": "รีเซ็ตรหัสผ่านสำเร็จ",
+  "confirm": "ยืนยัน",
+  "passwordTooWeak": "รหัสผ่านง่ายเกินไป"
 }

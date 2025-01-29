@@ -8,5 +8,22 @@
   "signIn": "Sign In",
   "signUp": "Sign Up",
   "error": "Error",
-  "success": "Success"
+  "success": "Success",
+  "forgotPassword": "Forgot Password",
+  "rememberPassword": "Remember password?",
+  "enterEmailReset": "Enter the email address you used to register. We will send instructions to reset your password.",
+  "resetPassword": "Reset Password",
+  "pleaseEnterEmail": "Please enter email",
+  "invalidEmail": "Invalid email",
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "createNewPassword": "Create new password",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
+  "pleaseEnterPassword": "Please enter password",
+  "passwordTooShort": "Password too short",
+  "pleaseConfirmPassword": "Please confirm password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "passwordResetSuccess": "Password reset successful",
+  "confirm": "Confirm",
+  "passwordTooWeak": "Password too weak"
 }

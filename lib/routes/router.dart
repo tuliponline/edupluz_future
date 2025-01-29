@@ -62,7 +62,7 @@ GoRouter getRouter({String initialLocation = '/splash'}) {
       ),
       GoRoute(
         name: Routes.forgotpassword.name,
-        path: '/forgot-password',
+        path: '/forgotpassword',
         builder: (context, state) => const ForgotPasswordPage(),
       ),
     ],

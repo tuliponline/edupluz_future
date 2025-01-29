@@ -8,43 +8,41 @@ class AppTheme {
       // Base Colors
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.background,
-      
+
       // Color Scheme
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         secondary: AppColors.secondary,
         error: AppColors.error,
-        background: AppColors.background,
         surface: AppColors.cardBackground,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onError: Colors.white,
-        onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
       ),
 
       // Text Theme
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         // Display styles
         displayLarge: AppTextStyles.displayLarge,
         displayMedium: AppTextStyles.displayMedium,
         displaySmall: AppTextStyles.displaySmall,
-        
+
         // Headline styles
         headlineLarge: AppTextStyles.h1,
         headlineMedium: AppTextStyles.h2,
         headlineSmall: AppTextStyles.h3,
-        
+
         // Title styles
         titleLarge: AppTextStyles.h3,
         titleMedium: AppTextStyles.h4,
         titleSmall: AppTextStyles.labelLarge,
-        
+
         // Body styles
         bodyLarge: AppTextStyles.bodyLarge,
         bodyMedium: AppTextStyles.bodyMedium,
         bodySmall: AppTextStyles.bodySmall,
-        
+
         // Label styles
         labelLarge: AppTextStyles.labelLarge,
         labelMedium: AppTextStyles.labelMedium,
@@ -76,7 +74,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
         ),
         labelStyle: AppTextStyles.labelLarge,
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+        hintStyle:
+            AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
         errorStyle: AppTextStyles.error,
       ),
 
@@ -151,7 +150,8 @@ class AppTheme {
       // Snackbar Theme
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.secondary,
-        contentTextStyle: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+        contentTextStyle:
+            AppTextStyles.bodyMedium.copyWith(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
