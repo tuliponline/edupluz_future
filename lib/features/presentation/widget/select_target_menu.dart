@@ -16,7 +16,8 @@ class SelectTargetMenu extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
-            color: isSelected ? AppColors.primary : AppColors.buttonSecondary,
+            color:
+                isSelected ? AppColors.primary : AppColors.textFieldFillColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

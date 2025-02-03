@@ -160,7 +160,7 @@ class _QuestionPageState extends State<QuestionPage> {
               ),
             ),
           ),
-          if (currentPage != 0)
+          if (false)
             Align(
               alignment: Alignment.topLeft,
               child: Padding(

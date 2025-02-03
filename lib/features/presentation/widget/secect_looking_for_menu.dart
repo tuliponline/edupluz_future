@@ -23,18 +23,24 @@ class SelectLookingForMenu extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
-              color: isSelected ? AppColors.primary : AppColors.buttonSecondary,
+              color:
+                  isSelected ? AppColors.primary : AppColors.textFieldFillColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
             ),
-            child:
-                Image.asset(logo, height: 50, width: 50, fit: BoxFit.contain),
+            child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                    isSelected ? Colors.white : AppColors.primary,
+                    BlendMode.srcIn),
+                child: Image.asset(logo,
+                    height: 50, width: 50, fit: BoxFit.contain)),
           ),
           const SizedBox(height: 8),
           Text(title,
               textAlign: TextAlign.center,
               style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.textPrimary,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400)),
         ],
       ),

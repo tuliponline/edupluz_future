@@ -71,7 +71,7 @@ class _QuestionLookingForState extends State<QuestionLookingFor> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/question/bg_target.png"),
+          image: AssetImage("assets/images/question/question_bg_4.png"),
           fit: BoxFit.cover,
         ),
       ),

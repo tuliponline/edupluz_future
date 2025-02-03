@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +32,7 @@ class SelectorAge extends StatelessWidget {
               buildAgeText(ageRange),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),

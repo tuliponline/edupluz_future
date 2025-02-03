@@ -28,7 +28,7 @@ class _QuestionTargetState extends State<QuestionTarget> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/question/bg_target.png"),
+          image: AssetImage("assets/images/question/question_bg_3.png"),
           fit: BoxFit.cover,
         ),
       ),

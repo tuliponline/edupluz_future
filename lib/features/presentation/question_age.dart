@@ -1,4 +1,5 @@
 import 'package:edupluz_future/constant/app_size.dart';
+import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/features/presentation/widget/selector_age_item.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _QuestionAgeState extends State<QuestionAge> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/question/bg_age.png"),
+          image: AssetImage("assets/images/question/question_bg_2.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -56,7 +57,7 @@ class _QuestionAgeState extends State<QuestionAge> {
                             : buildAgeText(ageRange),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 36,
                           fontWeight: FontWeight.w700,
                         ),

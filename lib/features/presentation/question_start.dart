@@ -8,7 +8,7 @@ Container questionStart(BuildContext context) {
   return Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
-        image: AssetImage("assets/images/question/bg_screen1.png"),
+        image: AssetImage("assets/images/question/question_bg_1.png"),
         fit: BoxFit.cover,
       ),
     ),
