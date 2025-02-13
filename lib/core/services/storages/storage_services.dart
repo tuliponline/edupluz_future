@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 
 import 'hivedb_constants.dart';
+import 'login_model/login_model.dart';
 
 class StorageServices {
   static Future<bool> isOpenFirstTime() async {
@@ -58,5 +59,25 @@ class StorageServices {
         'Error setting hasQuestions to true: $e',
       );
     }
+  }
+
+  static Future<void> setLoginData(Login loginData) async {
+    var appDataDb = await Hive.openBox(HiveDbConstants.appData);
+    await appDataDb.put(HiveDbConstants.loginData, loginData);
+  }
+
+  static Future<Login?> getLoginData() async {
+    try {
+      var appDataDb = await Hive.openBox(HiveDbConstants.appData);
+      return appDataDb.get(HiveDbConstants.loginData);
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  static Future<void> deleteLoginData() async {
+    var appDataDb = await Hive.openBox(HiveDbConstants.appData);
+    await appDataDb.delete(HiveDbConstants.loginData);
   }
 }

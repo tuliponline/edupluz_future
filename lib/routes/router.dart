@@ -2,6 +2,7 @@ import 'package:edupluz_future/features/auth/presentation/pages/forgot_password_
 import 'package:edupluz_future/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:edupluz_future/features/maintenance/presentation/pages/maintenance_page.dart';
+import 'package:edupluz_future/features/navigation/presentation/pages/navigation_page.dart';
 import 'package:edupluz_future/features/onboarding/onboarding_page.dart';
 import 'package:edupluz_future/features/presentation/question_page.dart';
 import 'package:edupluz_future/features/splash/presentation/pages/splash_page.dart';
@@ -34,7 +35,7 @@ class NavigationService {
 
 // https://www.kodeco.com/19457817-flutter-navigator-2-0-and-deep-links
 
-GoRouter getRouter({String initialLocation = '/splash'}) {
+GoRouter getRouter({String initialLocation = '/navigation'}) {
   return GoRouter(
     initialLocation: initialLocation,
     navigatorKey: NavigationService.navigatorKey,
@@ -76,6 +77,11 @@ GoRouter getRouter({String initialLocation = '/splash'}) {
         name: Routes.question.name,
         path: Routes.question.path,
         builder: (context, state) => const QuestionPage(),
+      ),
+      GoRoute(
+        name: Routes.navigation.name,
+        path: Routes.navigation.path,
+        builder: (context, state) => const NavigationPage(),
       ),
     ],
   );

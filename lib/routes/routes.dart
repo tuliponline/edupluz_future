@@ -5,7 +5,8 @@ enum Routes {
   signup,
   forgotpassword,
   onboarding,
-  question;
+  question,
+  navigation;
 
   String get name {
     return toString().split('.').last;
