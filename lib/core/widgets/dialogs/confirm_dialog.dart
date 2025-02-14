@@ -22,11 +22,11 @@ Future<bool> confirmDialog(BuildContext context,
     builder: (BuildContext context) => CupertinoAlertDialog(
       title: Text(
         title,
-        style: AppTextStyles.h3.copyWith(color: AppColors.buttonText),
+        style: AppTextStyles.h3.copyWith(color: AppColors.textPrimary),
       ),
       content: Text(
         content,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColors.buttonText),
+        style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary),
       ),
       actions: <CupertinoDialogAction>[
         CupertinoDialogAction(
@@ -37,7 +37,7 @@ Future<bool> confirmDialog(BuildContext context,
           child: Text(
             btCancel,
             style:
-                AppTextStyles.bodyMedium.copyWith(color: AppColors.buttonText),
+                AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary),
           ),
         ),
         CupertinoDialogAction(

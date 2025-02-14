@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
 import 'package:edupluz_future/features/navigation/presentation/widget/main_nav_bar.dart';
+import 'package:edupluz_future/features/profile/presentation/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -71,7 +72,7 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
         child: Text("search"),
       ),
       const Center(
-        child: Text("profile"),
+        child: ProfileScreen(),
       ),
     ];
     //   DiscoverScreen(
@@ -97,17 +98,6 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("EDUPLUZ"),
-          actions: [
-            IconButton(
-              onPressed: () {
-                alice.showInspector();
-              },
-              icon: const Icon(Icons.report_problem),
-            ),
-          ],
-        ),
         body: (controller == null)
             ? Container()
             : TabBarView(

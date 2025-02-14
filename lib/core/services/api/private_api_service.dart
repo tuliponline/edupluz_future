@@ -29,7 +29,6 @@ class PrivateApiService {
 
   Future<String> get({
     required String path,
-    required LanguageEnum language,
   }) async {
     Uri uri = Uri.parse("${dotenv.get(AppEnv.apiBasePath)}$path");
     Logger().d(uri.toString());
@@ -37,7 +36,6 @@ class PrivateApiService {
 
     final response = await http.get(uri, headers: {
       'Accept': 'application/json',
-      'Accept-Language': (language == LanguageEnum.th) ? 'th-TH' : 'en-US',
       'Authorization': "Bearer $accessToken",
     });
     alice.onHttpResponse(response, body: response.body);

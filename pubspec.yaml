@@ -62,6 +62,13 @@ dependencies:
   flutter_lucide: ^1.6.2
   flutter_alice: ^1.1.1
   shake_to_report: ^1.0.2
+  image_picker: ^1.1.2
+  qr_code_scanner: ^1.0.1
+  url_launcher: ^6.3.1
+  package_info_plus: ^8.2.1
+  modal_bottom_sheet: ^3.0.0
+  cached_network_image: ^3.4.1
+  skeletonizer: ^1.4.3
 
 
 dependency_overrides:
@@ -103,6 +110,7 @@ flutter:
     - assets/images/question/
     - assets/images/question/age_select/
     - assets/images/question/looking_for/
+    - assets/images/setting/
 
 
   #   - images/a_dot_ham.jpeg

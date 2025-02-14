@@ -2,6 +2,7 @@ import 'package:edupluz_future/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shake_to_report/shake_to_report.dart';
 import 'core/theme/app_theme.dart';
 
@@ -29,18 +30,20 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return ShakeToReport.wrapWithScreenshotController(
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: getRouter(),
-        title: 'Edupluz',
-        builder: EasyLoading.init(),
-        theme: AppTheme.lightTheme,
-        locale: _locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: const [
-          Locale('en'),
-          Locale('th'),
-        ],
+      child: ProviderScope(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerConfig: getRouter(),
+          title: 'Edupluz',
+          builder: EasyLoading.init(),
+          theme: AppTheme.lightTheme,
+          locale: _locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: const [
+            Locale('en'),
+            Locale('th'),
+          ],
+        ),
       ),
     );
   }
