@@ -3,8 +3,9 @@ import 'package:logger/logger.dart';
 
 Future<String> fetchImageContacts(String imgId) async {
   try {
-    String imgUrl = await DirectusApiService().getAssets(path: imgId);
-    return imgUrl;
+    // String imgUrl = await DirectusApiService().getAssets(path: imgId);
+    // return imgUrl;
+    return imgId;
   } catch (e) {
     Logger().e(e);
     rethrow;

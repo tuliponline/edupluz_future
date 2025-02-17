@@ -6,6 +6,7 @@ import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
 import 'package:edupluz_future/features/profile/data/fetch_contacts.dart';
 import 'package:edupluz_future/features/profile/data/fetch_image_contacts.dart';
 import 'package:edupluz_future/features/profile/domain/contacts_model.dart';
+import 'package:edupluz_future/features/profile/presentation/language_page.dart';
 import 'package:edupluz_future/features/profile/presentation/orders_page.dart';
 import 'package:edupluz_future/features/profile/presentation/profile_edit_page.dart';
 import 'package:edupluz_future/features/profile/presentation/widget/seting_menu.dart';
@@ -131,7 +132,13 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                         SettingMenu(
                           icon: LucideIcons.globe,
                           title: 'เปลี่ยนภาษา',
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const LanguagePage()));
+                          },
                         ),
                         const SizedBox(height: 12),
                         SettingMenu(
@@ -215,7 +222,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
     return showCupertinoModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        color: AppColors.primary,
+        color: AppColors.background,
         height: 388,
         child: Column(
           children: [
@@ -255,11 +262,11 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     decoration: const BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: AppColors.buttonSecondary,
+                          color: AppColors.textDisabled,
                           width: 1,
                         ),
                       ),
@@ -275,12 +282,12 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                               children: [
                                 CachedNetworkImage(
                                   imageUrl: snapshot.data ?? "",
-                                  width: 40,
-                                  height: 40,
+                                  width: 30,
+                                  height: 30,
                                   placeholder: (context, url) => Skeletonizer(
                                     child: Container(
-                                      width: 40,
-                                      height: 40,
+                                      width: 30,
+                                      height: 30,
                                       color: AppColors.textPrimary,
                                     ),
                                   ),
@@ -290,14 +297,15 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                                 const SizedBox(width: 8),
                                 Text(
                                   contacts.data[index].name,
-                                  style: AppTextStyles.bodyMedium,
+                                  style: AppTextStyles.bodyMedium
+                                      .copyWith(fontWeight: FontWeight.w600),
                                 )
                               ],
                             );
                           },
                         ),
                         const Icon(LucideIcons.chevron_right,
-                            color: AppColors.background),
+                            color: AppColors.textPrimary),
                       ],
                     ),
                   ),
