@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
+import 'package:edupluz_future/features/course/presentation/widget/my_courses_list/my_courses_list_screen.dart';
 import 'package:edupluz_future/features/navigation/presentation/widget/main_nav_bar.dart';
 import 'package:edupluz_future/features/profile/presentation/profile_screen.dart';
 import 'package:edupluz_future/features/search/presentation/search_screen.dart';
@@ -66,15 +67,12 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
       const Center(
         child: Text("live"),
       ),
-      const Center(
-        child: Text("my course"),
+      MyCoursesListScreen(
+        isBusiness: false,
+        isHomePage: true,
       ),
-      const Center(
-        child: SearchScreen(),
-      ),
-      const Center(
-        child: ProfileScreen(),
-      ),
+      SearchScreen(),
+      ProfileScreen(),
     ];
     //   DiscoverScreen(
     //     goSearch: updateSelectIndex,

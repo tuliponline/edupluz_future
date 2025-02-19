@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  better_player_plus:
+    dependency: "direct main"
+    description:
+      name: better_player_plus
+      sha256: fc8804f837b450b1b614d5e624a9312894d3089c9194330542ab04a4afa82127
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   blurrycontainer:
     dependency: "direct main"
     description:
@@ -153,6 +161,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      sha256: "79e0c23480ff85dc68de79e2cd6334add97e48f7f4865d17686dd6ea81a47e8c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.11"
+  device_info_plus:
+    dependency: "direct main"
+    description:
+      name: device_info_plus
+      sha256: "72d146c6d7098689ff5c5f66bcf593ac11efc530095385356e131070333e64da"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.3.0"
+  device_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_plus_platform_interface
+      sha256: "0b04e02b30791224b31969eb1b50d723498f402971bff3630bca2ba839bd1ed2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.2"
   dio:
     dependency: transitive
     description:
@@ -350,6 +382,70 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  flutter_inappwebview:
+    dependency: "direct main"
+    description:
+      name: flutter_inappwebview
+      sha256: "80092d13d3e29b6227e25b67973c67c7210bd5e35c4b747ca908e31eb71a46d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5"
+  flutter_inappwebview_android:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_android
+      sha256: "62557c15a5c2db5d195cb3892aab74fcaec266d7b86d59a6f0027abd672cddba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
+  flutter_inappwebview_internal_annotations:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_internal_annotations
+      sha256: "787171d43f8af67864740b6f04166c13190aa74a1468a1f1f1e9ee5b90c359cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  flutter_inappwebview_ios:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_ios
+      sha256: "5818cf9b26cf0cbb0f62ff50772217d41ea8d3d9cc00279c45f8aabaa1b4025d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_macos:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_macos
+      sha256: c1fbb86af1a3738e3541364d7d1866315ffb0468a1a77e34198c9be571287da1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_platform_interface
+      sha256: cf5323e194096b6ede7a1ca808c3e0a078e4b33cc3f6338977d75b4024ba2500
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0+1"
+  flutter_inappwebview_web:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_web
+      sha256: "55f89c83b0a0d3b7893306b3bb545ba4770a4df018204917148ebb42dc14a598"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_windows:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_windows
+      sha256: "8b4d3a46078a2cdc636c4a3d10d10f2a16882f6be607962dbfff8874d1642055"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -379,6 +475,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.2"
+  flutter_pdfview:
+    dependency: "direct main"
+    description:
+      name: flutter_pdfview
+      sha256: "2e3fa359524e9865ec25a64593b65092b4a9974c5871228c1a771300a003d150"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -429,6 +533,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_widget_from_html_core:
+    dependency: transitive
+    description:
+      name: flutter_widget_from_html_core
+      sha256: b1048fd119a14762e2361bd057da608148a895477846d6149109b2151d2f7abf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.2"
+  get_ip_address:
+    dependency: "direct main"
+    description:
+      name: get_ip_address
+      sha256: ad7b1ca2b6f03a247a59bc7dd7e170e495b703b01185dfbb24ae89111531d514
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   gif:
     dependency: "direct main"
     description:
@@ -517,6 +637,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.2"
+  image_gallery_saver:
+    dependency: "direct main"
+    description:
+      name: image_gallery_saver
+      sha256: "0aba74216a4d9b0561510cb968015d56b701ba1bd94aace26aacdd8ae5761816"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   image_picker:
     dependency: "direct main"
     description:
@@ -914,6 +1042,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  slide_to_act:
+    dependency: "direct main"
+    description:
+      name: slide_to_act
+      sha256: cd4ea5019754347d5a2b0375e802ad948610a0e233adfe51a9cc5b3a1fc3a43b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   smooth_page_indicator:
     dependency: "direct main"
     description:
@@ -1146,6 +1282,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  visibility_detector:
+    dependency: transitive
+    description:
+      name: visibility_detector
+      sha256: dd5cc11e13494f432d15939c3aa8ae76844c42b723398643ce9addb88a5ed420
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0+2"
   vm_service:
     dependency: transitive
     description:
@@ -1154,6 +1298,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.3.0"
+  wakelock_plus:
+    dependency: "direct main"
+    description:
+      name: wakelock_plus
+      sha256: "36c88af0b930121941345306d259ec4cc4ecca3b151c02e3a9e71aede83c615e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.10"
+  wakelock_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: wakelock_plus_platform_interface
+      sha256: "70e780bc99796e1db82fe764b1e7dcb89a86f1e5b3afb1db354de50f2e41eb7a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   web:
     dependency: transitive
     description:
@@ -1162,14 +1322,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  win32:
+  web_socket:
     dependency: transitive
+    description:
+      name: web_socket
+      sha256: "3c12d96c0c9a4eec095246debcea7b86c0324f22df69893d538fcc6f1b8cce83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
+  web_socket_channel:
+    dependency: "direct main"
+    description:
+      name: web_socket_channel
+      sha256: "0b8e2457400d8a859b7b2030786835a28a8e80836ef64402abef392ff4f1d0e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
+  win32:
+    dependency: "direct overridden"
     description:
       name: win32
       sha256: daf97c9d80197ed7b619040e86c8ab9a9dad285e7671ee7390f9180cc828a51e
       url: "https://pub.dev"
     source: hosted
     version: "5.10.1"
+  win32_registry:
+    dependency: transitive
+    description:
+      name: win32_registry
+      sha256: "21ec76dfc731550fd3e2ce7a33a9ea90b828fdf19a5c3bcf556fa992cfa99852"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
   xdg_directories:
     dependency: transitive
     description:
