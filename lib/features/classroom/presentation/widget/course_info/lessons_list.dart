@@ -45,7 +45,7 @@ class _LessonsListState extends State<LessonsList> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        color: AppColors.primary,
+        color: AppColors.background,
       ),
       child: Column(
         children: [
@@ -57,7 +57,7 @@ class _LessonsListState extends State<LessonsList> {
               contentPadding: EdgeInsets.zero,
               leading: const Icon(
                 LucideIcons.list,
-                color: AppColors.background,
+                color: AppColors.textPrimary,
               ),
               title: Text(
                 "เนื้อหาคอร์ส",
@@ -65,7 +65,7 @@ class _LessonsListState extends State<LessonsList> {
               ),
               trailing: const Icon(
                 LucideIcons.chevron_down,
-                color: AppColors.background,
+                color: AppColors.textPrimary,
               ),
             ),
           ),

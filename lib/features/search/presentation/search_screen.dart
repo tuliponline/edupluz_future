@@ -9,6 +9,7 @@ import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_width.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_width_loading.dart';
 import 'package:edupluz_future/core/widgets/search/search_box.dart';
+import 'package:edupluz_future/features/course_by_category/presentation/course_by_category_screen.dart';
 import 'package:edupluz_future/features/search/presentation/search_result_page.dart';
 import 'package:edupluz_future/features/search/presentation/widget/search_filter_menu.dart';
 import 'package:edupluz_future/features/search/presentation/widget/search_filter_menu_loading.dart';
@@ -203,14 +204,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   const SizedBox(height: 24),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CourseByCategoryScreen(
-                      //       categoryName: searchFilterMenu[selectFilter].title,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseByCategoryScreen(
+                            categoryName: searchFilterMenu[selectFilter].title,
+                          ),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),

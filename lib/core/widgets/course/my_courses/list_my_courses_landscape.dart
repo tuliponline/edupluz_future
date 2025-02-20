@@ -133,14 +133,14 @@ class _ListCoursesByCatLandscapeState
               children: [
                 Text(
                   "คอร์สของฉัน",
-                  style: AppTextStyles.h2,
+                  style: AppTextStyles.h4,
                 ),
                 const SizedBox(
                   width: 8,
                 ),
                 const Icon(
                   LucideIcons.chevron_right,
-                  color: AppColors.background,
+                  color: AppColors.textPrimary,
                 )
               ],
             ),
@@ -200,7 +200,7 @@ class _ListCoursesByCatLandscapeState
           scrollDirection: Axis.horizontal,
           children: [
             ...List.generate(
-              3,
+              2,
               (index) => Row(
                 children: [
                   MyCoursesFilterMenu(

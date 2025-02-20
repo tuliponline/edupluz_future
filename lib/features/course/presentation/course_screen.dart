@@ -98,7 +98,7 @@ class _CourseScreenState extends ConsumerState<CourseScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     'มาเรียนรู้สิ่งใหม่กันเถอะ!!',
-                    style: AppTextStyles.h2,
+                    style: AppTextStyles.h4,
                   ),
                 ),
                 const SizedBox(height: 16),

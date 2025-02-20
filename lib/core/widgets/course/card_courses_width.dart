@@ -3,6 +3,7 @@ import 'package:edupluz_future/core/models/courses/courses_model.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/utili/format_duration.dart';
+import 'package:edupluz_future/features/preview/presentation/preview_screen.dart';
 import 'package:flutter/material.dart';
 
 class CardCoursesWidth extends StatelessWidget {
@@ -22,10 +23,10 @@ class CardCoursesWidth extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => PreviewPage(courseId: course.id)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PreviewPage(courseId: course.id)));
       },
       child: Container(
         // height: 200,

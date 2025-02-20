@@ -44,7 +44,7 @@ class MyCoursesFilterMenu extends ConsumerWidget {
               decoration: ShapeDecoration(
                 color: (indexSelectes == index)
                     ? AppColors.primary
-                    : AppColors.cardShadow,
+                    : AppColors.primary.withValues(alpha: 0.2),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(999),
                 ),
@@ -56,7 +56,12 @@ class MyCoursesFilterMenu extends ConsumerWidget {
                   Text(
                     titel,
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.bodySmall,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: (indexSelectes == index)
+                          ? AppColors.background
+                          : AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   // const SizedBox(width: 4),
                   // Container(

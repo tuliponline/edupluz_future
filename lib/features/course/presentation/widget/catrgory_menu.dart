@@ -36,7 +36,7 @@ class CategoryMenu extends StatelessWidget {
         decoration: ShapeDecoration(
           color: (categorySelectes != null && categorySelectes == index)
               ? AppColors.primary
-              : AppColors.cardShadow,
+              : AppColors.primary.withValues(alpha: 0.2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(999),
           ),
@@ -48,19 +48,28 @@ class CategoryMenu extends StatelessWidget {
             Text(
               category.name,
               textAlign: TextAlign.center,
-              style: AppTextStyles.bodySmall,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(width: 4),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: Text('${(category.count > 99) ? "99+" : category.count}',
-                  textAlign: TextAlign.center, style: AppTextStyles.bodySmall),
+              child: Text(
+                '${(category.count > 99) ? "99+" : category.count}',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             )
           ],
         ),

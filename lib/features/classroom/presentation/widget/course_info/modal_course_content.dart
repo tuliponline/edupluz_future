@@ -45,7 +45,7 @@ class CourseContent extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         leading: const Icon(
           LucideIcons.list,
-          color: AppColors.background,
+          color: AppColors.textPrimary,
         ),
         title: Text(
           "เนื้อหาคอร์ส",
@@ -53,7 +53,7 @@ class CourseContent extends StatelessWidget {
         ),
         trailing: const Icon(
           LucideIcons.chevron_up,
-          color: AppColors.background,
+          color: AppColors.textPrimary,
         ),
       ),
     );

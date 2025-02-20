@@ -22,7 +22,9 @@ Future<CoursesModel> fetchCoursesJoinings({
     // ref.read(coursesJoingingProvider.notifier).state = coursesModel;
     // Logger().d(coursesModel.data.items.length);
     // return coursesModel;
-    return Future.value(FakeCourses.getCourses());
+    CoursesModel coursesModel = await Future.value(FakeCourses.getCourses());
+    ref.read(coursesJoingingProvider.notifier).state = coursesModel;
+    return coursesModel;
   } catch (e) {
     Logger().e(e);
     rethrow;

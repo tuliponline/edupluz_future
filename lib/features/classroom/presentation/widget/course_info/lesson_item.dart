@@ -28,20 +28,13 @@ class LessonItem extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 6),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: (isExam)
-                  ? AppColors.secondary
-                  : isHighlighted
-                      ? AppColors.primary
-                      : lesson!.watched
-                          ? AppColors.primary
-                          : AppColors.secondary,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.1),
-                  blurRadius: 30,
-                )
-              ]),
+            color: (isExam)
+                ? AppColors.secondary
+                : isHighlighted
+                    ? AppColors.cardBackground
+                    : AppColors.cardBackground,
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,9 +53,25 @@ class LessonItem extends StatelessWidget {
                                   : lesson!.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.bodyMedium,
+                          style: AppTextStyles.bodyLarge.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(width: 8),
+                        if (lesson?.watched ?? false)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 9.5, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Text(
+                              "ดูแล้ว",
+                              style: AppTextStyles.bodySmall
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -73,14 +82,14 @@ class LessonItem extends StatelessWidget {
                         : (isCer)
                             ? ""
                             : formatDuration(lesson!.duration),
-                    style: AppTextStyles.displaySmall,
+                    style: AppTextStyles.bodyMedium,
                   ),
                 ],
               ),
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
-                  color: AppColors.buttonSecondary,
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

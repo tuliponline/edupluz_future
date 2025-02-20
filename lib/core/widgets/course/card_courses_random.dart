@@ -38,7 +38,7 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
     return Container(
       width: double.infinity,
       decoration: ShapeDecoration(
-        color: AppColors.cardBackground,
+        color: AppColors.primary.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -66,7 +66,7 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
             Container(
               height: 50,
               decoration: ShapeDecoration(
-                color: AppColors.cardBackground,
+                color: AppColors.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(57),
                 ),
@@ -87,7 +87,13 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('เริ่มเรียน', style: AppTextStyles.bodySmall),
+                        Text(
+                          'เริ่มเรียน',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.background,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         Container(
                           width: 32,
                           height: 32,
@@ -102,7 +108,7 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
                           child: const Icon(
                             LucideIcons.play,
                             size: 16,
-                            color: AppColors.background,
+                            color: AppColors.primary,
                           ),
                         ),
                       ],

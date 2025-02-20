@@ -47,6 +47,13 @@ class _PreviewPageState extends State<PreviewPage> {
         : Scaffold(
             backgroundColor: AppColors.background,
             appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                automaticallyImplyLeading: false,
                 backgroundColor: AppColors.background,
                 title: Text(
                   "คอร์ส",

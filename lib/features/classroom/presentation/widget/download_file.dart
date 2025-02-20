@@ -26,12 +26,12 @@ class DownloadFile extends StatelessWidget {
           children: [
             Text(
               "ดาวน์โหลดเอกสาร",
-              style: AppTextStyles.displaySmall,
+              style: AppTextStyles.bodyLarge,
             ),
             const SizedBox(width: 8),
             const Icon(
               LucideIcons.download,
-              color: AppColors.background,
+              color: AppColors.textPrimary,
               size: 16,
             ),
           ],

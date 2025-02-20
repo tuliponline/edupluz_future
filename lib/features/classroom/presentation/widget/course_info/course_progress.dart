@@ -28,7 +28,7 @@ class CourseProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       child: Wrap(
         spacing: 16,
@@ -40,6 +40,8 @@ class CourseProgress extends StatelessWidget {
                 width: 60,
                 child: CircularProgressIndicator(
                   color: AppColors.primary,
+                  backgroundColor:
+                      AppColors.iconDisabled.withValues(alpha: 0.3),
                   value: course.progress / 100,
                 ),
               ),
@@ -51,23 +53,28 @@ class CourseProgress extends StatelessWidget {
                 child: Center(
                   child: Text(
                     " ${_findCourseWatched()} / ${_findTotalLesson()}",
-                    style: AppTextStyles.displaySmall,
+                    style: AppTextStyles.bodyMedium,
                   ),
                 ),
               ),
             ],
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "ความคืบหน้า",
-                style: AppTextStyles.bodyMedium,
+                style: AppTextStyles.bodyLarge.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 "${formatDuration(course.duration)} | ${_findTotalLesson()} บทเรียน",
-                style: AppTextStyles.bodyMedium,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

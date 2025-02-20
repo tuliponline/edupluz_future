@@ -151,7 +151,7 @@ class FakeCourses {
             course.Lesson(
               id: "lesson1",
               name: "Introduction",
-              duration: 20,
+              duration: 2120002,
               type: "video",
               free: true,
               sequence: 1,
@@ -168,7 +168,24 @@ class FakeCourses {
             course.Lesson(
               id: "lesson2",
               name: "Lesson 2",
-              duration: 20,
+              duration: 3120002,
+              type: "video",
+              free: false,
+              sequence: 1,
+              watched: true,
+            ),
+          ],
+          duration: 0,
+        ),
+        course.Chapter(
+          id: "chapter3",
+          name: "Chapter 3",
+          sequence: 3,
+          lessons: [
+            course.Lesson(
+              id: "lesson3",
+              name: "Lesson 3",
+              duration: 1120002,
               type: "video",
               free: false,
               sequence: 1,

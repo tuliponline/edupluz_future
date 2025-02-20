@@ -273,9 +273,16 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
           ? const Scaffold(body: Center(child: CircularProgressIndicator()))
           : Scaffold(
               appBar: AppBar(
-                backgroundColor: AppColors.primary,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.background,
                 title: Text(
-                  course?.name ?? "",
+                  "คอร์ส",
                   style: AppTextStyles.h4,
                 ),
               ),
@@ -286,15 +293,16 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Test Course"),
-                        BetterPlayerScreen(
-                          url: videoContent?.url ?? "",
-                          betterPlayerController: (betterPlayerController) {
-                            this.betterPlayerController = betterPlayerController
-                                as BetterPlayerController;
-
-                            _eventListener();
-                          },
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(0),
+                          child: BetterPlayerScreen(
+                            url: videoContent?.url ?? "",
+                            betterPlayerController: (betterPlayerController) {
+                              this.betterPlayerController =
+                                  betterPlayerController;
+                              _eventListener();
+                            },
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(

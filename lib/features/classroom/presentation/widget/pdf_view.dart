@@ -47,14 +47,15 @@ class _PdfViewState extends State<PdfView> {
               margin: const EdgeInsets.all(8),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: ShapeDecoration(
-                color: AppColors.buttonSecondary,
+                color: AppColors.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
               child: Text(
                 "${page + 1} / $totalPages",
-                style: AppTextStyles.displaySmall,
+                style: AppTextStyles.bodySmall
+                    .copyWith(color: AppColors.background),
               ),
             ),
           ),

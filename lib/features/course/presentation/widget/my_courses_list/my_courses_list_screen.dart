@@ -35,16 +35,22 @@ class _MyCoursesListScreenState extends State<MyCoursesListScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: page,
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.background,
           title: Text(
             (widget.isHomePage && widget.isBusiness)
                 ? "คอร์สสำหรับองค์กร"
                 : 'คอร์สของฉัน',
-            style: AppTextStyles.h2,
+            style: AppTextStyles.h4,
           ),
           bottom: (widget.isHomePage && widget.isBusiness)
               ? null
@@ -59,7 +65,7 @@ class _MyCoursesListScreenState extends State<MyCoursesListScreen> {
                     ),
                   ),
                   labelColor: AppColors.primary,
-                  unselectedLabelColor: AppColors.textDisabled,
+                  unselectedLabelColor: AppColors.textPrimary,
                   tabs: <Widget>[
                     Tab(
                       text: "คอร์สที่ซื้อแล้ว",
@@ -67,9 +73,9 @@ class _MyCoursesListScreenState extends State<MyCoursesListScreen> {
                     Tab(
                       text: "คอร์สที่บันทึกไว้",
                     ),
-                    Tab(
-                      text: "คอร์สสำหรับองค์กร",
-                    ),
+                    // Tab(
+                    //   text: "คอร์สสำหรับองค์กร",
+                    // ),
                   ],
                 ),
         ),
@@ -77,7 +83,7 @@ class _MyCoursesListScreenState extends State<MyCoursesListScreen> {
           children: <Widget>[
             FavoriteCourses(),
             FavoriteCourses(isFavorite: true),
-            FavoriteCourses(isBusiness: true),
+            // FavoriteCourses(isBusiness: true),
           ],
         ),
       ),
