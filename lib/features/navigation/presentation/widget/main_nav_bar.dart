@@ -50,10 +50,10 @@ class MainNavBar extends StatelessWidget {
                 icon: LucideIcons.house,
                 text: 'หน้าแรก',
               ),
-              GButton(
-                icon: LucideIcons.radio,
-                text: 'เรียนสด',
-              ),
+              // GButton(
+              //   icon: LucideIcons.radio,
+              //   text: 'เรียนสด',
+              // ),
               GButton(
                 icon: LucideIcons.book_marked,
                 text: 'คอร์ส',

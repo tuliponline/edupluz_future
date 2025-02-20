@@ -22,7 +22,7 @@ class FakeCourses {
                     horizontal:
                         "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",
                     vertical:
-                        "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",
+                        "https://img5.pic.in.th/file/secure-sv1/Card53b396ceb9250c0c.png",
                   ),
                   cover:
                       "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",
@@ -113,7 +113,7 @@ class FakeCourses {
         horizontal:
             "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",
         vertical:
-            "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",
+            "https://img5.pic.in.th/file/secure-sv1/Card53b396ceb9250c0c.png",
       ),
       cover:
           "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/site/2148563173/images/345203-352c-8b52-3156-e3b4c1e1ed7_Artboard_3-100-11.jpg",

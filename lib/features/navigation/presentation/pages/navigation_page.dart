@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
 import 'package:edupluz_future/features/course/presentation/course_screen.dart';
 import 'package:edupluz_future/features/course/presentation/widget/my_courses_list/my_courses_list_screen.dart';
+import 'package:edupluz_future/features/discover/presentation/discover_screen.dart';
 import 'package:edupluz_future/features/navigation/presentation/widget/main_nav_bar.dart';
 import 'package:edupluz_future/features/profile/presentation/profile_screen.dart';
 import 'package:edupluz_future/features/search/presentation/search_screen.dart';
@@ -43,7 +44,7 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
   void initState() {
     // _fetchUserMe();
     super.initState();
-    controller = TabController(initialIndex: 0, length: 5, vsync: this);
+    controller = TabController(initialIndex: 0, length: 4, vsync: this);
     ShakeToReport.initShakeListener(
       onSubmit: (ReportFormData formData) {
         alice.showInspector();
@@ -62,12 +63,12 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
   @override
   Widget build(BuildContext context) {
     final pages = [
-      const Center(
-        child: Text("หน้าแรก"),
+      DiscoverScreen(
+        goSearch: updateSelectIndex,
       ),
-      const Center(
-        child: Text("live"),
-      ),
+      // const Center(
+      //   child: Text("live"),
+      // ),
       const CourseScreen(),
       SearchScreen(),
       ProfileScreen(),
