@@ -30,7 +30,7 @@ class ApiPath {
 
   static const String forgotPassword = '/account/auth/v1/auth/password/forgot';
   static const String forgotPasswordOtpVerify =
-      '/account/auth/v1/auth/password/otp/verify';
+      '/account/auth/v1/auth/password/forgot/otp/verify';
   static const String resetPassword = '/account/auth/v1/auth/password/reset';
   static const String registerOtpVerify =
       '/account/auth/v1/auth/register/otp/verify';

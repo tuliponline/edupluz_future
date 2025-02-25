@@ -102,6 +102,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         AppSnackBar.success(
                           context: context,
                           label: l10n.passwordResetSuccess,
+                          iconColor: AppColors.success,
+                          backgroundColor: AppColors.snackbarBackground,
+                          labelColor: AppColors.success,
                         );
                         context.goNamed(Routes.signin.name);
                       }
