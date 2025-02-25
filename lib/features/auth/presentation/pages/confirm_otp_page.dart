@@ -1,8 +1,16 @@
+import 'package:edupluz_future/core/models/auth/forgot_password_otp_verify_response.dart';
+import 'package:edupluz_future/core/models/auth/otp_verify_request.dart';
+import 'package:edupluz_future/core/models/auth/register_otp_verify_response.dart';
+import 'package:edupluz_future/core/services/auth/forgot_password.dart';
+import 'package:edupluz_future/core/services/auth/register_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 
 import 'dart:async';
 
@@ -75,62 +83,52 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
   void _verifyOTP() async {
     String otp = _getOtpValue;
     _logger.d(otp);
-    if (widget.isForgotPassword) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ResetPasswordPage(
-            email: widget.contactInfo,
-          ),
-        ),
-      );
+
+    OtpVerifyRequest request = OtpVerifyRequest(
+      refCode: widget.refCode,
+      otpCode: otp,
+    );
+    try {
+      EasyLoading.show();
+
+      if (widget.isForgotPassword) {
+        ForgotPasswordOtpVerifyResponse response =
+            await ForgotPasswordService().forgotPasswordOtpVerify(request);
+        _logger.d(response);
+        if (mounted) {
+          await EasyLoading.showSuccess('OTP verification successful');
+          // Add delay before navigation
+
+          if (mounted) {
+            // Navigate to reset password page for forgot password flow
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResetPasswordPage(
+                  token: response.data.token,
+                ),
+              ),
+            );
+          }
+        }
+      } else {
+        RegisterOtpVerifyResponse response = await registerOtpVerify(request);
+        _logger.d(response);
+        if (mounted) {
+          // Add delay before navigation
+
+          if (mounted) {
+            context.goNamed(Routes.signin.name);
+            EasyLoading.showSuccess('OTP verification successful');
+          }
+        }
+      }
+    } catch (e) {
+      _logger.e(e);
+      EasyLoading.showError('Invalid OTP code');
+    } finally {
+      EasyLoading.dismiss();
     }
-    // OtpVerifyRequest request = OtpVerifyRequest(
-    //   refCode: widget.refCode,
-    //   otpCode: otp,
-    // );
-    // try {
-    //   EasyLoading.show();
-
-    //   if (widget.isForgotPassword) {
-    //     ForgotPasswordOtpVerifyResponse response =
-    //         await ForgotPasswordService().forgotPasswordOtpVerify(request);
-    //     _logger.d(response);
-    //     if (mounted) {
-    //       await EasyLoading.showSuccess('OTP verification successful');
-    //       // Add delay before navigation
-
-    //       if (mounted) {
-    //         // Navigate to reset password page for forgot password flow
-    //         Navigator.pushReplacement(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => ResetPasswordPage(
-    //               token: response.data.token,
-    //             ),
-    //           ),
-    //         );
-    //       }
-    //     }
-    //   } else {
-    //     RegisterOtpVerifyResponse response =
-    //         await RegisterService().registerOtpVerify(request);
-    //     _logger.d(response);
-    //     if (mounted) {
-    //       // Add delay before navigation
-
-    //       if (mounted) {
-    //         context.goNamed(Routes.signin.name);
-    //         EasyLoading.showSuccess('OTP verification successful');
-    //       }
-    //     }
-    //   }
-    // } catch (e) {
-    //   _logger.e(e);
-    //   EasyLoading.showError('Invalid OTP code');
-    // } finally {
-    //   EasyLoading.dismiss();
-    // }
   }
 
   @override
@@ -232,17 +230,16 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                     TextButton(
                       onPressed: _canResend
                           ? () async {
-                              // Implement resend OTP logic here
-                              // EasyLoading.show();
+                              EasyLoading.show();
 
-                              // await RegisterService().resendEmail(
-                              //   refCode: widget.refCode,
-                              //   action: widget.isForgotPassword
-                              //       ? RegisterAction.forgot_password
-                              //       : RegisterAction.register,
-                              // );
-                              // startTimer();
-                              // EasyLoading.dismiss();
+                              await resendEmail(
+                                refCode: widget.refCode,
+                                action: widget.isForgotPassword
+                                    ? RegisterAction.forgot_password
+                                    : RegisterAction.register,
+                              );
+                              startTimer();
+                              EasyLoading.dismiss();
                             }
                           : null,
                       child: Text(

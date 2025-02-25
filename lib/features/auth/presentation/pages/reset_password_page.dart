@@ -10,11 +10,11 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  final String email;
+  final String token;
 
   const ResetPasswordPage({
     super.key,
-    required this.email,
+    required this.token,
   });
 
   @override

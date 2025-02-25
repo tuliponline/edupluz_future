@@ -28,6 +28,14 @@ class ApiPath {
   static const String login = "/account/auth/v1/auth/login";
   static const String refreshToken = '/account/auth/v1/auth/refresh';
 
+  static const String forgotPassword = '/account/auth/v1/auth/password/forgot';
+  static const String forgotPasswordOtpVerify =
+      '/account/auth/v1/auth/password/otp/verify';
+  static const String resetPassword = '/account/auth/v1/auth/password/reset';
+  static const String registerOtpVerify =
+      '/account/auth/v1/auth/register/otp/verify';
+  static const String resendEmail = '/account/auth/v1/auth/email/resend';
+
   //account
   static const String user = "/account/user/v1/user";
   static const String addresss = "/account/address/v1/addresses";

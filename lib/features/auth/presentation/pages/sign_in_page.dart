@@ -1,36 +1,78 @@
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:edupluz_future/constant/test_account.dart';
+import 'package:edupluz_future/core/services/auth/login_service.dart';
+import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
+import 'package:edupluz_future/features/auth/presentation/pages/confirm_otp_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
-class SignInPage extends StatefulWidget {
+class SignInPage extends ConsumerStatefulWidget {
   const SignInPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  ConsumerState<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  final _usernameFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
+class _SignInPageState extends ConsumerState<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   _doSignIn() async {
-    AppSnackBar.alert(
-      context: context,
-      label: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-      iconColor: AppColors.error,
-      backgroundColor: AppColors.snackbarBackground,
-      labelColor: AppColors.error,
-    );
+    try {
+      EasyLoading.show();
+      await LoginService().login(
+        username: _usernameController.text,
+        password: _passwordController.text,
+        ref: ref,
+      );
+
+      if (mounted) {
+        context.goNamed(Routes.navigation.name);
+      }
+    } catch (e) {
+      Logger().e("login error: ${e}");
+      if (e.toString().contains("This email address is not verified")) {
+        AppSnackBar.alert(
+          context: context,
+          label: 'คุณยังไม่ได้ยืนยันอีเมล โปรดดสมัครสมาชิกใหม่ และยืนยันอีเมล',
+          iconColor: AppColors.error,
+          backgroundColor: AppColors.snackbarBackground,
+          labelColor: AppColors.error,
+        );
+      } else {
+        AppSnackBar.alert(
+          context: context,
+          label: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+          iconColor: AppColors.error,
+          backgroundColor: AppColors.snackbarBackground,
+          labelColor: AppColors.error,
+        );
+      }
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  @override
+  void initState() {
+    if (TestAccount.isTestAccount) {
+      _usernameController.text = TestAccount.email;
+      _passwordController.text = TestAccount.password;
+    }
+    super.initState();
   }
 
   @override
@@ -124,10 +166,13 @@ class _SignInPageState extends State<SignInPage> {
                         hint: 'อีเมล',
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        focusNode: _usernameFocusNode,
+                        controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'กรุณากรอกอีเมล';
+                          }
+                          if (!emailRegex(value)) {
+                            return 'รูปแบบอีเมลไม่ถูกต้อง';
                           }
                           return null;
                         },
@@ -137,7 +182,7 @@ class _SignInPageState extends State<SignInPage> {
                         hint: 'รหัสผ่าน',
                         obscureText: true,
                         textInputAction: TextInputAction.done,
-                        focusNode: _passwordFocusNode,
+                        controller: _passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'กรุณากรอกรหัสผ่าน';

@@ -1,13 +1,19 @@
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:edupluz_future/constant/test_account.dart';
+import 'package:edupluz_future/core/models/auth/register_response_model.dart';
+import 'package:edupluz_future/core/services/auth/register_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
+import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
+import 'package:edupluz_future/features/auth/presentation/pages/confirm_otp_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -27,13 +33,57 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
   _doSignUp() async {
-    AppSnackBar.alert(
-      context: context,
-      label: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-      iconColor: AppColors.error,
-      backgroundColor: AppColors.snackbarBackground,
-      labelColor: AppColors.error,
-    );
+    try {
+      EasyLoading.show();
+      RegisterResponseModel? registerResponse = await registerService(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (registerResponse != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ConfirmOTPPage(
+              contactInfo: _emailController.text,
+              refCode: registerResponse.data.refCode,
+              isEmail: true,
+              isForgotPassword: false,
+            ),
+          ),
+        );
+      } else {
+        EasyLoading.dismiss();
+        AppSnackBar.alert(
+          context: context,
+          label: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+          iconColor: AppColors.error,
+          backgroundColor: AppColors.snackbarBackground,
+          labelColor: AppColors.error,
+        );
+      }
+    } catch (e) {
+      AppSnackBar.alert(
+        context: context,
+        label: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+        iconColor: AppColors.error,
+        backgroundColor: AppColors.snackbarBackground,
+        labelColor: AppColors.error,
+      );
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  @override
+  void initState() {
+    if (TestAccount.isTestAccount) {
+      _nameController.text = TestAccount.name;
+      _lastNameController.text = TestAccount.lastName;
+      _emailController.text = TestAccount.email;
+      _phoneController.text = TestAccount.phone;
+      _passwordController.text = TestAccount.password;
+    }
+    super.initState();
   }
 
   @override
@@ -158,6 +208,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               if (value == null || value.isEmpty) {
                                 return 'กรุณากรอกอีเมล';
                               }
+                              if (!emailRegex(value)) {
+                                return 'รูปแบบอีเมลไม่ถูกต้อง';
+                              }
                               return null;
                             },
                           ),
@@ -185,6 +238,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'กรุณากรอกรหัสผ่าน';
+                              }
+                              if (!strongPassword(value)) {
+                                return 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร มีตัวพิมพ์เล็ก พิมพ์ใหญ่ มีตัวเลข และมีตัวพิมพ์เล็ก พิมพ์ใหญ่ มีตัวเลข';
                               }
                               return null;
                             },
