@@ -35,9 +35,14 @@ Container onBoardingScreen2(BuildContext context) {
                     await StorageServices.setOpenAppFirstTime(false);
                     context.goNamed(Routes.signin.name);
                   },
-                  child: Text(
-                    "ข้าม",
-                    style: AppTextStyles.bodyLarge,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.goNamed(Routes.signin.name);
+                    },
+                    child: Text(
+                      "ข้าม",
+                      style: AppTextStyles.bodyLarge,
+                    ),
                   ),
                 ),
               ),

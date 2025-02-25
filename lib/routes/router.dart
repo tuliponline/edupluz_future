@@ -4,7 +4,7 @@ import 'package:edupluz_future/features/auth/presentation/pages/sign_up_page.dar
 import 'package:edupluz_future/features/maintenance/presentation/pages/maintenance_page.dart';
 import 'package:edupluz_future/features/navigation/presentation/pages/navigation_page.dart';
 import 'package:edupluz_future/features/onboarding/onboarding_page.dart';
-import 'package:edupluz_future/features/presentation/question_page.dart';
+import 'package:edupluz_future/features/question/question_page.dart';
 import 'package:edupluz_future/features/splash/presentation/pages/splash_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';

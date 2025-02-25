@@ -111,10 +111,15 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Text(
-                        'ข้าม',
-                        style: AppTextStyles.bodyLarge.copyWith(
-                          fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.goNamed(Routes.navigation.name);
+                        },
+                        child: Text(
+                          'ข้าม',
+                          style: AppTextStyles.bodyLarge.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
