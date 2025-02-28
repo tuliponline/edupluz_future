@@ -9,9 +9,9 @@ import 'package:edupluz_future/core/services/auth/fetch_access_token.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:saver_gallery/saver_gallery.dart';
 
 class CerService {
   Future<Uint8List> downloadCer(
@@ -40,8 +40,8 @@ class CerService {
     final path = '${directory.path}/certificate.jpg';
     final file = File(path);
     await file.writeAsBytes(data);
-    final result = await ImageGallerySaver.saveImage(Uint8List.fromList(data),
-        quality: 60, name: "certificate.jpg");
+    final result = await SaverGallery.saveImage(Uint8List.fromList(data),
+        quality: 60, name: "certificate.jpg", androidExistNotSave: true);
     Logger().d(result);
     if (result == null) {
       EasyLoading.showError("ดาวน์โหลดไม่สําเร็จ");

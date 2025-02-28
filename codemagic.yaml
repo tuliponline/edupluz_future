@@ -1,0 +1,518 @@
+workflows:
+    android-release-nonprod:
+        name: Android Release NonProd
+        triggering:
+          events:                       # List the events that trigger builds
+            - pull_request
+          branch_patterns:
+            - pattern : "releaseNonProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        environment:
+            android_signing:
+            - keystore_edupluz
+            flutter: stable
+            groups:
+            - shorebird
+            - firebase_credentials
+            - google_credentials
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up local.properties
+            script: | 
+              echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird release --platforms=android --artifact apk --flavor nonprod -t lib/main_nonprod.dart
+        artifacts:
+          - build/**/outputs/**/*.apk
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: true 
+              failure: true 
+
+          firebase:
+            firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+            android:
+              app_id: 1:19616661900:android:b9dcc916a7cafebd0d56a9
+              groups:
+                - edupluzTester
+              artifact_type: 'apk'
+
+    android-patch-nonprod:
+        name: Android Patch Nonprod
+        triggering:
+          events:
+            - pull_request
+          branch_patterns:
+            - pattern : "patchNonProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        environment:
+            android_signing:
+            - keystore_edupluz
+            flutter: stable
+            groups:
+            - shorebird
+            - firebase_credentials
+            - google_credentials
+        scripts:
+          - name: Version
+            script: |
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up local.properties
+            script: | 
+              echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🚀 Shorebird patch 
+            script: |
+              shorebird patch --platforms=android --flavor nonprod -t lib/main_nonprod.dart
+        artifacts:
+          - build/**/outputs/**/*.apk
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true
+            notify:
+              success: true # To not receive a notification when a build succeeds
+              failure: true # To not receive a notification when a build fails
+
+    android-release-prod:
+        name: Android Release Prod
+        triggering:
+          events:                       # List the events that trigger builds
+            - pull_request
+          branch_patterns:
+            - pattern : "releaseProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        environment:
+            android_signing:
+            - keystore_edupluz
+            flutter: stable
+            groups:
+            - shorebird
+            - google_credentials
+            - firebase_credentials
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up local.properties
+            script: | 
+              echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird release --platforms=android --flavor prod -t lib/main_prod.dart
+        artifacts:
+          - build/**/outputs/**/*.aab
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true 
+            notify:
+              success: true 
+              failure: true
+          
+          # firebase:
+          #   firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_PROD
+          #   android:
+          #     app_id: 1:943208255310:android:aa5dfd91157c62586a181f
+          #     groups:
+          #       - edupluzTester
+          #     artifact_type: 'aab'
+          google_play: 
+            credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+            track: internal
+            in_app_update_priority: 3
+
+
+    android-patch-prod:
+        name: Android Patch Prod
+        triggering:
+          events:
+            - pull_request
+          branch_patterns:
+            - pattern : "patchProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        environment:
+            android_signing:
+            - keystore_edupluz
+            flutter: stable
+            groups:
+            - shorebird
+            - google_credentials
+        scripts:
+          - name: Version
+            script: |
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up local.properties
+            script: | 
+              echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+          - name: Get Flutter clean
+            script: | 
+              flutter clean
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🚀 Shorebird patch 
+            script: |
+              shorebird patch --platforms=android --flavor prod -t lib/main_prod.dart
+
+        artifacts:
+          - build/**/outputs/**/*.aab
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true
+            notify:
+              success: true
+              failure: true 
+
+
+    ios-release-nonprod:
+        name: iOS Release Nonprod
+        triggering:
+          events:                       # List the events that trigger builds
+            - pull_request
+          branch_patterns:
+            - pattern : "releaseNonProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        integrations:
+          app_store_connect: App Store Access
+        environment:
+          ios_signing:
+           distribution_type: ad_hoc # or: ad_hoc | development | enterprise
+           bundle_identifier: com.edupluz.edupluzapp.nonProd
+          flutter: stable
+          groups:
+            - shorebird
+            - firebase_credentials
+
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up code signing settings on Xcode project
+            script: | 
+              xcode-project use-profiles
+      
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: Install pods
+            script: | 
+              find . -name "Podfile" -execdir pod install \;
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird release --platforms=ios --flavor nonprod  -t lib/main_nonprod.dart -- --export-options-plist=/Users/builder/export_options.plist
+        artifacts:
+          - build/ios/ipa/*.ipa
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: true 
+              failure: true
+
+          firebase:
+            firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+            ios:
+              app_id: 1:19616661900:ios:e695efbf9e7835640d56a9
+              groups:
+                - edupluzTester
+        
+
+          # app_store_connect:
+          #  auth: integration
+          #  submit_to_testflight: true
+          #  expire_build_submitted_for_review: true
+          #  beta_groups: 
+          #   - edupluz tester
+
+
+
+    ios-patch-nonprod:
+        name: iOS Patch Nonprod
+        triggering:
+          events:
+            - pull_request
+          branch_patterns:
+            - pattern : "patchNonProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        integrations:
+          app_store_connect: App Store Access
+        environment:
+          ios_signing:
+           distribution_type: ad_hoc # or: ad_hoc | development | enterprise
+           bundle_identifier: com.edupluz.edupluzapp.nonProd
+          flutter: stable
+          groups:
+            - shorebird
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up code signing settings on Xcode project
+            script: | 
+              xcode-project use-profiles
+      
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: Install pods
+            script: | 
+              find . -name "Podfile" -execdir pod install \;
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird patch --platforms=ios --flavor nonprod  -t lib/main_nonprod.dart -- --export-options-plist=/Users/builder/export_options.plist
+        artifacts:
+          - build/ios/ipa/*.ipa
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: true 
+              failure: true
+
+    ios-release-prod:
+        name: iOS Release Prod
+        triggering:
+          events:                       # List the events that trigger builds
+            - pull_request
+          branch_patterns:
+            - pattern : "releaseProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        integrations:
+          app_store_connect: App Store Access
+        environment:
+          ios_signing:
+           distribution_type: app_store # or: ad_hoc | development | enterprise
+           bundle_identifier: com.edupluz.edupluzapp
+          flutter: stable
+          groups:
+            - shorebird
+            - firebase_credentials
+
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up code signing settings on Xcode project
+            script: | 
+              xcode-project use-profiles
+      
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: Install pods
+            script: | 
+              find . -name "Podfile" -execdir pod install \;
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird release --platforms=ios --flavor prod  -t lib/main_prod.dart -- --export-options-plist=/Users/builder/export_options.plist
+        artifacts:
+          - build/ios/ipa/*.ipa
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: true 
+              failure: true
+
+          
+          firebase:
+            firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_PROD
+            ios:
+              app_id: 1:943208255310:ios:41f489b52b5046516a181f
+              groups:
+                - edupluzTester
+
+          app_store_connect:
+           auth: integration
+           submit_to_testflight: true
+           expire_build_submitted_for_review: true
+           beta_groups: 
+            - edupluz tester
+
+
+    ios-patch-prod:
+        name: iOS Patch Prod
+        triggering:
+          events:
+            - pull_request
+          branch_patterns:
+            - pattern : "patchProd/*"
+              include: true
+              source: true
+        max_build_duration: 120
+        instance_type: mac_mini_m1
+        integrations:
+          app_store_connect: App Store Access
+        environment:
+          ios_signing:
+           distribution_type: app_store # or: ad_hoc | development | enterprise
+           bundle_identifier: com.edupluz.edupluzapp
+          flutter: stable
+          groups:
+            - shorebird
+        scripts:
+          - name: Version
+            script: |
+                echo "➡️ Using type: $TYPE"
+                VERSION=$(grep 'version:' pubspec.yaml | cut -d':' -f2 | tr -d ' ')
+                echo "version: $VERSION"
+          - name: Set up code signing settings on Xcode project
+            script: | 
+              xcode-project use-profiles
+          - name: Get Flutter packages
+            script: | 
+              flutter packages pub get
+          - name: Install pods
+            script: | 
+              find . -name "Podfile" -execdir pod install \;
+          - name: 🐦 Setup Shorebird
+            script: |
+              # Install Shorebird 
+              curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+              # Add Shorebird to PATH
+              echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+          - name: 🙌 Shorebird Build
+            script: |
+              shorebird patch --platforms=ios --flavor prod  -t lib/main_prod.dart -- --export-options-plist=/Users/builder/export_options.plist
+        artifacts:
+          - build/ios/ipa/*.ipa
+          - build/**/outputs/**/mapping.txt
+          - flutter_drive.log
+        publishing: 
+          slack:
+            channel: '#app-update'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: true 
+              failure: true
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+

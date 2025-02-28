@@ -36,7 +36,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  intl: ^0.19.0
+  intl: ^0.20.2
   go_router: ^14.6.3
   flutter_dotenv: ^5.2.1
   firebase_core: ^3.11.0
@@ -60,10 +60,8 @@ dependencies:
   flutter_riverpod: ^2.6.1
   google_nav_bar: ^5.0.7
   flutter_lucide: ^1.6.2
-  flutter_alice: ^1.1.1
   shake_to_report: ^1.0.2
   image_picker: ^1.1.2
-  qr_code_scanner: ^1.0.1
   url_launcher: ^6.3.1
   package_info_plus: ^8.2.1
   modal_bottom_sheet: ^3.0.0
@@ -72,19 +70,23 @@ dependencies:
   faker: ^2.2.0
   slide_to_act: ^2.0.2
   flutter_inappwebview: ^6.1.5
-  image_gallery_saver: ^2.0.3
+ 
   flutter_pdfview: ^1.4.0
   device_info_plus: ^11.3.0
   get_ip_address: ^0.0.7
   web_socket_channel: ^3.0.2
   wakelock_plus: ^1.2.10
   better_player_plus: ^1.0.8
+  saver_gallery: ^3.0.6
+  flutter_alice_http: ^2.1.1
+  
 
 
 
 dependency_overrides:
-  http: ^1.3.0
-  win32: ^5.0.0
+  intl: ^0.19.0
+  # http: ^1.3.0
+  # win32: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +126,7 @@ flutter:
     - assets/images/question/age_select/
     - assets/images/question/looking_for/
     - assets/images/setting/
+    - shorebird.yaml
 
 
 
