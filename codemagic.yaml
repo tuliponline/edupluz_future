@@ -164,7 +164,7 @@ workflows:
         max_build_duration: 120
         instance_type: mac_mini_m2
         integrations:
-          app_store_connect: codemagic App Store API
+          app_store_connect: codemagic_edupluz_future
         environment:
           <<: *shared_env
           ios_signing:
@@ -207,7 +207,7 @@ workflows:
         max_build_duration: 120
         instance_type: mac_mini_m2
         integrations:
-          app_store_connect: codemagic App Store API
+          app_store_connect: codemagic_edupluz_future
         environment:
           <<: *shared_env
           ios_signing:
@@ -243,7 +243,7 @@ workflows:
         max_build_duration: 120
         instance_type: mac_mini_m2
         integrations:
-          app_store_connect: codemagic App Store API
+          app_store_connect: codemagic_edupluz_future
         environment:
           <<: *shared_env
           ios_signing:
@@ -286,7 +286,7 @@ workflows:
         max_build_duration: 120
         instance_type: mac_mini_m2
         integrations:
-          app_store_connect: codemagic App Store API
+          app_store_connect: codemagic_edupluz_future
         environment:
           <<: *shared_env
           ios_signing:
