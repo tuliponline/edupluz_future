@@ -69,9 +69,9 @@ workflows:
           firebase:
             firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_NONPROD
             android:
-              app_id: 1:532851800577:android:6e864097f0044233c71e00
+              app_id: 1:19616661900:android:8f4006397eb496cb0d56a9
               groups:
-                - monster-tester
+                - edupluztester
               artifact_type: 'apk'
           # google_play: 
           #   credentials: $PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS
