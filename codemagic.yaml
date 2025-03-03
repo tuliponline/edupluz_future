@@ -169,7 +169,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_app_store
+              - profile: ios_profile_nonprod_2025
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
@@ -200,7 +200,7 @@ workflows:
             submit_to_testflight: true
             expire_build_submitted_for_review: true
             beta_groups: 
-              - monster-tester
+              - edupluz tester
 
     ios-patch-ios-nonprod:
         name: iOS Patch Nonprod
@@ -212,7 +212,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_app_store
+              - profile: ios_profile_nonprod_2025
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
@@ -248,7 +248,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_app_store_for_production
+              - profile: ios_profile_prod_2025
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
@@ -279,7 +279,7 @@ workflows:
             submit_to_testflight: true
             expire_build_submitted_for_review: true
             beta_groups: 
-              - monster-tester
+              - Edupluz Tester
 
     ios-patch-ios-prod:
         name: iOS Patch Prod
@@ -291,7 +291,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_app_store_for_production
+              - profile: ios_profile_prod_2025
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
