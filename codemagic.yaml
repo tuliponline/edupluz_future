@@ -1,13 +1,13 @@
 definitions:
   environment:
     shared_env: &shared_env
-      flutter: 3.29.0
+      flutter: 3.27.1
       groups:
         - shorebird
         - firebase_credentials
         - google_credentials
       vars:
-        FLUTTER_VERSION: 3.29.0
+        FLUTTER_VERSION: 3.27.1
   scripts:
     - &show_version
       name: Version
