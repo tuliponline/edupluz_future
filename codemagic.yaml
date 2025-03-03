@@ -79,8 +79,8 @@ workflows:
           #   in_app_update_priority: 3
 
 
-    android-patch-android-nonprod:
-      name: android-patch-android-nonprod
+    android-patch-nonprod:
+      name: android-patch-nonprod
       max_build_duration: 120
       instance_type: mac_mini_m2
       environment:
@@ -135,8 +135,8 @@ workflows:
             track: internal
             in_app_update_priority: 3
 
-    android-patch-android-prod:
-        name: android-patch-android-prod
+    android-patch-prod:
+        name: android-patch-prod
         max_build_duration: 120
         instance_type: mac_mini_m2
         environment:
