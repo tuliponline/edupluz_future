@@ -61,7 +61,7 @@ workflows:
           - flutter_drive.log
         publishing:
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
