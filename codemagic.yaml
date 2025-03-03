@@ -69,7 +69,7 @@ workflows:
           firebase:
             firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_NONPROD
             android:
-              app_id: 1:19616661900:android:8f4006397eb496cb0d56a9
+              app_id: 1:19616661900:android:b9dcc916a7cafebd0d56a9
               groups:
                 - edupluztester
               artifact_type: 'apk'
@@ -97,7 +97,7 @@ workflows:
               shorebird patch --platforms=android --flavor nonprod -t lib/main_nonprod.dart
       publishing:
         slack:
-          channel: '#monster-app-update'
+          channel: '#app-update'
           notify_on_build_start: true # To receive a notification when a build starts
           notify:
             success: true 
@@ -125,7 +125,7 @@ workflows:
           - flutter_drive.log
         publishing: 
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
@@ -153,7 +153,7 @@ workflows:
                 shorebird patch android --flavor prod -t lib/main_prod.dart
         publishing:
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
@@ -189,7 +189,7 @@ workflows:
 
         publishing: 
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
@@ -232,7 +232,7 @@ workflows:
           - flutter_drive.log
         publishing: 
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
@@ -268,7 +268,7 @@ workflows:
 
         publishing: 
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
@@ -311,7 +311,7 @@ workflows:
           - flutter_drive.log
         publishing: 
           slack:
-            channel: '#monster-app-update'
+            channel: '#app-update'
             notify_on_build_start: true # To receive a notification when a build starts
             notify:
               success: true 
