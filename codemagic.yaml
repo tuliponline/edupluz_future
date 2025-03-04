@@ -175,6 +175,10 @@ workflows:
               - certificate: ios_cer_distribution
                 environment_variable: THIS_CERTIFICATE_PATH_ON_DISK
         scripts:
+            - name: Clean build artifacts
+              script: |
+                rm -rf build/ios/build 
+                flutter clean 
             - *show_version
             - *ios_signing_code
             - *shorebird_install
@@ -254,6 +258,10 @@ workflows:
               - certificate: ios_cer_distribution
                 environment_variable: THIS_CERTIFICATE_PATH_ON_DISK
         scripts:
+            - name: Clean build artifacts
+              script: |
+                rm -rf build/ios/build 
+                flutter clean 
             - *show_version
             - *ios_signing_code
             - *shorebird_install
