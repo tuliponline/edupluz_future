@@ -248,7 +248,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_prod_2025
+              - profile: ios_profile_prod
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
@@ -291,7 +291,7 @@ workflows:
           <<: *shared_env
           ios_signing:
             provisioning_profiles:
-              - profile: ios_profile_prod_2025
+              - profile: ios_profile_prod
                 environment_variable: THIS_PROFILE_PATH_ON_DISK
             certificates:
               - certificate: ios_cer_distribution
