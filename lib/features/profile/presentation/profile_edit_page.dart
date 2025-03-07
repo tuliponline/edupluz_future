@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:edupluz_future/core/fake.dart';
-import 'package:edupluz_future/core/models/auth/meModel.dart';
+import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
+import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
@@ -29,7 +29,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   TextEditingController lastName = TextEditingController();
   File? imageFile;
   String? base64Image;
-  MeModel? meData;
 
   bool isBack = false;
 
@@ -53,14 +52,12 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   @override
   void initState() {
-    meData = Fake.meData;
-    name.text = meData?.firstName ?? "";
-    lastName.text = meData?.lastName ?? "";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final GetUser200Response? meData = ref.watch(userProvider);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -97,9 +94,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                               children: [
                                 ProfileAvatar(
                                   imageFile: imageFile,
-                                  imageUrl: meData?.picture == ""
+                                  imageUrl: meData.data.picture == ""
                                       ? null
-                                      : meData?.picture,
+                                      : meData.data.picture,
                                   editEnable: true,
                                   onTap: () => _getFromGallery(),
                                 ),
@@ -142,7 +139,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                                     // fetchUserMe(ref);
 
                                     Logger().d(
-                                        "Update Profile: ${meData?.firstName} ${meData?.lastName} ${meData?.picture}");
+                                        "Update Profile: ${meData.data.firstName} ${meData.data.lastName} ${meData.data.firstName}");
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(

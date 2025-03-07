@@ -1,7 +1,7 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:edupluz_future/core/fake.dart';
-import 'package:edupluz_future/core/models/auth/meModel.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
+import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
+import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
@@ -24,7 +24,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   CoursesModel? coursesFavorites;
   OrdersModel? ordersData;
-  final MeModel meData = Fake.meData;
+
   _initData() async {
     // coursesFavorites =
     //     await fetchCoursesFavorites(page: 1, limit: 300, ref: ref);
@@ -40,6 +40,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GetUser200Response? meData = ref.watch(userProvider);
     return SafeArea(
       child: Column(
         children: [
@@ -68,17 +69,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 child: Column(
                   children: [
                     ProfileAvatar(
-                      imageUrl: meData.picture == "" ? null : meData.picture,
+                      imageUrl: meData.data.picture == ""
+                          ? null
+                          : meData.data.picture,
                     ),
                     const SizedBox(
                       height: 24,
                     ),
-                    Text("${meData.firstName} ${meData.lastName}",
+                    Text("${meData.data.firstName} ${meData.data.lastName}",
                         textAlign: TextAlign.center,
                         style: AppTextStyles.bodyLarge.copyWith(
                           fontWeight: FontWeight.w600,
                         )),
-                    Text(meData.email,
+                    Text(meData.data.email,
                         textAlign: TextAlign.center,
                         style: AppTextStyles.bodyMedium),
                     const SizedBox(

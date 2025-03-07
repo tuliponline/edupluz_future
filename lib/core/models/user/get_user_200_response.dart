@@ -46,6 +46,7 @@ class Data {
   String phone;
   String email;
   bool emailVerified;
+  String picture;
   bool enabled;
   DateTime dateOfBirth;
   Address address;
@@ -65,6 +66,7 @@ class Data {
     required this.phone,
     required this.email,
     required this.emailVerified,
+    required this.picture,
     required this.enabled,
     required this.dateOfBirth,
     required this.address,
@@ -85,6 +87,7 @@ class Data {
         phone: json["phone"],
         email: json["email"],
         emailVerified: json["email_verified"],
+        picture: json["picture"] ?? "",
         enabled: json["enabled"],
         dateOfBirth: DateTime.parse(json["date_of_birth"]),
         address: Address.fromJson(json["address"]),
@@ -105,6 +108,7 @@ class Data {
         "phone": phone,
         "email": email,
         "email_verified": emailVerified,
+        "picture": picture,
         "enabled": enabled,
         "date_of_birth": dateOfBirth.toIso8601String(),
         "address": address.toJson(),

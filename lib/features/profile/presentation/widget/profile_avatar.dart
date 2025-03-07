@@ -50,7 +50,7 @@ class ProfileAvatar extends StatelessWidget {
                   ? const Icon(
                       LucideIcons.user,
                       size: 50.0,
-                      color: AppColors.background,
+                      color: AppColors.primary,
                     )
                   : null,
             ),
@@ -69,7 +69,7 @@ class ProfileAvatar extends StatelessWidget {
                       child: Icon(
                         LucideIcons.camera,
                         size: 20,
-                        color: AppColors.background,
+                        color: AppColors.primary,
                       )),
                 ),
               ),
