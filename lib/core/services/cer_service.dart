@@ -4,7 +4,8 @@ import 'dart:typed_data';
 
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/constant/app_env.dart';
-import 'package:edupluz_future/core/services/auth/fetch_access_token.dart';
+import 'package:edupluz_future/core/services/storages/login_model/login_model.dart';
+import 'package:edupluz_future/core/services/storages/storage_services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -17,7 +18,11 @@ class CerService {
   Future<Uint8List> downloadCer(
     String examKey,
   ) async {
-    String accessToken = await fetchAccessToken();
+    Login? login = await StorageServices.getLoginData();
+    if (login == null) {
+      throw Exception('Login data not found');
+    }
+    String accessToken = login.accessToken;
 
     Uri uri = Uri.parse(
         '${dotenv.get(AppEnv.apiBasePath)}${ApiPath.examination}/certificate?key=$examKey');

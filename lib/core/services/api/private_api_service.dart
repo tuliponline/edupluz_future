@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../configs/alice_init.dart';
 import '../../enums/enum_language.dart';
-import '../auth/login_service.dart';
+import '../auth/authsService_service.dart';
 import '../storages/storage_services.dart';
 
 class PrivateApiService {
@@ -18,7 +18,7 @@ class PrivateApiService {
       throw Exception('Login data not found');
     }
     try {
-      final _loginData = await LoginService().refreshToken(
+      final _loginData = await AuthsService().refreshToken(
         refreshToken: loginData.refreshToken,
       );
       return _loginData.data.accessToken;

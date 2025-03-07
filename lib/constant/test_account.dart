@@ -1,6 +1,6 @@
 class TestAccount {
   static bool isTestAccount = true;
-  static const String email = 'test@test.com';
+  static const String email = 'test@test.com18';
   static const String password = 'Aa@123456';
   static const String name = 'สมชาย สมบูรณ์';
   static const String lastName = 'สมบูรณ์';

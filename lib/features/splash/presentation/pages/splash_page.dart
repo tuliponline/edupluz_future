@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/services/shorebird/shorebird_service.dart';
 import 'package:edupluz_future/core/services/storages/storage_services.dart';
@@ -5,20 +6,22 @@ import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/features/splash/presentation/wisgets/patch_dialog.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gif/gif.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+class _SplashPageState extends ConsumerState<SplashPage>
+    with TickerProviderStateMixin {
   late final GifController controller;
 
   @override
@@ -57,11 +60,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       await Future.delayed(const Duration(seconds: 5));
       if (mounted) {
         bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
-        if (isOpenAppFirstTime) {
-          context.goNamed(Routes.onboarding.name);
-        } else {
-          context.goNamed(Routes.signin.name);
-        }
+
+        bool isLogin = await AuthsService().checkIsLogin(ref);
+        if (isLogin) {
+          context.goNamed(Routes.navigation.name);
+        } else {}
       }
     }
   }

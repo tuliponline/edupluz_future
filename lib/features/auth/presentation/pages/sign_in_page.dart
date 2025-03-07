@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:edupluz_future/constant/test_account.dart';
-import 'package:edupluz_future/core/services/auth/login_service.dart';
+import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
@@ -33,7 +33,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   _doSignIn() async {
     try {
       EasyLoading.show();
-      await LoginService().login(
+      await AuthsService().login(
         username: _usernameController.text,
         password: _passwordController.text,
         ref: ref,

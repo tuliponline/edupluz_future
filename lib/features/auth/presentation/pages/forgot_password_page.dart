@@ -12,7 +12,6 @@ import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:edupluz_future/features/auth/presentation/pages/reset_password_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

@@ -8,7 +8,7 @@ import '../api/public_api_service.dart';
 import '../storages/login_model/login_model.dart';
 import '../storages/storage_services.dart';
 
-class LoginService {
+class AuthsService {
   Future<Login200Response> login({
     required String username,
     required String password,

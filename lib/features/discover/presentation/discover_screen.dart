@@ -1,7 +1,10 @@
-import 'package:edupluz_future/core/models/auth/meModel.dart';
 import 'package:edupluz_future/core/models/category/catagories_model.dart';
-import 'package:edupluz_future/core/providers/auth/user_me_provider.dart';
+import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
+import 'package:edupluz_future/core/providers/user/user_provider.dart';
+import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
+import 'package:edupluz_future/core/services/storages/login_model/login_model.dart';
+import 'package:edupluz_future/core/services/user/get_user_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_random.dart';
@@ -40,6 +43,12 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   int showCategory = 4;
 
   List<int> showRandomCourses = [];
+
+  GetUser200Response? user;
+
+  _fetchUser() async {
+    await getUserService(ref);
+  }
 
   _fetchCategory() async {
     showRandomCourses = [];
@@ -83,6 +92,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
 
   @override
   void initState() {
+    _fetchUser();
     _fetchCategory();
     _scrollController.addListener(_scrollListener);
     _searchFocusNode.addListener(() {
@@ -103,7 +113,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MeModel? meData = ref.watch(userMeProvider);
+    final GetUser200Response? meData = ref.watch(userProvider);
     return SafeArea(
       child: Container(
         // decoration: const BoxDecoration(
@@ -132,7 +142,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('สวัสดี คุณ',
+                                    Text("ยินดีต้อนรับ",
                                         style: AppTextStyles.bodyMedium
                                             .copyWith(
                                                 fontWeight: FontWeight.w500)),
@@ -148,7 +158,10 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                   Text('สวัสดี',
                                       style: AppTextStyles.bodyMedium.copyWith(
                                           fontWeight: FontWeight.w500)),
-                                  Text('${meData.firstName} ${meData.lastName}',
+                                  Text(
+                                      meData.data.firstName == ""
+                                          ? "สมาชิก Edupluz"
+                                          : '${meData.data.firstName} ${meData.data.lastName}',
                                       style:
                                           AppTextStyles.h4.copyWith(height: 2)),
                                 ],

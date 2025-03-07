@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:edupluz_future/core/models/auth/meModel.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
-import 'package:edupluz_future/core/providers/auth/user_me_provider.dart';
 import 'package:edupluz_future/features/classroom/data/get_device_id_service.dart';
 import 'package:edupluz_future/features/classroom/data/get_ip_address_service.dart';
 import 'package:edupluz_future/features/classroom/data/get_session_id_service.dart';
