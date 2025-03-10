@@ -30,9 +30,9 @@ class ProfileAvatar extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(
                 color: editEnable
-                    ? AppColors.background
-                    : Colors
-                        .transparent, // Change this to your desired border color
+                    ? AppColors.secondary
+                    : AppColors
+                        .secondary, // Change this to your desired border color
                 width: 3.0, // Change this to your desired border width
               ),
             ),
@@ -46,7 +46,7 @@ class ProfileAvatar extends StatelessWidget {
                           imageUrl!,
                         )
                   : FileImage(imageFile!) as ImageProvider,
-              child: imageUrl == null
+              child: imageUrl == null && imageFile == null
                   ? const Icon(
                       LucideIcons.user,
                       size: 50.0,
@@ -69,7 +69,7 @@ class ProfileAvatar extends StatelessWidget {
                       child: Icon(
                         LucideIcons.camera,
                         size: 20,
-                        color: AppColors.primary,
+                        color: AppColors.buttonSecondary,
                       )),
                 ),
               ),

@@ -69,9 +69,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 child: Column(
                   children: [
                     ProfileAvatar(
-                      imageUrl: meData.data.picture == ""
-                          ? null
-                          : meData.data.picture,
+                      imageUrl:
+                          meData.data.avatar == "" ? null : meData.data.avatar,
                     ),
                     const SizedBox(
                       height: 24,

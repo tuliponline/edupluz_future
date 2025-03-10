@@ -94,9 +94,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                               children: [
                                 ProfileAvatar(
                                   imageFile: imageFile,
-                                  imageUrl: meData.data.picture == ""
+                                  imageUrl: meData.data.avatar == ""
                                       ? null
-                                      : meData.data.picture,
+                                      : meData.data.avatar,
                                   editEnable: true,
                                   onTap: () => _getFromGallery(),
                                 ),

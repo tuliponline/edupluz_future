@@ -46,12 +46,12 @@ class Data {
   String phone;
   String email;
   bool emailVerified;
-  String picture;
   bool enabled;
   DateTime dateOfBirth;
   Address address;
   IdCard idCard;
   Bank bank;
+  String avatar;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -66,12 +66,12 @@ class Data {
     required this.phone,
     required this.email,
     required this.emailVerified,
-    required this.picture,
     required this.enabled,
     required this.dateOfBirth,
     required this.address,
     required this.idCard,
     required this.bank,
+    required this.avatar,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -87,12 +87,12 @@ class Data {
         phone: json["phone"],
         email: json["email"],
         emailVerified: json["email_verified"],
-        picture: json["picture"] ?? "",
         enabled: json["enabled"],
         dateOfBirth: DateTime.parse(json["date_of_birth"]),
         address: Address.fromJson(json["address"]),
         idCard: IdCard.fromJson(json["id_card"]),
         bank: Bank.fromJson(json["bank"]),
+        avatar: json["avatar"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
@@ -108,12 +108,12 @@ class Data {
         "phone": phone,
         "email": email,
         "email_verified": emailVerified,
-        "picture": picture,
         "enabled": enabled,
         "date_of_birth": dateOfBirth.toIso8601String(),
         "address": address.toJson(),
         "id_card": idCard.toJson(),
         "bank": bank.toJson(),
+        "avatar": avatar,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
       };
