@@ -35,7 +35,6 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isSearchFocus = false;
-
   bool _isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
 
@@ -46,8 +45,13 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
 
   GetUser200Response? user;
 
+  bool isLoading = true;
+
   _fetchUser() async {
+    isLoading = true;
     await getUserService(ref);
+    isLoading = false;
+    setState(() {});
   }
 
   _fetchCategory() async {
@@ -138,7 +142,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                       children: [
                         (meData == null)
                             ? Skeletonizer(
-                                enabled: false,
+                                enabled: isLoading,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edupluz_future/core/app/version_service.dart';
+import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
@@ -184,8 +185,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                                   // confirm dialog
                                   if (isConfirm && isConfirm) {
                                     EasyLoading.show();
-                                    await Future.delayed(
-                                        const Duration(seconds: 3));
+                                    await AuthsService().logout(ref);
                                     EasyLoading.dismiss();
                                     context.pushReplacementNamed(
                                         Routes.signin.name);

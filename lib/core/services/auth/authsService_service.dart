@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -77,5 +78,7 @@ class AuthsService {
   Future<void> logout(WidgetRef ref) async {
     await StorageServices.deleteLoginData();
     ref.read(isSigninProvider.notifier).state = false;
+    ref.read(userProvider.notifier).state = null;
+    StorageServices.deleteLoginData();
   }
 }

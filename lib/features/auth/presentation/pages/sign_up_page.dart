@@ -38,6 +38,9 @@ class _SignUpPageState extends State<SignUpPage> {
       RegisterResponseModel? registerResponse = await registerService(
         email: _emailController.text,
         password: _passwordController.text,
+        firstName: _nameController.text,
+        lastName: _lastNameController.text,
+        phone: _phoneController.text,
       );
       if (registerResponse != null) {
         Navigator.push(

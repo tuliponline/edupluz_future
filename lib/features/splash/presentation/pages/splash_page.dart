@@ -60,11 +60,16 @@ class _SplashPageState extends ConsumerState<SplashPage>
       await Future.delayed(const Duration(seconds: 5));
       if (mounted) {
         bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
-
-        bool isLogin = await AuthsService().checkIsLogin(ref);
-        if (isLogin) {
-          context.goNamed(Routes.navigation.name);
-        } else {}
+        if (isOpenAppFirstTime) {
+          context.goNamed(Routes.onboarding.name);
+        } else {
+          bool isLogin = await AuthsService().checkIsLogin(ref);
+          if (isLogin) {
+            context.goNamed(Routes.navigation.name);
+          } else {
+            context.goNamed(Routes.signin.name);
+          }
+        }
       }
     }
   }

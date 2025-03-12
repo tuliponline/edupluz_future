@@ -9,17 +9,27 @@ import '../../models/auth/register_response_model.dart';
 import '../api/public_api_service.dart';
 
 Future<RegisterResponseModel?> registerService(
-    {required String email, required String password}) async {
+    {required String email,
+    required String password,
+    required String firstName,
+    required String lastName,
+    required String phone}) async {
   try {
     Logger().d({
       "username": email,
       "password": password,
+      "first_name": firstName,
+      "last_name": lastName,
+      "phone": phone,
     });
     var response = await PublicApiService().post(
       path: ApiPath.register,
       body: {
         "username": email,
         "password": password,
+        "first_name": firstName,
+        "last_name": lastName,
+        "phone": phone,
       },
     );
     Logger().d("register success");
