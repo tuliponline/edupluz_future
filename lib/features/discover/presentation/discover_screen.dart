@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
@@ -38,7 +38,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   bool _isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
 
-  CatagoriesModel? catagories;
+  GetCategories200Response? catagories;
   int showCategory = 4;
 
   List<int> showRandomCourses = [];

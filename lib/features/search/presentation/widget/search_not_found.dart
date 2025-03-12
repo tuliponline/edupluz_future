@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
@@ -16,7 +16,7 @@ class SearchNotFound extends ConsumerStatefulWidget {
 }
 
 class _SearchNotFoundState extends ConsumerState<SearchNotFound> {
-  CatagoriesModel? catagoriesModel;
+  GetCategories200Response? catagoriesModel;
 
   _tapMenu(int index) {
     // Navigator.push(

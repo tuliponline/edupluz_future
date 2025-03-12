@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
 import 'package:edupluz_future/core/services/search/search_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -34,7 +34,7 @@ class _SearchScreenState extends ConsumerState<SearchResultPage> {
   final ScrollController _scrollController = ScrollController();
 
   int? catSelect;
-  CatagoriesModel? catagories;
+  GetCategories200Response? catagories;
   courses_type.CoursesModel? coursesModel;
   List<courses_type.Item> courses = [];
   int page = 1;

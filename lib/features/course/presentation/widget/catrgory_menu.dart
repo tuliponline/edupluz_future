@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';

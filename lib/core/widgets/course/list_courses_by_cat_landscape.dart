@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_by_cat.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
@@ -96,9 +96,14 @@ class _ListCoursesByCatLandscapeState
             },
             child: Row(
               children: [
-                Text(
-                  widget.category.name,
-                  style: AppTextStyles.h4,
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    widget.category.name,
+                    style: AppTextStyles.h4.copyWith(
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   width: 8,

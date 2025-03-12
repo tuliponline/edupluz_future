@@ -3,7 +3,7 @@ class ApiPath {
   static String userMe = "/account/user/v1/users/me";
 
   static String categories =
-      "/edupluz/category/v1/categories?limit=99&order_by=sequence:1";
+      "/course/category/v1/categories?limit=99&order_by=sequence:1";
 
   static String orders = "/merchant/order/v1/orders";
 

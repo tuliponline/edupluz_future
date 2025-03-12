@@ -1,4 +1,4 @@
-import 'package:edupluz_future/core/models/category/catagories_model.dart';
+import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
@@ -24,7 +24,7 @@ class _CourseScreenState extends ConsumerState<CourseScreen> {
   bool _isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
   int? categorySelectes;
-  CatagoriesModel? catagories;
+  GetCategories200Response? catagories;
   int showCategory = 4;
   _fetchCattgories() async {
     EasyLoading.show();
