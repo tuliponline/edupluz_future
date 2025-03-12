@@ -1,10 +1,11 @@
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/auth/otp_verify_request.dart';
 import 'package:edupluz_future/core/models/auth/register_otp_verify_response.dart';
 import 'package:edupluz_future/core/providers/language_provider.dart';
+import 'package:edupluz_future/core/services/auth/register_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../../constant/api_path.dart';
 import '../../models/auth/register_response_model.dart';
 import '../api/public_api_service.dart';
 

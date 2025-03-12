@@ -13,13 +13,12 @@ Future<CoursesModel> fetchCoursesBycat(
     SortTypr? sort}) async {
   Logger().d("Fetching Courses ิ by category");
   try {
-    // String finalPath =
-    //     "${ApiPath.courseSearch}?categories=$catId&page=$page&limit=$limit${sort == null ? "" : "&order_by=created_at:${sort.name}"}";
-    // String userData = await PrivateApiService().get(path: finalPath);
-    // CoursesModel coursesModel = coursesModelFromJson(userData);
-    // Logger().d(coursesModel.data.items.length);
-    // return coursesModel;
-    return FakeCourses.getCourses();
+    String finalPath =
+        "${ApiPath.courses}?filters=category_ids:$catId&page=$page&limit=$limit${sort == null ? "" : "&order_by=created_at:${sort.name}"}";
+    String userData = await PrivateApiService().get(path: finalPath);
+    CoursesModel coursesModel = coursesModelFromJson(userData);
+    Logger().d(coursesModel.data.items.length);
+    return coursesModel;
   } catch (e) {
     Logger().e(e);
     rethrow;

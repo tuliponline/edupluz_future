@@ -1,8 +1,8 @@
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../../constant/api_path.dart';
 import '../../models/auth/login_200_response.dart';
 import '../../providers/auth/auth_provider.dart';
 import '../api/public_api_service.dart';

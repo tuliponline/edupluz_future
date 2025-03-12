@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';

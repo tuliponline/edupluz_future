@@ -149,7 +149,7 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
                                   ? CardCourseLandscape(
                                       courseId: items[index].id,
                                       isShowDetail: widget.showDetail,
-                                      title: items[index].name,
+                                      title: items[index].title,
                                       subtitle: items[index].description,
                                       imageUrl:
                                           items[index].thumbnail.horizontal,

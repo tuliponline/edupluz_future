@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
 import 'package:edupluz_future/core/services/api/public_api_service.dart';
 import 'package:edupluz_future/core/services/courses/fake_courses.dart';

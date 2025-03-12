@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/api/public_api_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

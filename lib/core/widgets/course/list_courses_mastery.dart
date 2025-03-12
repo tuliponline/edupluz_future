@@ -134,7 +134,7 @@ class _ListCoursesByCatLandscapeState
                                 ? const Center(
                                     child: CircularProgressIndicator())
                                 : CardCourseLandscape(
-                                    title: items[index].name,
+                                    title: items[index].title,
                                     subtitle: items[index].description,
                                     imageUrl: items[index].thumbnail.horizontal,
                                     isShowDetail: widget.showDetail,

@@ -122,13 +122,10 @@ class _ListContinueWatchState extends ConsumerState<ListContinueWatch> {
                                         courseId: items[index].id,
                                         imageUrl:
                                             items[index].thumbnail.vertical,
-                                        progress:
-                                            items[index].itemContinue.progress,
+                                        progress: items[index].rating,
                                         isShowProgress: true,
-                                        chapterId:
-                                            items[index].itemContinue.chapterId,
-                                        lessonId:
-                                            items[index].itemContinue.lessonId,
+                                        chapterId: items[index].id,
+                                        lessonId: items[index].id,
                                       ),
                               );
                             }),

@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/enums/courses_enum.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
 import 'package:edupluz_future/features/profile/domain/orders_model.dart';

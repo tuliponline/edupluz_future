@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/auth/forgot_password_otp_verify_response.dart';
 import 'package:edupluz_future/core/models/auth/otp_verify_request.dart';
 

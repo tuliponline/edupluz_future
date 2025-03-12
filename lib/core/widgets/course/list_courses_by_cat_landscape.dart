@@ -80,35 +80,14 @@ class _ListCoursesByCatLandscapeState
   Widget build(BuildContext context) {
     Logger().d("items Change ${items.length}");
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CourseByCategoryScreen(
-                  categoryName: widget.category.name,
-                  categoryId: widget.category.id,
-                );
-              }));
-            },
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text(
-                    widget.category.name,
-                    style: AppTextStyles.h4.copyWith(
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                InkWell(
+    return coursesModel != null && items.isEmpty
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: GestureDetector(
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
@@ -118,50 +97,82 @@ class _ListCoursesByCatLandscapeState
                       );
                     }));
                   },
-                  child: const Icon(
-                    LucideIcons.chevron_right,
-                    color: AppColors.textPrimary,
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Text(
+                          widget.category.name,
+                          style: AppTextStyles.h4.copyWith(
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CourseByCategoryScreen(
+                              categoryName: widget.category.name,
+                              categoryId: widget.category.id,
+                            );
+                          }));
+                        },
+                        child: const Icon(
+                          LucideIcons.chevron_right,
+                          color: AppColors.textPrimary,
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-            height: widget.showDetail ? 158 : 130,
-            child: coursesModel == null
-                ? _loading()
-                : Padding(
-                    padding: const EdgeInsets.only(left: 24),
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        controller: _scrollController,
-                        itemCount: items.length +
-                            (items.length < coursesModel!.data.meta.totalItems
-                                ? 1
-                                : 0),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: (index == items.length &&
-                                    items.length <
-                                        coursesModel!.data.meta.totalItems)
-                                ? const Center(
-                                    child: CircularProgressIndicator())
-                                : CardCourseLandscape(
-                                    courseId: items[index].id,
-                                    title: items[index].name,
-                                    subtitle: items[index].description,
-                                    imageUrl: items[index].thumbnail.horizontal,
-                                    isShowDetail: widget.showDetail,
-                                  ),
-                          );
-                        }),
-                  )),
-      ],
-    );
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                  height: widget.showDetail ? 158 : 130,
+                  child: coursesModel == null
+                      ? _loading()
+                      : items.isEmpty
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 24),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  controller: _scrollController,
+                                  itemCount: items.length +
+                                      (items.length <
+                                              coursesModel!.data.meta.totalItems
+                                          ? 1
+                                          : 0),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 16),
+                                      child: (index == items.length &&
+                                              items.length <
+                                                  coursesModel!
+                                                      .data.meta.totalItems)
+                                          ? const Center(
+                                              child:
+                                                  CircularProgressIndicator())
+                                          : CardCourseLandscape(
+                                              courseId: items[index].id,
+                                              title: items[index].title,
+                                              subtitle:
+                                                  items[index].description,
+                                              imageUrl: items[index]
+                                                  .thumbnail
+                                                  .horizontal,
+                                              isShowDetail: widget.showDetail,
+                                            ),
+                                    );
+                                  }),
+                            )),
+            ],
+          );
   }
 
   Widget _loading() {

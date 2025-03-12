@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
+import 'package:edupluz_future/core/widgets/images/logo_image_wide.dart';
 import 'package:edupluz_future/features/preview/presentation/preview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -53,8 +54,7 @@ class CardCourseLandscape extends StatelessWidget {
                                   height: 130,
                                   width: 230,
                                   color: AppColors.background)),
-                          errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                          errorWidget: (context, url, error) => logoImageWide(),
                           fit: BoxFit.cover,
                         ),
                 ),

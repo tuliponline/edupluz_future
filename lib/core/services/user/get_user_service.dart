@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/api_path.dart';
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';

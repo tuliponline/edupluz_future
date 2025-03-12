@@ -73,7 +73,7 @@ class CardCoursesWidth extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        course.name,
+                        course.title,
                         style: AppTextStyles.bodyMedium.copyWith(
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w600,
@@ -83,7 +83,7 @@ class CardCoursesWidth extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                            '${formatDuration(course.duration)} ${lessonsCount == 0 ? "" : "| $lessonsCount บทเรียน"}',
+                            '${formatDuration(course.rating.toInt())} ${lessonsCount == 0 ? "" : "| $lessonsCount บทเรียน"}',
                             style: AppTextStyles.bodySmall.copyWith(
                                 overflow: TextOverflow.ellipsis,
                                 color: AppColors.textPrimary)),
@@ -101,7 +101,7 @@ class CardCoursesWidth extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "${course.instructor.firstName} ${course.instructor.lastName}",
+                    "${course.instructorId} ${course.instructorId}",
                     style: AppTextStyles.bodySmall.copyWith(
                         overflow: TextOverflow.ellipsis,
                         color: AppColors.textPrimary),

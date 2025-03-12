@@ -1,6 +1,6 @@
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:logger/logger.dart';
 
-import '../../../constant/api_path.dart';
 import '../api/public_api_service.dart';
 
 Future<bool> verifyOtpService(

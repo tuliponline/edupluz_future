@@ -116,13 +116,16 @@ class _CourseByCategoryScreenState
                             ? const Center(child: CircularProgressIndicator())
                             : CourseCard(
                                 courseId: items[index].id,
-                                courseName: items[index].name,
+                                courseName: items[index].title,
                                 imageUrl: items[index].thumbnail.horizontal,
-                                duration: items[index].duration,
+                                duration: items[index].rating.toInt(),
                                 chapters: items[index].chapters,
-                                categories: items[index].categories,
+                                categories: items[index]
+                                    .categories
+                                    .map((e) => e.name)
+                                    .toList(),
                                 instructorName:
-                                    "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
+                                    "${items[index].instructorId} ${items[index].instructorId}",
                               ),
                       ],
                     );
