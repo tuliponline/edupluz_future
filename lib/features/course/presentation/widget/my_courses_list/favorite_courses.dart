@@ -109,7 +109,7 @@ class _FavoriteCoursesState extends ConsumerState<FavoriteCourses> {
                                   .map((e) => e.name)
                                   .toList(),
                               instructorName:
-                                  "${items[index].instructorId} ${items[index].instructorId}",
+                                  "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                             ),
                     ],
                   );

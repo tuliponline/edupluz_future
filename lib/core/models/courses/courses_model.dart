@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final coursesModel = coursesModelFromJson(jsonString);
+//     final courseModel = courseModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -56,7 +56,7 @@ class Data {
 class Item {
   String id;
   String workspaceId;
-  String instructorId;
+  Instructor instructor;
   List<Category> categories;
   String title;
   String subTitle;
@@ -75,11 +75,15 @@ class Item {
   DateTime releaseAt;
   DateTime createdAt;
   DateTime updatedAt;
+  bool joined;
+  bool favorited;
+  String expiredAt;
+  bool isExpired;
 
   Item({
     required this.id,
     required this.workspaceId,
-    required this.instructorId,
+    required this.instructor,
     required this.categories,
     required this.title,
     required this.subTitle,
@@ -98,12 +102,16 @@ class Item {
     required this.releaseAt,
     required this.createdAt,
     required this.updatedAt,
+    required this.joined,
+    required this.favorited,
+    required this.expiredAt,
+    required this.isExpired,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
         workspaceId: json["workspace_id"],
-        instructorId: json["instructor_id"],
+        instructor: Instructor.fromJson(json["instructor"]),
         categories: List<Category>.from(
             json["categories"].map((x) => Category.fromJson(x))),
         title: json["title"],
@@ -124,12 +132,16 @@ class Item {
         releaseAt: DateTime.parse(json["release_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        joined: json["joined"],
+        favorited: json["favorited"],
+        expiredAt: json["expired_at"],
+        isExpired: json["is_expired"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "workspace_id": workspaceId,
-        "instructor_id": instructorId,
+        "instructor": instructor.toJson(),
         "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
         "title": title,
         "sub_title": subTitle,
@@ -148,6 +160,10 @@ class Item {
         "release_at": releaseAt.toIso8601String(),
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "joined": joined,
+        "favorited": favorited,
+        "expired_at": expiredAt,
+        "is_expired": isExpired,
       };
 }
 
@@ -293,7 +309,7 @@ class Exam {
 class Question {
   String id;
   String title;
-  List<Choice> choices;
+  List<ChoiceElement> choices;
   int sequence;
 
   Question({
@@ -306,8 +322,8 @@ class Question {
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
         title: json["title"],
-        choices:
-            List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
+        choices: List<ChoiceElement>.from(
+            json["choices"].map((x) => ChoiceElement.fromJson(x))),
         sequence: json["sequence"],
       );
 
@@ -319,33 +335,42 @@ class Question {
       };
 }
 
-class Choice {
+class ChoiceElement {
   String id;
-  String choice;
+  ChoiceEnum choice;
   String title;
-  bool isCorrect;
+  dynamic isCorrect;
 
-  Choice({
+  ChoiceElement({
     required this.id,
     required this.choice,
     required this.title,
     required this.isCorrect,
   });
 
-  factory Choice.fromJson(Map<String, dynamic> json) => Choice(
+  factory ChoiceElement.fromJson(Map<String, dynamic> json) => ChoiceElement(
         id: json["id"],
-        choice: json["choice"],
+        choice: choiceEnumValues.map[json["choice"]]!,
         title: json["title"],
         isCorrect: json["is_correct"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "choice": choice,
+        "choice": choiceEnumValues.reverse[choice],
         "title": title,
         "is_correct": isCorrect,
       };
 }
+
+enum ChoiceEnum { A, B, C, D }
+
+final choiceEnumValues = EnumValues({
+  "A": ChoiceEnum.A,
+  "B": ChoiceEnum.B,
+  "C": ChoiceEnum.C,
+  "D": ChoiceEnum.D
+});
 
 class FileClass {
   String title;
@@ -369,17 +394,57 @@ class FileClass {
 
 class Video {
   String id;
+  String assetId;
+  String name;
+  int fileSize;
+  int duration;
+  int durationMs;
+  String packType;
+  String codec;
+  String audioCodec;
+  String status;
+  String url;
 
   Video({
     required this.id,
+    required this.assetId,
+    required this.name,
+    required this.fileSize,
+    required this.duration,
+    required this.durationMs,
+    required this.packType,
+    required this.codec,
+    required this.audioCodec,
+    required this.status,
+    required this.url,
   });
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
         id: json["id"],
+        assetId: json["asset_id"],
+        name: json["name"],
+        fileSize: json["file_size"],
+        duration: json["duration"],
+        durationMs: json["duration_ms"],
+        packType: json["pack_type"],
+        codec: json["codec"],
+        audioCodec: json["audio_codec"],
+        status: json["status"],
+        url: json["url"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "asset_id": assetId,
+        "name": name,
+        "file_size": fileSize,
+        "duration": duration,
+        "duration_ms": durationMs,
+        "pack_type": packType,
+        "codec": codec,
+        "audio_codec": audioCodec,
+        "status": status,
+        "url": url,
       };
 }
 
@@ -387,6 +452,50 @@ enum Type { EXAM, FILE, VIDEO }
 
 final typeValues =
     EnumValues({"EXAM": Type.EXAM, "FILE": Type.FILE, "VIDEO": Type.VIDEO});
+
+class Instructor {
+  String id;
+  String workspaceId;
+  String title;
+  String firstName;
+  String lastName;
+  String email;
+  String avatar;
+  String description;
+
+  Instructor({
+    required this.id,
+    required this.workspaceId,
+    required this.title,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.avatar,
+    required this.description,
+  });
+
+  factory Instructor.fromJson(Map<String, dynamic> json) => Instructor(
+        id: json["id"],
+        workspaceId: json["workspace_id"],
+        title: json["title"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        email: json["email"],
+        avatar: json["avatar"],
+        description: json["description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "workspace_id": workspaceId,
+        "title": title,
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "avatar": avatar,
+        "description": description,
+      };
+}
 
 class Journey {
   List<String>? suitableFor;

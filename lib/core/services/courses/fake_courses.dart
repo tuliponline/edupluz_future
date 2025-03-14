@@ -2,17 +2,28 @@ import 'package:edupluz_future/core/models/courses/course_model.dart' as course;
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
 
 class FakeCourses {
-  static CoursesModel getCourses() {
+  static CoursesModel getCourses({int count = 19}) {
     return CoursesModel(
       code: "200",
       msg: "success",
       data: Data(
         items: List.generate(
-            19,
+            count,
             (index) => Item(
                   id: "course${index + 1}",
                   workspaceId: "workspace${index + 1}",
-                  instructorId: "instructor${index + 1}",
+                  instructor: Instructor(
+                    id: "instructor${index + 1}",
+                    workspaceId: "workspace${index + 1}",
+                    title: "Dr.",
+                    firstName: "Instructor",
+                    lastName: "${index + 1}",
+                    email: "instructor${index + 1}@example.com",
+                    avatar:
+                        "https://randomuser.me/api/portraits/men/${index + 1}.jpg",
+                    description:
+                        "Expert instructor with ${index + 5} years of experience",
+                  ),
                   categories: [
                     Category(
                         id: "cat${index % 5 + 1}",
@@ -53,7 +64,20 @@ class FakeCourses {
                                 isFree: lessonIndex == 0,
                                 sequence: lessonIndex + 1,
                                 content: Content(
-                                  video: Video(id: "video${lessonIndex + 1}"),
+                                  video: Video(
+                                    id: "video${lessonIndex + 1}",
+                                    assetId: "asset${lessonIndex + 1}",
+                                    name: "Video ${lessonIndex + 1}",
+                                    fileSize: 1024 * 1024 * (lessonIndex + 1),
+                                    duration: 60 * (lessonIndex + 1),
+                                    durationMs: 60000 * (lessonIndex + 1),
+                                    packType: "mp4",
+                                    codec: "h264",
+                                    audioCodec: "aac",
+                                    status: "ready",
+                                    url:
+                                        "https://example.com/video${lessonIndex + 1}.mp4",
+                                  ),
                                 ),
                               )),
                     ),
@@ -67,13 +91,19 @@ class FakeCourses {
                   releaseAt: DateTime.now().subtract(Duration(days: index * 5)),
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
+                  joined: index % 3 == 0,
+                  favorited: index % 4 == 0,
+                  expiredAt: DateTime.now()
+                      .add(Duration(days: 30 * (index + 1)))
+                      .toIso8601String(),
+                  isExpired: false,
                 )),
         meta: Meta(
-          itemCount: 19,
-          totalItems: 19,
+          itemCount: count,
+          totalItems: count,
           page: 1,
           limit: 20,
-          totalPages: 1,
+          totalPages: (count / 20).ceil(),
         ),
       ),
     );

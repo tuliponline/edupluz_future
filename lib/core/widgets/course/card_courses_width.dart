@@ -101,7 +101,7 @@ class CardCoursesWidth extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "${course.instructorId} ${course.instructorId}",
+                    "${course.instructor.firstName} ${course.instructor.lastName}",
                     style: AppTextStyles.bodySmall.copyWith(
                         overflow: TextOverflow.ellipsis,
                         color: AppColors.textPrimary),
