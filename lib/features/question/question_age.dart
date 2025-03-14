@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/app_size.dart';
+import 'package:edupluz_future/core/constant/app_size.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/features/question/widget/selector_age_item.dart';

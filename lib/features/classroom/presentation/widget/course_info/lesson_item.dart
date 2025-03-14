@@ -58,7 +58,7 @@ class LessonItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (lesson?.watched ?? false)
+                        if (lesson?.isFree ?? false)
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 9.5, vertical: 2),
@@ -78,10 +78,10 @@ class LessonItem extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     (isExam)
-                        ? "ความคืบหน้าการเรียน ${course.progress} %"
+                        ? "ความคืบหน้าการเรียน ${course.data.chapters.length} %"
                         : (isCer)
                             ? ""
-                            : formatDuration(lesson!.duration),
+                            : formatDuration(lesson!.sequence),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ],

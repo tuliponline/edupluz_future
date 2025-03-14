@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:edupluz_future/core/constant/app_env.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 import '../../../configs/alice_init.dart';
-import '../../../constant/app_env.dart';
+
 import '../../enums/enum_language.dart';
 
 // Create Alice instance

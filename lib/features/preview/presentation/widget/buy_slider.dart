@@ -57,7 +57,7 @@ class BuySlider extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "${course.netPrice} ฿",
+                      "${course.data.price} ฿",
                       style: AppTextStyles.h2,
                     )
                   ],
@@ -71,7 +71,7 @@ class BuySlider extends StatelessWidget {
   }
 
   Future<void> _launchUrl() async {
-    String url = "https://edupluz.com/preview/${course.slug}";
+    String url = "https://edupluz.com/preview/${course.data.slug}";
     Uri uri = Uri.parse(url);
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');

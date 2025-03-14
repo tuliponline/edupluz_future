@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:edupluz_future/constant/test_account.dart';
+import 'package:edupluz_future/core/constant/test_account.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';

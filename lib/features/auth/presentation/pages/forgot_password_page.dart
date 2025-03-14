@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/test_account.dart';
+import 'package:edupluz_future/core/constant/test_account.dart';
 import 'package:edupluz_future/core/models/auth/register_response_model.dart';
 import 'package:edupluz_future/core/services/auth/forgot_password.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';

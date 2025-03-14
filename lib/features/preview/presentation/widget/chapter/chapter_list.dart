@@ -32,7 +32,7 @@ class ChapterList extends StatelessWidget {
                       lesson: chapter[i].lessons[j],
                       course: course,
                     ),
-                    if (!course.joined && !chapter[i].lessons[j].free)
+                    if (!course.data.joined && !chapter[i].lessons[j].isFree)
                       Positioned(
                         top: 0,
                         bottom: 0,

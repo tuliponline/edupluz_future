@@ -23,7 +23,7 @@ class _PreviewPageState extends State<PreviewPage> {
 
   _fetchCourseFavolite() async {
     await fetchFavoriteCourse(context,
-        courseId: widget.courseId, isFavorite: course?.favorited ?? false);
+        courseId: widget.courseId, isFavorite: course?.data.favorited ?? false);
     await _fetchCourseById();
   }
 
@@ -67,11 +67,12 @@ class _PreviewPageState extends State<PreviewPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(course?.name ?? "", style: AppTextStyles.h4),
+                        Text(course?.data.title ?? "", style: AppTextStyles.h4),
                         const SizedBox(height: 16),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: BetterPlayerScreen(url: course?.teaser ?? ""),
+                          child: BetterPlayerScreen(
+                              url: course?.data.teaser ?? ""),
                         ),
                         const SizedBox(height: 16),
                         ChipItem(
@@ -83,14 +84,14 @@ class _PreviewPageState extends State<PreviewPage> {
                         CourseInfo(course: course!),
                         const SizedBox(height: 16),
                         ChapterList(
-                          chapter: course?.chapters ?? [],
+                          chapter: course?.data.chapters ?? [],
                           course: course!,
                         ),
                       ],
                     ),
                   ),
                 ),
-                if (course?.joined == false) BuySlider(course: course!)
+                if (course?.data.joined == false) BuySlider(course: course!)
               ],
             ),
           );

@@ -1,4 +1,4 @@
-import 'package:edupluz_future/constant/app_size.dart';
+import 'package:edupluz_future/core/constant/app_size.dart';
 import 'package:edupluz_future/core/services/storages/storage_services.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';

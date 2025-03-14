@@ -1,5 +1,5 @@
 class ApiPath {
-  static String users = "/users";
+  static String users = "/account/user/v1/users";
   static String userMe = "/account/user/v1/users/me";
 
   static String categories =
@@ -38,6 +38,6 @@ class ApiPath {
   static const String resendEmail = '/account/auth/v1/auth/email/resend';
 
   //account
-  static const String user = "/account/user/v1/user";
+
   static const String addresss = "/account/address/v1/addresses";
 }

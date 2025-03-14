@@ -17,7 +17,7 @@ class ChipItem extends StatelessWidget {
 
   int _findTotalLesson() {
     int total = 0;
-    for (var chapter in course.chapters) {
+    for (var chapter in course.data.chapters) {
       total += chapter.lessons.length;
     }
     return total;
@@ -45,7 +45,7 @@ class ChipItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  formatDuration(course.duration),
+                  formatDuration(course.data.chapters.length),
                   style: AppTextStyles.bodySmall
                       .copyWith(color: AppColors.primary),
                 ),
@@ -89,8 +89,8 @@ class ChipItem extends StatelessWidget {
               color: AppColors.primary.withValues(alpha: 0.2),
             ),
             child: Icon(
-              course.favorited ? Icons.bookmark : Icons.bookmark_outline,
-              color: course.favorited
+              course.data.favorited ? Icons.bookmark : Icons.bookmark_outline,
+              color: course.data.favorited
                   ? AppColors.primary
                   : AppColors.textSecondary,
               size: 16,
@@ -99,7 +99,7 @@ class ChipItem extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () async {
-            String url = "https://edupluz.com/preview/${course.slug}";
+            String url = "https://edupluz.com/preview/${course.data.slug}";
             await Clipboard.setData(ClipboardData(text: url));
             if (Platform.isIOS) {
               // ignore: use_build_context_synchronously

@@ -21,7 +21,7 @@ class CourseInfo extends StatelessWidget {
               scale: a1.value,
               child: Opacity(
                 opacity: a1.value,
-                child: InstructorDetail(instructor: course.instructor),
+                child: InstructorDetail(instructor: course.data.instructor),
               ),
             );
           },
@@ -52,7 +52,7 @@ class CourseInfo extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(999),
                         child: CachedNetworkImage(
-                          imageUrl: course.instructor.avatar,
+                          imageUrl: course.data.instructor.avatar,
                           placeholder: (context, url) => Container(
                               height: 40, width: 40, color: Colors.black),
                           errorWidget: (context, url, error) =>
@@ -70,7 +70,7 @@ class CourseInfo extends StatelessWidget {
                             spacing: 10,
                             children: [
                               Text(
-                                "${course.instructor.firstName} ${course.instructor.lastName}",
+                                "${course.data.instructor.firstName} ${course.data.instructor.lastName}",
                                 style: AppTextStyles.bodySmall,
                               ),
                               const Icon(
@@ -81,7 +81,7 @@ class CourseInfo extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            course.instructor.description,
+                            course.data.instructor.description,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.bodySmall,
@@ -93,7 +93,7 @@ class CourseInfo extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  course.description,
+                  course.data.description,
                   style: AppTextStyles.bodySmall,
                 ),
               ],

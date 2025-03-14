@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:edupluz_future/constant/app_env.dart';
+import 'package:edupluz_future/core/constant/app_env.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 

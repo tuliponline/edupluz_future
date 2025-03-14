@@ -10,7 +10,7 @@ class CourseProgress extends StatelessWidget {
 
   int _findTotalLesson() {
     int total = 0;
-    for (var chapter in course.chapters) {
+    for (var chapter in course.data.chapters) {
       total += chapter.lessons.length;
     }
     return total;
@@ -18,9 +18,9 @@ class CourseProgress extends StatelessWidget {
 
   int _findCourseWatched() {
     int watched = 0;
-    for (var chapter in course.chapters) {
+    for (var chapter in course.data.chapters) {
       for (var lesson in chapter.lessons) {
-        watched += lesson.watched ? 1 : 0;
+        watched += lesson.isFree ? 1 : 0;
       }
     }
     return watched;
@@ -42,7 +42,7 @@ class CourseProgress extends StatelessWidget {
                   color: AppColors.primary,
                   backgroundColor:
                       AppColors.iconDisabled.withValues(alpha: 0.3),
-                  value: course.progress / 100,
+                  value: course.data.chapters.length / 100,
                 ),
               ),
               Positioned(
@@ -71,7 +71,7 @@ class CourseProgress extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                "${formatDuration(course.duration)} | ${_findTotalLesson()} บทเรียน",
+                "${formatDuration(course.data.chapters.length)} | ${_findTotalLesson()} บทเรียน",
                 style: AppTextStyles.bodyMedium.copyWith(
                   fontWeight: FontWeight.w600,
                 ),

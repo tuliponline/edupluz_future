@@ -162,12 +162,16 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                   Text('สวัสดี',
                                       style: AppTextStyles.bodyMedium.copyWith(
                                           fontWeight: FontWeight.w500)),
-                                  Text(
-                                      meData.data.firstName == ""
-                                          ? "สมาชิก Edupluz"
-                                          : '${meData.data.firstName} ${meData.data.lastName}',
-                                      style:
-                                          AppTextStyles.h4.copyWith(height: 2)),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    child: Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        meData.data.firstName == ""
+                                            ? "สมาชิก Edupluz"
+                                            : '${meData.data.firstName} ${meData.data.lastName}',
+                                        style: AppTextStyles.h4.copyWith()),
+                                  ),
                                 ],
                               ),
                         SizedBox(

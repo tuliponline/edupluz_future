@@ -21,25 +21,25 @@ class ChapterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (course.joined) {
+        if (course.data.joined) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ClassroomPage(
-                  courseId: course.id,
+                  courseId: course.data.id,
                   chapterId: chapter.id,
                   lessonId: lesson.id),
             ),
           );
-        } else if (lesson.free) {
+        } else if (lesson.isFree) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ClassroomPage(
-                  courseId: course.id,
+                  courseId: course.data.id,
                   chapterId: chapter.id,
                   lessonId: lesson.id,
-                  isFree: lesson.free),
+                  isFree: lesson.isFree),
             ),
           );
         }
@@ -68,7 +68,7 @@ class ChapterItem extends StatelessWidget {
                         style: AppTextStyles.bodyLarge,
                       ),
                       const SizedBox(width: 8),
-                      if (lesson.free)
+                      if (lesson.isFree)
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 9.5, vertical: 2),
@@ -87,7 +87,7 @@ class ChapterItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  formatDurationLesson(lesson.duration),
+                  formatDurationLesson(lesson.sequence),
                   style: AppTextStyles.bodySmall,
                 ),
               ],
@@ -99,7 +99,7 @@ class ChapterItem extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                lesson.free || course.joined
+                lesson.isFree || course.data.joined
                     ? LucideIcons.play
                     : LucideIcons.lock,
                 color: Colors.white,

@@ -79,12 +79,12 @@ class _LessonsListState extends State<LessonsList> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: (widget.hasExam)
-                      ? widget.course.chapters.length + 2
-                      : widget.course.chapters.length,
+                      ? widget.course.data.chapters.length + 2
+                      : widget.course.data.chapters.length,
                   itemBuilder: (context, i) {
                     // ignore: curly_braces_in_flow_control_structures
                     if (widget.hasExam &&
-                        i == widget.course.chapters.length + 1) {
+                        i == widget.course.data.chapters.length + 1) {
                       return GestureDetector(
                         onTap: () {
                           widget.onCerTap();
@@ -97,7 +97,8 @@ class _LessonsListState extends State<LessonsList> {
                       );
                     }
 
-                    if (widget.hasExam && i == widget.course.chapters.length) {
+                    if (widget.hasExam &&
+                        i == widget.course.data.chapters.length) {
                       return GestureDetector(
                         onTap: () {
                           widget.onExamTap();
@@ -112,22 +113,22 @@ class _LessonsListState extends State<LessonsList> {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: widget.course.chapters[i].lessons.length,
+                      itemCount: widget.course.data.chapters[i].lessons.length,
                       itemBuilder: (context, j) {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              chapterId = widget.course.chapters[i].id;
+                              chapterId = widget.course.data.chapters[i].id;
                               lessonId =
-                                  widget.course.chapters[i].lessons[j].id;
+                                  widget.course.data.chapters[i].lessons[j].id;
                             });
                             widget.onLessonClick(chapterId, lessonId);
                           },
                           child: LessonItem(
                             course: widget.course,
-                            lesson: widget.course.chapters[i].lessons[j],
+                            lesson: widget.course.data.chapters[i].lessons[j],
                             isHighlighted: lessonId ==
-                                widget.course.chapters[i].lessons[j].id,
+                                widget.course.data.chapters[i].lessons[j].id,
                           ),
                         );
                       },

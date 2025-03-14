@@ -61,7 +61,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   _fetchCourseById() async {
     if (widget.courseId != "") {
       course = await fetchCourseById(id: widget.courseId);
-      Logger().d("course Progress: ${course!.progress}");
     }
 
     setState(() {});
@@ -93,7 +92,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
       isLoading = true;
     });
 
-    pdfCourseFile = await fetchCourseFile(course?.slug ?? "");
+    pdfCourseFile = await fetchCourseFile(course?.data.slug ?? "");
 
     setState(() {
       isLoading = false;
@@ -101,7 +100,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   }
 
   _findIndexAtId() {
-    course!.chapters.asMap().forEach((i, chapter) {
+    course!.data.chapters.asMap().forEach((i, chapter) {
       if (chapter.id == chapterId) {
         chapterIndex = i;
       }
@@ -128,7 +127,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   _goToExam() async {
     if (examinationKey != null &&
         examinationCheck != null &&
-        course!.progress >= 100) {
+        course!.data.chapters.length >= 100) {
       if (!examinationCheck!.data.passed == false || true) {
         EasyLoading.show();
         Logger().i("ทำแบบทดสอบ");
@@ -156,24 +155,22 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
 
   _nextLesson() async {
     EasyLoading.dismiss();
-    if (lessonIndex < course!.chapters[chapterIndex].lessons.length - 1) {
+    if (lessonIndex < course!.data.chapters[chapterIndex].lessons.length - 1) {
       setState(() {
-        chapterId = course!.chapters[chapterIndex].id;
-        lessonId = course!.chapters[chapterIndex].lessons[lessonIndex + 1].id;
+        chapterId = course!.data.chapters[chapterIndex].id;
+        lessonId =
+            course!.data.chapters[chapterIndex].lessons[lessonIndex + 1].id;
         _fetchCourseContentWithVideo();
         _findIndexAtId();
       });
-    } else if (chapterIndex < course!.chapters.length - 1) {
+    } else if (chapterIndex < course!.data.chapters.length - 1) {
       setState(() {
-        chapterId = course!.chapters[chapterIndex + 1].id;
-        lessonId = course!.chapters[chapterIndex + 1].lessons[0].id;
+        chapterId = course!.data.chapters[chapterIndex + 1].id;
+        lessonId = course!.data.chapters[chapterIndex + 1].lessons[0].id;
         _fetchCourseContentWithVideo();
         _findIndexAtId();
       });
     } else {
-      Logger().d("course progress: ${course!.progress}");
-      Logger().d("End of course");
-
       _goToExam();
 
       // setState(() {
@@ -320,14 +317,14 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                               if (pdfCourseFile != null && !widget.isFree)
                                 const SizedBox(width: 8),
                               if (pdfCourseFile != null && !widget.isFree)
-                                DownloadFile(slug: course?.slug ?? ""),
+                                DownloadFile(slug: course?.data.slug ?? ""),
                             ],
                           ),
                         ),
                         if (pdfCourseFile != null && !widget.isFree)
                           PdfView(pdfCourseFile: pdfCourseFile ?? ""),
                         if (pdfCourseFile == null) const Spacer(),
-                        if (!widget.isFree || course!.joined)
+                        if (!widget.isFree || course!.data.joined)
                           CourseContent(
                             onCerTap: () async {
                               EasyLoading.show();
@@ -359,7 +356,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                               EasyLoading.show();
                               await _fetchExaminationKey();
                               EasyLoading.dismiss();
-                              if (course!.progress < 100 ||
+                              if (course!.data.chapters.length < 100 ||
                                   examinationCheck!.data.passed) {
                                 Logger().e("ความคืบหน้าต้องครบ 100%");
                                 await showDialog(

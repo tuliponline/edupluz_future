@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
+import 'package:edupluz_future/core/services/user/get_user_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
@@ -29,8 +30,22 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   TextEditingController lastName = TextEditingController();
   File? imageFile;
   String? base64Image;
+  String? imageUrl;
 
   bool isBack = false;
+
+  _initUserDate() async {
+    EasyLoading.show();
+    await getUserService(ref);
+    name.text = ref.read(userProvider)?.data.firstName ?? "";
+    lastName.text = ref.read(userProvider)?.data.lastName ?? "";
+    imageUrl = ref.read(userProvider)?.data.avatar == ""
+        ? null
+        : ref.read(userProvider)?.data.avatar;
+
+    setState(() {});
+    EasyLoading.dismiss();
+  }
 
   _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(
@@ -52,12 +67,15 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   @override
   void initState() {
+    _initUserDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final GetUser200Response? meData = ref.watch(userProvider);
+
+    Logger().d("imageUrl: $imageUrl");
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -130,11 +148,13 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
+                                  EasyLoading.show();
                                   bool result = await updateProfile(
                                       picture: base64Image ?? "",
                                       name: name.text,
                                       lastName: lastName.text,
                                       ref: ref);
+                                  EasyLoading.dismiss();
                                   if (result) {
                                     // fetchUserMe(ref);
 
