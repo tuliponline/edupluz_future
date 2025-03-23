@@ -1,8 +1,8 @@
 import 'package:edupluz_future/core/enums/courses_enum.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
-import 'package:edupluz_future/core/services/courses/fetch_courses_%20favorites.dart';
-import 'package:edupluz_future/core/services/courses/fetch_courses_%20joinings.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_corperate.dart';
+import 'package:edupluz_future/core/services/courses/fetch_courses_favorites.dart';
+import 'package:edupluz_future/core/services/courses/fetch_courses_joinings.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/course/my_courses/my_courses_filter_menu.dart';
@@ -91,7 +91,9 @@ class _ListCoursesByCatLandscapeState
   _updateMycoursesFilter(int index) async {
     if (index != indexSelectesd) {
       coursesModel = null;
+
       items.clear();
+      if (mounted) setState(() {});
       indexSelectesd = index;
       page = 1;
       await _fetchCourses();
@@ -184,7 +186,12 @@ class _ListCoursesByCatLandscapeState
                           },
                         ),
                       )
-                    : Container()),
+                    : Container(
+                        height: widget.showDetail ? 185 : 130,
+                        child: const Center(
+                          child: Text("ไม่มีคอร์สในหมวดหมู่นี้"),
+                        ),
+                      )),
         const SizedBox(height: 24),
       ],
     );

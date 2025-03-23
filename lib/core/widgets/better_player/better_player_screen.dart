@@ -20,10 +20,7 @@ class _BetterPlayerScreenState extends State<BetterPlayerScreen> {
   _initPlayer() {
     _betterPlayerController = BetterPlayerController(
       PlayerConfig.betterPlayerControlsConfiguration,
-      betterPlayerDataSource: PlayerDataSorce(
-              url:
-                  "https://edupluz-demoud20fpf.stream-playlist.byteark.com/streams/Ud21H0Mvz8V0/playlist.m3u8")
-          .dataSource,
+      betterPlayerDataSource: PlayerDataSorce(url: widget.url).dataSource,
     );
 
     if (widget.betterPlayerController != null) {
@@ -39,6 +36,7 @@ class _BetterPlayerScreenState extends State<BetterPlayerScreen> {
 
   @override
   void dispose() {
+    _betterPlayerController?.pause();
     _betterPlayerController?.dispose();
     super.dispose();
   }

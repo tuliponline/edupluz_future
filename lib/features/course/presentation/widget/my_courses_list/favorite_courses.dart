@@ -1,6 +1,6 @@
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
-import 'package:edupluz_future/core/services/courses/fetch_courses_%20favorites.dart';
-import 'package:edupluz_future/core/services/courses/fetch_courses_%20joinings.dart';
+import 'package:edupluz_future/core/services/courses/fetch_courses_favorites.dart';
+import 'package:edupluz_future/core/services/courses/fetch_courses_joinings.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_corperate.dart';
 import 'package:edupluz_future/features/course_by_category/presentation/widget/course_card.dart';
 import 'package:flutter/material.dart';

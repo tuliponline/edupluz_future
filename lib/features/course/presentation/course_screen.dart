@@ -1,9 +1,11 @@
 import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
+import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_random.dart';
 import 'package:edupluz_future/core/widgets/course/my_courses/list_my_courses_landscape.dart';
+import 'package:edupluz_future/core/widgets/toast/snack_bar.dart';
 import 'package:edupluz_future/features/course/presentation/widget/categories_menu_list_loading.dart';
 import 'package:edupluz_future/features/course/presentation/widget/catrgory_menu.dart';
 import 'package:edupluz_future/features/course_by_category/presentation/course_by_category_screen.dart';
@@ -152,18 +154,25 @@ class _CourseScreenState extends ConsumerState<CourseScreen> {
                       category: catagories!.data.items[index],
                       categorySelectes: categorySelectes,
                       onTap: (value) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return CourseByCategoryScreen(
-                                categoryName:
-                                    catagories!.data.items[index].name,
-                                categoryId: catagories!.data.items[index].id,
-                              );
-                            },
-                          ),
-                        );
+                        if (catagories!.data.items[index].count > 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CourseByCategoryScreen(
+                                  categoryName:
+                                      catagories!.data.items[index].name,
+                                  categoryId: catagories!.data.items[index].id,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          toast(context,
+                              text: "ไม่มีคอร์สในหมวดหมู่นี้",
+                              style: AppTextStyles.bodyMedium
+                                  .copyWith(color: AppColors.primary));
+                        }
                       },
                     ),
               (index == catagories!.data.items.length - 1)

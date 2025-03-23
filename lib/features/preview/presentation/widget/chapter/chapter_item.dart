@@ -1,3 +1,4 @@
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:edupluz_future/core/constant/app_size.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -11,16 +12,20 @@ class ChapterItem extends StatelessWidget {
   final Chapter chapter;
   final Lesson lesson;
   final CourseModel course;
+  final Function() playPause;
   const ChapterItem(
       {super.key,
       required this.lesson,
       required this.chapter,
-      required this.course});
+      required this.course,
+      required this.playPause});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        playPause();
+
         if (course.data.joined) {
           Navigator.push(
             context,
@@ -31,7 +36,7 @@ class ChapterItem extends StatelessWidget {
                   lessonId: lesson.id),
             ),
           );
-        } else if (lesson.isFree) {
+        } else if (course.data.isFree || lesson.isFree) {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -39,7 +44,7 @@ class ChapterItem extends StatelessWidget {
                   courseId: course.data.id,
                   chapterId: chapter.id,
                   lessonId: lesson.id,
-                  isFree: lesson.isFree),
+                  isFree: course.data.isFree || lesson.isFree),
             ),
           );
         }
@@ -87,7 +92,7 @@ class ChapterItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  formatDurationLesson(lesson.sequence),
+                  formatDurationLesson(lesson.content.video?.durationMs ?? 0),
                   style: AppTextStyles.bodySmall,
                 ),
               ],
@@ -98,13 +103,21 @@ class ChapterItem extends StatelessWidget {
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                lesson.isFree || course.data.joined
-                    ? LucideIcons.play
-                    : LucideIcons.lock,
-                color: Colors.white,
-                size: 16,
-              ),
+              child: (lesson.type == "VIDEO")
+                  ? Icon(
+                      course.data.isFree || lesson.isFree || course.data.joined
+                          ? LucideIcons.play
+                          : LucideIcons.lock,
+                      color: Colors.white,
+                      size: 16,
+                    )
+                  : Icon(
+                      course.data.isFree || lesson.isFree || course.data.joined
+                          ? LucideIcons.file
+                          : LucideIcons.lock,
+                      color: Colors.white,
+                      size: 16,
+                    ),
             )
           ],
         ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/api/public_api_service.dart';
@@ -13,8 +11,7 @@ Future<GetCategories200Response> fetchCategories(
     String categoryData = await PublicApiService().get(path: finalPath);
     GetCategories200Response catagoriesData =
         getCategories200ResponseFromJson(categoryData);
-    Logger()
-        .d("catagories length: ${jsonEncode(catagoriesData.data.items[0])}");
+
     return catagoriesData;
   } catch (e) {
     Logger().e(e);

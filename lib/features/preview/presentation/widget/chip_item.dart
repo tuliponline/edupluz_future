@@ -8,6 +8,7 @@ import 'package:edupluz_future/core/widgets/toast/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:logger/web.dart';
 
 class ChipItem extends StatelessWidget {
   final CourseModel course;
@@ -25,6 +26,7 @@ class ChipItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Logger().d(course.data.id);
     return Wrap(
       spacing: 8,
       children: [
@@ -103,7 +105,10 @@ class ChipItem extends StatelessWidget {
             await Clipboard.setData(ClipboardData(text: url));
             if (Platform.isIOS) {
               // ignore: use_build_context_synchronously
-              toast(context, text: "คัดลอกไปยังคลิปบอร์ดแล้ว");
+              toast(context,
+                  text: "คัดลอกไปยังคลิปบอร์ดแล้ว",
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: AppColors.primary));
             }
           },
           child: Container(

@@ -48,17 +48,26 @@ class BuySlider extends StatelessWidget {
                     const Spacer(),
                     Text(
                       "> > >",
-                      style: AppTextStyles.h2,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.background,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 8),
                     Text(
                       "สไลด์เพื่อซื้อคอร์สนี้",
-                      style: AppTextStyles.h2,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.background,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     Text(
-                      "${course.data.price} ฿",
-                      style: AppTextStyles.h2,
+                      "฿ ${course.data.price}",
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.background,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),

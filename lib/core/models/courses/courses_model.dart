@@ -109,33 +109,33 @@ class Item {
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-        id: json["id"],
-        workspaceId: json["workspace_id"],
+        id: json["id"] ?? "",
+        workspaceId: json["workspace_id"] ?? "",
         instructor: Instructor.fromJson(json["instructor"]),
         categories: List<Category>.from(
             json["categories"].map((x) => Category.fromJson(x))),
-        title: json["title"],
-        subTitle: json["sub_title"],
-        slug: json["slug"],
-        description: json["description"],
+        title: json["title"] ?? "",
+        subTitle: json["sub_title"] ?? "",
+        slug: json["slug"] ?? "",
+        description: json["description"] ?? "",
         thumbnail: Thumbnail.fromJson(json["thumbnail"]),
-        cover: json["cover"],
+        cover: json["cover"] ?? "",
         journey: Journey.fromJson(json["journey"]),
         chapters: List<Chapter>.from(
             json["chapters"].map((x) => Chapter.fromJson(x))),
-        rating: json["rating"]?.toDouble(),
-        status: json["status"],
-        price: json["price"]?.toDouble(),
-        isMastery: json["is_mastery"],
-        isFree: json["is_free"],
-        teaser: json["teaser"],
+        rating: json["rating"]?.toDouble() ?? 0,
+        status: json["status"] ?? "",
+        price: json["price"]?.toDouble() ?? 0,
+        isMastery: json["is_mastery"] ?? false,
+        isFree: json["is_free"] ?? false,
+        teaser: json["teaser"] ?? "",
         releaseAt: DateTime.parse(json["release_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        joined: json["joined"],
-        favorited: json["favorited"],
-        expiredAt: json["expired_at"],
-        isExpired: json["is_expired"],
+        joined: json["joined"] ?? false,
+        favorited: json["favorited"] ?? false,
+        expiredAt: json["expired_at"] ?? "",
+        isExpired: json["is_expired"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -181,9 +181,9 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        description: json["description"] ?? "",
         subCategories: json["sub_categories"] == null
             ? []
             : List<Category>.from(
@@ -214,9 +214,9 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) => Chapter(
-        id: json["id"],
-        name: json["name"],
-        sequence: json["sequence"],
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        sequence: json["sequence"] ?? 0,
         lessons:
             List<Lesson>.from(json["lessons"].map((x) => Lesson.fromJson(x))),
       );
@@ -247,11 +247,11 @@ class Lesson {
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
-        id: json["id"],
+        id: json["id"] ?? "",
         type: typeValues.map[json["type"]]!,
-        name: json["name"],
-        isFree: json["is_free"],
-        sequence: json["sequence"],
+        name: json["name"] ?? "",
+        isFree: json["is_free"] ?? false,
+        sequence: json["sequence"] ?? 0,
         content: Content.fromJson(json["content"]),
       );
 
@@ -320,11 +320,11 @@ class Question {
   });
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
-        id: json["id"],
-        title: json["title"],
+        id: json["id"] ?? "",
+        title: json["title"] ?? "",
         choices: List<ChoiceElement>.from(
             json["choices"].map((x) => ChoiceElement.fromJson(x))),
-        sequence: json["sequence"],
+        sequence: json["sequence"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -349,10 +349,10 @@ class ChoiceElement {
   });
 
   factory ChoiceElement.fromJson(Map<String, dynamic> json) => ChoiceElement(
-        id: json["id"],
+        id: json["id"] ?? "",
         choice: choiceEnumValues.map[json["choice"]]!,
-        title: json["title"],
-        isCorrect: json["is_correct"],
+        title: json["title"] ?? "",
+        isCorrect: json["is_correct"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -382,8 +382,8 @@ class FileClass {
   });
 
   factory FileClass.fromJson(Map<String, dynamic> json) => FileClass(
-        title: json["title"],
-        url: json["url"],
+        title: json["title"] ?? "",
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -420,17 +420,17 @@ class Video {
   });
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-        id: json["id"],
-        assetId: json["asset_id"],
-        name: json["name"],
-        fileSize: json["file_size"],
-        duration: json["duration"],
-        durationMs: json["duration_ms"],
-        packType: json["pack_type"],
-        codec: json["codec"],
-        audioCodec: json["audio_codec"],
-        status: json["status"],
-        url: json["url"],
+        id: json["id"] ?? "",
+        assetId: json["asset_id"] ?? "",
+        name: json["name"] ?? "",
+        fileSize: json["file_size"] ?? 0,
+        duration: json["duration"] ?? 0,
+        durationMs: json["duration_ms"] ?? 0,
+        packType: json["pack_type"] ?? "",
+        codec: json["codec"] ?? "",
+        audioCodec: json["audio_codec"] ?? "",
+        status: json["status"] ?? "",
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -475,14 +475,14 @@ class Instructor {
   });
 
   factory Instructor.fromJson(Map<String, dynamic> json) => Instructor(
-        id: json["id"],
-        workspaceId: json["workspace_id"],
-        title: json["title"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        email: json["email"],
-        avatar: json["avatar"],
-        description: json["description"],
+        id: json["id"] ?? "",
+        workspaceId: json["workspace_id"] ?? "",
+        title: json["title"] ?? "",
+        firstName: json["first_name"] ?? "",
+        lastName: json["last_name"] ?? "",
+        email: json["email"] ?? "",
+        avatar: json["avatar"] ?? "",
+        description: json["description"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -534,8 +534,8 @@ class Thumbnail {
   });
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
-        horizontal: json["horizontal"],
-        vertical: json["vertical"],
+        horizontal: json["horizontal"] ?? "",
+        vertical: json["vertical"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -560,11 +560,11 @@ class Meta {
   });
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        page: json["page"],
-        limit: json["limit"],
-        itemCount: json["item_count"],
-        totalPages: json["total_pages"],
-        totalItems: json["total_items"],
+        page: json["page"] ?? 0,
+        limit: json["limit"] ?? 0,
+        itemCount: json["item_count"] ?? 0,
+        totalPages: json["total_pages"] ?? 0,
+        totalItems: json["total_items"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,3 +1,4 @@
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -18,8 +19,9 @@ class PreviewPage extends StatefulWidget {
   State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage> {
+class _PreviewPageState extends State<PreviewPage> with WidgetsBindingObserver {
   CourseModel? course;
+  BetterPlayerController? _playerController;
 
   _fetchCourseFavolite() async {
     await fetchFavoriteCourse(context,
@@ -34,10 +36,31 @@ class _PreviewPageState extends State<PreviewPage> {
     setState(() {});
   }
 
+  void playPause() {
+    if (_playerController?.isPlaying() ?? false) {
+      _playerController?.pause();
+    }
+  }
+
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     _fetchCourseById();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _playerController?.pause();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _playerController?.pause();
+    }
   }
 
   @override
@@ -72,7 +95,10 @@ class _PreviewPageState extends State<PreviewPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: BetterPlayerScreen(
-                              url: course?.data.teaser ?? ""),
+                              url: course?.data.teaser ?? "",
+                              betterPlayerController: (controller) {
+                                _playerController = controller;
+                              }),
                         ),
                         const SizedBox(height: 16),
                         ChipItem(
@@ -84,6 +110,7 @@ class _PreviewPageState extends State<PreviewPage> {
                         CourseInfo(course: course!),
                         const SizedBox(height: 16),
                         ChapterList(
+                          playPause: playPause,
                           chapter: course?.data.chapters ?? [],
                           course: course!,
                         ),
@@ -91,7 +118,9 @@ class _PreviewPageState extends State<PreviewPage> {
                     ),
                   ),
                 ),
-                if (course?.data.joined == false) BuySlider(course: course!)
+                if (course?.data.joined == false &&
+                    course?.data.isFree == false)
+                  BuySlider(course: course!)
               ],
             ),
           );

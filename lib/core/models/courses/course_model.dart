@@ -89,33 +89,37 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        workspaceId: json["workspace_id"],
+        id: json["id"] ?? "",
+        workspaceId: json["workspace_id"] ?? "",
         instructor: Instructor.fromJson(json["instructor"]),
-        categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
-        title: json["title"],
-        subTitle: json["sub_title"],
-        slug: json["slug"],
-        description: json["description"],
+        categories: json["categories"] == null
+            ? []
+            : List<Category>.from(
+                json["categories"].map((x) => Category.fromJson(x))),
+        title: json["title"] ?? "",
+        subTitle: json["sub_title"] ?? "",
+        slug: json["slug"] ?? "",
+        description: json["description"] ?? "",
         thumbnail: Thumbnail.fromJson(json["thumbnail"]),
-        cover: json["cover"],
+        cover: json["cover"] ?? "",
         journey: Journey.fromJson(json["journey"]),
-        chapters: List<Chapter>.from(
-            json["chapters"].map((x) => Chapter.fromJson(x))),
-        rating: json["rating"]?.toDouble(),
-        status: json["status"],
-        price: json["price"]?.toDouble(),
-        isMastery: json["is_mastery"],
-        isFree: json["is_free"],
-        teaser: json["teaser"],
+        chapters: json["chapters"] == null
+            ? []
+            : List<Chapter>.from(
+                json["chapters"].map((x) => Chapter.fromJson(x))),
+        rating: json["rating"]?.toDouble() ?? 0,
+        status: json["status"] ?? "",
+        price: json["price"]?.toDouble() ?? 0,
+        isMastery: json["is_mastery"] ?? false,
+        isFree: json["is_free"] ?? false,
+        teaser: json["teaser"] ?? "",
         releaseAt: DateTime.parse(json["release_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        joined: json["joined"],
-        favorited: json["favorited"],
-        expiredAt: json["expired_at"],
-        isExpired: json["is_expired"],
+        joined: json["joined"] ?? false,
+        favorited: json["favorited"] ?? false,
+        expiredAt: json["expired_at"] ?? "",
+        isExpired: json["is_expired"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -161,9 +165,9 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        description: json["description"] ?? "",
         subCategories: json["sub_categories"] == null
             ? []
             : List<Category>.from(
@@ -194,11 +198,12 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) => Chapter(
-        id: json["id"],
-        name: json["name"],
-        sequence: json["sequence"],
-        lessons:
-            List<Lesson>.from(json["lessons"].map((x) => Lesson.fromJson(x))),
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        sequence: json["sequence"] ?? 0,
+        lessons: json["lessons"] == null
+            ? []
+            : List<Lesson>.from(json["lessons"].map((x) => Lesson.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -227,11 +232,11 @@ class Lesson {
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
-        id: json["id"],
-        type: json["type"],
-        name: json["name"],
-        isFree: json["is_free"],
-        sequence: json["sequence"],
+        id: json["id"] ?? "",
+        type: json["type"] ?? "",
+        name: json["name"] ?? "",
+        isFree: json["is_free"] ?? false,
+        sequence: json["sequence"] ?? 0,
         content: Content.fromJson(json["content"]),
       );
 
@@ -300,11 +305,12 @@ class Question {
   });
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
-        id: json["id"],
-        title: json["title"],
-        choices:
-            List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
-        sequence: json["sequence"],
+        id: json["id"] ?? "",
+        title: json["title"] ?? "",
+        choices: json["choices"] == null
+            ? []
+            : List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
+        sequence: json["sequence"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -329,10 +335,10 @@ class Choice {
   });
 
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
-        id: json["id"],
-        choice: json["choice"],
-        title: json["title"],
-        isCorrect: json["is_correct"],
+        id: json["id"] ?? "",
+        choice: json["choice"] ?? "",
+        title: json["title"] ?? "",
+        isCorrect: json["is_correct"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -353,8 +359,8 @@ class FileClass {
   });
 
   factory FileClass.fromJson(Map<String, dynamic> json) => FileClass(
-        title: json["title"],
-        url: json["url"],
+        title: json["title"] ?? "",
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -391,17 +397,17 @@ class Video {
   });
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-        id: json["id"],
-        assetId: json["asset_id"],
-        name: json["name"],
-        fileSize: json["file_size"],
-        duration: json["duration"],
-        durationMs: json["duration_ms"],
-        packType: json["pack_type"],
-        codec: json["codec"],
-        audioCodec: json["audio_codec"],
-        status: json["status"],
-        url: json["url"],
+        id: json["id"] ?? "",
+        assetId: json["asset_id"] ?? "",
+        name: json["name"] ?? "",
+        fileSize: json["file_size"] ?? 0,
+        duration: json["duration"] ?? 0,
+        durationMs: json["duration_ms"] ?? 0,
+        packType: json["pack_type"] ?? "",
+        codec: json["codec"] ?? "",
+        audioCodec: json["audio_codec"] ?? "",
+        status: json["status"] ?? "",
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -441,14 +447,14 @@ class Instructor {
   });
 
   factory Instructor.fromJson(Map<String, dynamic> json) => Instructor(
-        id: json["id"],
-        workspaceId: json["workspace_id"],
-        title: json["title"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        email: json["email"],
-        avatar: json["avatar"],
-        description: json["description"],
+        id: json["id"] ?? "",
+        workspaceId: json["workspace_id"] ?? "",
+        title: json["title"] ?? "",
+        firstName: json["first_name"] ?? "",
+        lastName: json["last_name"] ?? "",
+        email: json["email"] ?? "",
+        avatar: json["avatar"] ?? "",
+        description: json["description"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -473,8 +479,12 @@ class Journey {
   });
 
   factory Journey.fromJson(Map<String, dynamic> json) => Journey(
-        suitableFor: List<String>.from(json["suitable_for"].map((x) => x)),
-        outcomes: List<String>.from(json["outcomes"].map((x) => x)),
+        suitableFor: json["suitable_for"] == null
+            ? []
+            : List<String>.from(json["suitable_for"].map((x) => x)),
+        outcomes: json["outcomes"] == null
+            ? []
+            : List<String>.from(json["outcomes"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -493,8 +503,8 @@ class Thumbnail {
   });
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
-        horizontal: json["horizontal"],
-        vertical: json["vertical"],
+        horizontal: json["horizontal"] ?? "",
+        vertical: json["vertical"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

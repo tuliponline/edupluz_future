@@ -21,6 +21,6 @@ Future<CoursesModel> fetchCoursesBycat(
     return coursesModel;
   } catch (e) {
     Logger().e(e);
-    rethrow;
+    throw Exception(e);
   }
 }

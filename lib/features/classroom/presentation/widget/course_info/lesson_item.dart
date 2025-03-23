@@ -12,13 +12,15 @@ class LessonItem extends StatelessWidget {
   final bool isHighlighted;
   final bool isExam;
   final bool isCer;
+  final bool isPlaying;
   const LessonItem(
       {super.key,
       required this.course,
       this.lesson,
       required this.isHighlighted,
       this.isCer = false,
-      this.isExam = false});
+      this.isExam = false,
+      this.isPlaying = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +32,11 @@ class LessonItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: (isExam)
                 ? AppColors.secondary
-                : isHighlighted
-                    ? AppColors.cardBackground
-                    : AppColors.cardBackground,
+                : isPlaying
+                    ? AppColors.primary.withOpacity(0.1)
+                    : isHighlighted
+                        ? AppColors.cardBackground
+                        : AppColors.cardBackground,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -76,14 +80,16 @@ class LessonItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    (isExam)
-                        ? "ความคืบหน้าการเรียน ${course.data.chapters.length} %"
-                        : (isCer)
-                            ? ""
-                            : formatDuration(lesson!.sequence),
-                    style: AppTextStyles.bodyMedium,
-                  ),
+                  if (lesson!.type == "VIDEO")
+                    Text(
+                      (isExam)
+                          ? "ความคืบหน้าการเรียน ${course.data.chapters.length} %"
+                          : (isCer)
+                              ? ""
+                              : formatDurationLesson(
+                                  lesson!.content.video?.durationMs ?? 0),
+                      style: AppTextStyles.bodyMedium,
+                    ),
                 ],
               ),
               Container(
@@ -95,7 +101,7 @@ class LessonItem extends StatelessWidget {
                 child: Icon(
                   (isExam && !isCer)
                       ? LucideIcons.book_check
-                      : (isExam && isCer)
+                      : (lesson!.type == "FILE")
                           ? LucideIcons.download
                           : LucideIcons.play,
                   color: AppColors.background,

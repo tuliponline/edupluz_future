@@ -6,6 +6,7 @@ import 'package:edupluz_future/features/classroom/presentation/widget/course_inf
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:logger/logger.dart';
 
 class LessonsList extends StatefulWidget {
   final CourseModel course;
@@ -74,7 +75,7 @@ class _LessonsListState extends State<LessonsList> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                CourseProgress(course: widget.course),
+                // CourseProgress(course: widget.course),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -117,6 +118,7 @@ class _LessonsListState extends State<LessonsList> {
                       itemBuilder: (context, j) {
                         return GestureDetector(
                           onTap: () {
+                            Logger().d("onLessonTap");
                             setState(() {
                               chapterId = widget.course.data.chapters[i].id;
                               lessonId =
@@ -128,6 +130,8 @@ class _LessonsListState extends State<LessonsList> {
                             course: widget.course,
                             lesson: widget.course.data.chapters[i].lessons[j],
                             isHighlighted: lessonId ==
+                                widget.course.data.chapters[i].lessons[j].id,
+                            isPlaying: lessonId ==
                                 widget.course.data.chapters[i].lessons[j].id,
                           ),
                         );

@@ -45,13 +45,12 @@ class ClassroomPage extends ConsumerStatefulWidget {
 
 class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   CourseModel? course;
-  VideoContentModel? videoContent;
+
   String chapterId = "";
   String lessonId = "";
   int chapterIndex = 0;
   int lessonIndex = 0;
   bool isLoading = false;
-  String? pdfCourseFile;
   ExaminationKeyModel? examinationKey;
   ExaminationCheckModel? examinationCheck;
 
@@ -76,10 +75,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
       lessonId = widget.lessonId;
     }
 
-    videoContent = await fetchContentWithVideo(
-        widget.courseId, chapterId, lessonId,
-        isFree: widget.isFree);
-
     setState(() {
       isLoading = false;
     });
@@ -91,8 +86,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     setState(() {
       isLoading = true;
     });
-
-    pdfCourseFile = await fetchCourseFile(course?.data.slug ?? "");
 
     setState(() {
       isLoading = false;
@@ -266,7 +259,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
           ref.watch(webSocketServiceProvider).dispose();
         }
       },
-      child: course == null || videoContent == null || isLoading
+      child: course == null || isLoading
           ? const Scaffold(body: Center(child: CircularProgressIndicator()))
           : Scaffold(
               appBar: AppBar(
@@ -279,7 +272,9 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                 automaticallyImplyLeading: false,
                 backgroundColor: AppColors.background,
                 title: Text(
-                  "คอร์ส",
+                  course!.data.title.length > 30
+                      ? "${course!.data.title.substring(0, 30)}..."
+                      : course!.data.title,
                   style: AppTextStyles.h4,
                 ),
               ),
@@ -293,7 +288,9 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(0),
                           child: BetterPlayerScreen(
-                            url: videoContent?.url ?? "",
+                            url: course!.data.chapters[chapterIndex]
+                                    .lessons[lessonIndex].content.video?.url ??
+                                "",
                             betterPlayerController: (betterPlayerController) {
                               this.betterPlayerController =
                                   betterPlayerController;
@@ -309,22 +306,41 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Expanded(
-                                child: Text(videoContent?.name ?? "",
+                                child: Text(
+                                    course!.data.chapters[chapterIndex]
+                                        .lessons[lessonIndex].name,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppTextStyles.h4),
                               ),
-                              if (pdfCourseFile != null && !widget.isFree)
+                              if (course!.data.chapters[chapterIndex]
+                                          .lessons[lessonIndex].type ==
+                                      "FILE" &&
+                                  !widget.isFree)
                                 const SizedBox(width: 8),
-                              if (pdfCourseFile != null && !widget.isFree)
+                              if (course!.data.chapters[chapterIndex]
+                                          .lessons[lessonIndex].type ==
+                                      "FILE" &&
+                                  !widget.isFree)
                                 DownloadFile(slug: course?.data.slug ?? ""),
                             ],
                           ),
                         ),
-                        if (pdfCourseFile != null && !widget.isFree)
-                          PdfView(pdfCourseFile: pdfCourseFile ?? ""),
-                        if (pdfCourseFile == null) const Spacer(),
-                        if (!widget.isFree || course!.data.joined)
+                        if (course!.data.chapters[chapterIndex]
+                                    .lessons[lessonIndex].type ==
+                                "FILE" &&
+                            !widget.isFree)
+                          PdfView(
+                              pdfCourseFile: course!.data.chapters[chapterIndex]
+                                      .lessons[lessonIndex].content.file?.url ??
+                                  ""),
+                        if (course!.data.chapters[chapterIndex]
+                                .lessons[lessonIndex].type ==
+                            "VIDEO")
+                          const Spacer(),
+                        if (course!.data.isFree ||
+                            !widget.isFree ||
+                            course!.data.joined)
                           CourseContent(
                             onCerTap: () async {
                               EasyLoading.show();
@@ -384,12 +400,30 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                             course: course!,
                             lessonId: lessonId,
                             onLessonClick: (chapterId, lessonId) async {
+                              Logger().d("onLessonClick On Classroom");
                               setState(() {
                                 this.chapterId = chapterId;
                                 this.lessonId = lessonId;
                               });
                               await _fetchCourseContentWithVideo();
                               await _findIndexAtId();
+
+                              String newVideoUrl = course!
+                                      .data
+                                      .chapters[chapterIndex]
+                                      .lessons[lessonIndex]
+                                      .content
+                                      .video
+                                      ?.url ??
+                                  "";
+                              if (newVideoUrl.isNotEmpty) {
+                                betterPlayerController.setupDataSource(
+                                  BetterPlayerDataSource(
+                                    BetterPlayerDataSourceType.network,
+                                    newVideoUrl,
+                                  ),
+                                );
+                              }
                             },
                           ),
                       ],

@@ -1,3 +1,4 @@
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/chapter/chapter_item.dart';
@@ -6,7 +7,13 @@ import 'package:flutter/material.dart';
 class ChapterList extends StatelessWidget {
   final List<Chapter> chapter;
   final CourseModel course;
-  const ChapterList({super.key, required this.chapter, required this.course});
+  final Function() playPause;
+  const ChapterList({
+    super.key,
+    required this.chapter,
+    required this.course,
+    required this.playPause,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +35,15 @@ class ChapterList extends StatelessWidget {
                 return Stack(
                   children: [
                     ChapterItem(
+                      playPause: playPause,
                       chapter: chapter[i],
                       lesson: chapter[i].lessons[j],
                       course: course,
                     ),
-                    if (!course.data.joined && !chapter[i].lessons[j].isFree)
+                    if (!course.data.joined &&
+                        !chapter[i].lessons[j].isFree &&
+                        !course.data.joined &&
+                        !course.data.isFree)
                       Positioned(
                         top: 0,
                         bottom: 0,

@@ -29,13 +29,19 @@ class InstructorDetail extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: CachedNetworkImage(
-                          imageUrl: instructor.avatar,
-                          errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
-                          fit: BoxFit.cover,
+                      Center(
+                        child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(99),
+                            child: CachedNetworkImage(
+                              imageUrl: instructor.avatar,
+                              errorWidget: (context, url, error) =>
+                                  const Center(child: Icon(Icons.error)),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -46,7 +52,9 @@ class InstructorDetail extends StatelessWidget {
                       const SizedBox(height: 16),
                       Text(
                         instructor.description,
-                        style: AppTextStyles.bodySmall,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ],
                   ),
