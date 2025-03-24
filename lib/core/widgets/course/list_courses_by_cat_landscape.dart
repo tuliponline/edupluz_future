@@ -159,6 +159,8 @@ class _ListCoursesByCatLandscapeState
                                               child:
                                                   CircularProgressIndicator())
                                           : CardCourseLandscape(
+                                              instructor:
+                                                  "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                                               courseId: items[index].id,
                                               title: items[index].title,
                                               subtitle:
@@ -188,6 +190,7 @@ class _ListCoursesByCatLandscapeState
             (index) => Padding(
               padding: const EdgeInsets.only(right: 16),
               child: CardCourseLandscape(
+                instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                 courseId: "",
                 isShowDetail: widget.showDetail,
                 title: "ภาษาจีนเพื่อการท่องเที่ยว ",

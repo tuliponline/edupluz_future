@@ -246,10 +246,11 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
               //   height: 24,
               // ),
               // if (hasCorparate) ListCoursesCroperate(),
-              const SizedBox(
-                height: 24,
-              ),
-              ListCoursesMastery(),
+              // const SizedBox(
+              //   height: 24,
+              // ),
+              // ListCoursesMastery(),
+
               const SizedBox(
                 height: 24,
               ),
@@ -287,7 +288,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                 ),
                               ),
                             const SizedBox(
-                              height: 24,
+                              height: 8,
                             ),
                           ],
                         );

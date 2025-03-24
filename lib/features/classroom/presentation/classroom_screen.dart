@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:better_player_plus/better_player_plus.dart';
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/providers/version/version_provider.dart';
 import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -26,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ClassroomPage extends ConsumerStatefulWidget {
   final String courseId;
@@ -108,15 +111,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     setState(() {});
   }
 
-  _fetchExaminationKey() async {
-    examinationKey = await getExaminationKey(widget.courseId);
-    Logger().d("get_examination_key: $examinationKey");
-    if (examinationKey != null) {
-      examinationCheck = await checkExamination(examinationKey!.data.key);
-    }
-    setState(() {});
-  }
-
   _goToExam() async {
     if (examinationKey != null &&
         examinationCheck != null &&
@@ -143,7 +137,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     await _fetchCourseContentWithVideo();
     await _findIndexAtId();
     await _fetchCourseFile();
-    await _fetchExaminationKey();
   }
 
   _nextLesson() async {
@@ -253,10 +246,11 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
 
   @override
   Widget build(BuildContext context) {
+    VersionStatus? versionStatus = ref.watch(versionProvider);
     return PopScope(
       onPopInvoked: (didPop) async {
         if (didPop) {
-          ref.watch(webSocketServiceProvider).dispose();
+          ref.read(webSocketServiceProvider).dispose();
         }
       },
       child: course == null || isLoading
@@ -322,7 +316,15 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                           .lessons[lessonIndex].type ==
                                       "FILE" &&
                                   !widget.isFree)
-                                DownloadFile(slug: course?.data.slug ?? ""),
+                                DownloadFile(
+                                    url: course!
+                                            .data
+                                            .chapters[chapterIndex]
+                                            .lessons[lessonIndex]
+                                            .content
+                                            .file
+                                            ?.url ??
+                                        ""),
                             ],
                           ),
                         ),
@@ -338,13 +340,14 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                 .lessons[lessonIndex].type ==
                             "VIDEO")
                           const Spacer(),
-                        if (course!.data.isFree ||
-                            !widget.isFree ||
+                        if (versionStatus == VersionStatus.higher ||
+                            course!.data.isFree ||
+                            widget.isFree ||
                             course!.data.joined)
                           CourseContent(
                             onCerTap: () async {
                               EasyLoading.show();
-                              await _fetchExaminationKey();
+
                               if (examinationCheck != null &&
                                   examinationCheck!.data.passed) {
                                 Uint8List cerData = await CerService()
@@ -368,35 +371,8 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                     });
                               }
                             },
-                            onExamTap: () async {
-                              EasyLoading.show();
-                              await _fetchExaminationKey();
-                              EasyLoading.dismiss();
-                              if (course!.data.chapters.length < 100 ||
-                                  examinationCheck!.data.passed) {
-                                Logger().e("ความคืบหน้าต้องครบ 100%");
-                                await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return InfoDialog(
-                                        testCenter: true,
-                                        callback: (value) {
-                                          Navigator.pop(context);
-                                        },
-                                        title: examinationCheck!.data.passed
-                                            ? "คุณทำแบบทดสอบแล้ว"
-                                            : "ไม่สามารถทำแบบทดสอบได้",
-                                        detail: examinationCheck!.data.passed
-                                            ? "คุณได้ทำแบบทดสอบผ่านแล้ว ไม่สามารถทำแบบทดสอบอีกได้"
-                                            : "ความคืบหน้าการเรียนต้องครบ 100%",
-                                      );
-                                    });
-                              } else {
-                                _goToExam();
-                              }
-                            },
-                            hasExam: examinationKey != null &&
-                                (examinationCheck != null),
+                            onExamTap: () async {},
+                            hasExam: false,
                             course: course!,
                             lessonId: lessonId,
                             onLessonClick: (chapterId, lessonId) async {
@@ -408,21 +384,43 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                               await _fetchCourseContentWithVideo();
                               await _findIndexAtId();
 
-                              String newVideoUrl = course!
-                                      .data
-                                      .chapters[chapterIndex]
-                                      .lessons[lessonIndex]
-                                      .content
-                                      .video
-                                      ?.url ??
-                                  "";
-                              if (newVideoUrl.isNotEmpty) {
-                                betterPlayerController.setupDataSource(
-                                  BetterPlayerDataSource(
-                                    BetterPlayerDataSourceType.network,
-                                    newVideoUrl,
-                                  ),
-                                );
+                              if (course!.data.chapters[chapterIndex]
+                                      .lessons[lessonIndex].type ==
+                                  "VIDEO") {
+                                String newVideoUrl = course!
+                                        .data
+                                        .chapters[chapterIndex]
+                                        .lessons[lessonIndex]
+                                        .content
+                                        .video
+                                        ?.url ??
+                                    "";
+                                if (newVideoUrl.isNotEmpty) {
+                                  betterPlayerController.setupDataSource(
+                                    BetterPlayerDataSource(
+                                      BetterPlayerDataSourceType.network,
+                                      newVideoUrl,
+                                    ),
+                                  );
+                                }
+                              } else {
+                                EasyLoading.show();
+                                try {
+                                  Uri uri = Uri.parse(course!
+                                          .data
+                                          .chapters[chapterIndex]
+                                          .lessons[lessonIndex]
+                                          .content
+                                          .file
+                                          ?.url ??
+                                      "");
+                                  await launchUrl(uri);
+                                } catch (e) {
+                                  EasyLoading.dismiss();
+                                  EasyLoading.showError(e.toString());
+                                } finally {
+                                  EasyLoading.dismiss();
+                                }
                               }
                             },
                           ),

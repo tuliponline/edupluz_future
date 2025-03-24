@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:edupluz_future/core/providers/app/app_version_provider.dart';
+import 'package:edupluz_future/core/providers/version/version_provider.dart';
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,14 +38,18 @@ class VersionService {
       if (appVersionParts[i] < remoteConfigVersionParts[i]) {
         return VersionStatus.lower;
       } else if (appVersionParts[i] > remoteConfigVersionParts[i]) {
+        ref.read(versionProvider.notifier).state = VersionStatus.higher;
         return VersionStatus.higher;
       }
     }
     if (appVersionParts.length < remoteConfigVersionParts.length) {
+      ref.read(versionProvider.notifier).state = VersionStatus.lower;
       return VersionStatus.lower;
     } else if (appVersionParts.length > remoteConfigVersionParts.length) {
+      ref.read(versionProvider.notifier).state = VersionStatus.higher;
       return VersionStatus.higher;
     }
+    ref.read(versionProvider.notifier).state = VersionStatus.equal;
     return VersionStatus.equal;
   }
 }

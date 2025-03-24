@@ -67,6 +67,7 @@ class Item {
   Journey journey;
   List<Chapter> chapters;
   double rating;
+  int views;
   String status;
   double price;
   bool isMastery;
@@ -94,6 +95,7 @@ class Item {
     required this.journey,
     required this.chapters,
     required this.rating,
+    required this.views,
     required this.status,
     required this.price,
     required this.isMastery,
@@ -124,6 +126,7 @@ class Item {
         chapters: List<Chapter>.from(
             json["chapters"].map((x) => Chapter.fromJson(x))),
         rating: json["rating"]?.toDouble() ?? 0,
+        views: json["views"] ?? 0,
         status: json["status"] ?? "",
         price: json["price"]?.toDouble() ?? 0,
         isMastery: json["is_mastery"] ?? false,

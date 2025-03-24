@@ -8,11 +8,13 @@ import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/toast/snack_bar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 fetchFavoriteCourse(BuildContext context,
     {required String courseId, required bool isFavorite}) async {
   if (isFavorite) {
-    String finalPath = "${ApiPath.courseFavorites}/course/$courseId";
+    String finalPath = "${ApiPath.courseFavorites}/course";
+    Logger().d("delete $finalPath");
     if (await PrivateApiService().delete(path: finalPath, id: courseId)) {
       toast(context,
           text: "ลบออกจากรายการที่บันทึกแล้ว",
@@ -20,6 +22,7 @@ fetchFavoriteCourse(BuildContext context,
     }
   } else {
     String finalPath = ApiPath.courseFavorites;
+    Logger().d("add $finalPath");
     await PrivateApiService().post(
         path: finalPath,
         language: LanguageEnum.th,

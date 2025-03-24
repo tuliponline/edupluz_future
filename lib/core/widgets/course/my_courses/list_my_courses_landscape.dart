@@ -175,6 +175,8 @@ class _ListCoursesByCatLandscapeState
                                   ? const Center(
                                       child: CircularProgressIndicator())
                                   : CardCourseLandscape(
+                                      instructor:
+                                          "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                                       courseId: items[index].id,
                                       isShowDetail: widget.showDetail,
                                       title: items[index].title,
@@ -246,6 +248,7 @@ class _ListCoursesByCatLandscapeState
                 width: 16,
               ),
               CardCourseLandscape(
+                instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                 courseId: "",
                 isShowDetail: widget.showDetail,
                 title: "ภาษาจีนเพื่อการท่องเที่ยว ",
@@ -260,6 +263,7 @@ class _ListCoursesByCatLandscapeState
                 width: 16,
               ),
               CardCourseLandscape(
+                instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                 courseId: "",
                 isShowDetail: widget.showDetail,
                 title: "ภาษาจีนเพื่อการท่องเที่ยว ",

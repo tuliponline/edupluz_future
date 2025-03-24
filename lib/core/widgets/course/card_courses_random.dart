@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:edupluz_future/core/models/courses/courses_model.dart';
+import 'package:edupluz_future/core/models/courses/course_model.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_random.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
@@ -7,6 +7,7 @@ import 'package:edupluz_future/features/preview/presentation/preview_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CardCoursesRandom extends ConsumerStatefulWidget {
@@ -17,10 +18,14 @@ class CardCoursesRandom extends ConsumerStatefulWidget {
 }
 
 class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
-  Item? course;
+  CourseModel? course;
   _ranDomCourses() async {
-    course = await fetchCourseRandom();
-    if (mounted) setState(() {});
+    try {
+      course = await fetchCourseRandom();
+      if (mounted) setState(() {});
+    } catch (e) {
+      Logger().e(e);
+    }
   }
 
   @override
@@ -47,20 +52,65 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: CachedNetworkImage(
-                  imageUrl: course!.thumbnail.horizontal,
-                  placeholder: (context, url) => Skeletonizer(
-                      child: Container(
-                          height: 297, width: 158, color: Colors.black)),
-                  errorWidget: (context, url, error) =>
-                      const Center(child: Icon(Icons.error)),
-                  fit: BoxFit.cover,
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedNetworkImage(
+                      imageUrl: course!.data.cover,
+                      placeholder: (context, url) => Skeletonizer(
+                          child: Container(
+                              height: 297, width: 158, color: Colors.black)),
+                      errorWidget: (context, url, error) =>
+                          const Center(child: Icon(Icons.error)),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: SizedBox(
+                    width: 297,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            maxLines: 1,
+                            course!.data.title,
+                            style: AppTextStyles.bodyLarge.copyWith(
+                              overflow: TextOverflow.ellipsis,
+                              color: AppColors.background,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          SizedBox(
+                            width: 230 / 5,
+                            child: Divider(
+                              color: AppColors.background,
+                              height: 10,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            "${course!.data.instructor.firstName} ${course!.data.instructor.lastName}",
+                            maxLines: 1,
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.background,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             Container(
@@ -81,7 +131,7 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    PreviewPage(courseId: course!.id)));
+                                    PreviewPage(courseId: course!.data.id)));
                       }
                     },
                     child: Row(

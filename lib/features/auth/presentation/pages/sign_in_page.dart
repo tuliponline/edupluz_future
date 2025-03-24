@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/constant/test_account.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/utili/regex_text.dart';
@@ -10,6 +11,7 @@ import 'package:edupluz_future/core/widgets/app_text_field.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/confirm_otp_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +31,28 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool isLogin = true;
+
+  _signinReview() async {
+    setState(() {
+      isLogin = true;
+    });
+    VersionStatus versionStatus =
+        await VersionService().compareVersions(ref: ref);
+    if (versionStatus == VersionStatus.higher) {
+      _usernameController.text = dotenv.get('EMAIL_REVIEW');
+      _passwordController.text = dotenv.get('PASSWORD_REVIEW');
+      await _doSignIn();
+    } else {
+      if (TestAccount.isTestAccount) {
+        _usernameController.text = TestAccount.email;
+        _passwordController.text = TestAccount.password;
+      }
+    }
+    setState(() {
+      isLogin = false;
+    });
+  }
 
   _doSignIn() async {
     try {
@@ -68,10 +92,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
   @override
   void initState() {
-    if (TestAccount.isTestAccount) {
-      _usernameController.text = TestAccount.email;
-      _passwordController.text = TestAccount.password;
-    }
+    _signinReview();
+
     super.initState();
   }
 
@@ -79,169 +101,173 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(),
-              child: Lottie.asset(
-                'assets/splash/splash.json',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          BlurryContainer(
-            child: Container(),
-            blur: 4,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            elevation: 0,
-            color: AppColors.background.withOpacity(0.6),
-            padding: const EdgeInsets.all(8),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: GestureDetector(
-                        onTap: () {
-                          context.goNamed(Routes.navigation.name);
-                        },
-                        child: Text(
-                          'ข้าม',
-                          style: AppTextStyles.bodyLarge.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+      body: isLogin
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(),
+                    child: Lottie.asset(
+                      'assets/splash/splash.json',
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackground.withOpacity(0.95),
-                  borderRadius: BorderRadius.circular(16),
+                BlurryContainer(
+                  child: Container(),
+                  blur: 4,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  elevation: 0,
+                  color: AppColors.background.withOpacity(0.6),
+                  padding: const EdgeInsets.all(8),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        'เข้าสู่ระบบ',
-                        style: AppTextStyles.h2,
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'ยังไม่ได้เป็นสมาชิก? ',
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              context.goNamed(Routes.signup.name);
-                            },
-                            child: Text(
-                              'สมัครสมาชิกเลย!',
-                              style: AppTextStyles.bodyMedium.copyWith(
-                                color: AppColors.textLink,
-                                fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: GestureDetector(
+                              onTap: () {
+                                context.goNamed(Routes.navigation.name);
+                              },
+                              child: Text(
+                                'ข้าม',
+                                style: AppTextStyles.bodyLarge.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 32),
-                      AppTextField(
-                        hint: 'อีเมล',
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        controller: _usernameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'กรุณากรอกอีเมล';
-                          }
-                          if (!emailRegex(value)) {
-                            return 'รูปแบบอีเมลไม่ถูกต้อง';
-                          }
-                          return null;
-                        },
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 32),
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBackground.withOpacity(0.95),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      const SizedBox(height: 16),
-                      AppTextField(
-                        hint: 'รหัสผ่าน',
-                        obscureText: true,
-                        textInputAction: TextInputAction.done,
-                        controller: _passwordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'กรุณากรอกรหัสผ่าน';
-                          }
-                          return null;
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            context.pushNamed(Routes.forgotpassword.name);
-                          },
-                          child: Text(
-                            'ลืมรหัสผ่าน?',
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.bold,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              'เข้าสู่ระบบ',
+                              style: AppTextStyles.h2,
                             ),
-                          ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  'ยังไม่ได้เป็นสมาชิก? ',
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    context.goNamed(Routes.signup.name);
+                                  },
+                                  child: Text(
+                                    'สมัครสมาชิกเลย!',
+                                    style: AppTextStyles.bodyMedium.copyWith(
+                                      color: AppColors.textLink,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 32),
+                            AppTextField(
+                              hint: 'อีเมล',
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              controller: _usernameController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'กรุณากรอกอีเมล';
+                                }
+                                if (!emailRegex(value)) {
+                                  return 'รูปแบบอีเมลไม่ถูกต้อง';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            AppTextField(
+                              hint: 'รหัสผ่าน',
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              controller: _passwordController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'กรุณากรอกรหัสผ่าน';
+                                }
+                                return null;
+                              },
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  context.pushNamed(Routes.forgotpassword.name);
+                                },
+                                child: Text(
+                                  'ลืมรหัสผ่าน?',
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            AppButton.primaryButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _doSignIn();
+                                }
+                              },
+                              text: 'เข้าสู่ระบบ',
+                            ),
+                            const SizedBox(height: 16),
+                            Center(
+                              child: Text(
+                                'หรือเข้าสู่ระบบด้วย',
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            AppButton.outlineButton(
+                              onPressed: () {},
+                              text: 'เข้าสู่ระบบด้วย gmail',
+                              icon: Image.asset('assets/social/google.png'),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      AppButton.primaryButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _doSignIn();
-                          }
-                        },
-                        text: 'เข้าสู่ระบบ',
-                      ),
-                      const SizedBox(height: 16),
-                      Center(
-                        child: Text(
-                          'หรือเข้าสู่ระบบด้วย',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      AppButton.outlineButton(
-                        onPressed: () {},
-                        text: 'เข้าสู่ระบบด้วย gmail',
-                        icon: Image.asset('assets/social/google.png'),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

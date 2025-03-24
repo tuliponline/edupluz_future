@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/services/shorebird/shorebird_service.dart';
@@ -57,17 +58,24 @@ class _SplashPageState extends ConsumerState<SplashPage>
         }
       }
 
-      await Future.delayed(const Duration(seconds: 5));
-      if (mounted) {
-        bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
-        if (isOpenAppFirstTime) {
-          context.goNamed(Routes.onboarding.name);
-        } else {
-          bool isLogin = await AuthsService().checkIsLogin(ref);
-          if (isLogin) {
-            context.goNamed(Routes.navigation.name);
+      VersionStatus versionStatus =
+          await VersionService().compareVersions(ref: ref);
+
+      if (versionStatus == VersionStatus.higher) {
+        context.goNamed(Routes.signin.name);
+      } else {
+        await Future.delayed(const Duration(seconds: 5));
+        if (mounted) {
+          bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
+          if (isOpenAppFirstTime) {
+            context.goNamed(Routes.onboarding.name);
           } else {
-            context.goNamed(Routes.signin.name);
+            bool isLogin = await AuthsService().checkIsLogin(ref);
+            if (isLogin) {
+              context.goNamed(Routes.navigation.name);
+            } else {
+              context.goNamed(Routes.signin.name);
+            }
           }
         }
       }

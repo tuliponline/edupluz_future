@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CardCoursesPortrait extends StatelessWidget {
+  final String? title;
+  final String? instructor;
   final String? imageUrl;
   final String courseId;
   final String chapterId;
@@ -16,6 +18,8 @@ class CardCoursesPortrait extends StatelessWidget {
   const CardCoursesPortrait({
     super.key,
     this.imageUrl,
+    this.title,
+    this.instructor,
     required this.courseId,
     this.chapterId = "",
     this.lessonId = "",
@@ -62,18 +66,68 @@ class CardCoursesPortrait extends StatelessWidget {
                   )
                 : Stack(
                     children: [
-                      CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        placeholder: (context, url) => Skeletonizer(
-                          child: Container(
-                            width: 132,
-                            height: 198,
-                            color: AppColors.background,
+                      Column(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: imageUrl!,
+                            placeholder: (context, url) => Skeletonizer(
+                              child: Container(
+                                width: 132,
+                                height: 132,
+                                color: AppColors.background,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const SizedBox(
+                                    width: 132,
+                                    height: 132,
+                                    child: Icon(Icons.error)),
+                            fit: BoxFit.cover,
                           ),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Center(child: Icon(Icons.error)),
-                        fit: BoxFit.cover,
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
+                              color: Colors.black,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    title ?? "",
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      color: AppColors.background,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  SizedBox(
+                                    width: 132 / 5,
+                                    child: Divider(
+                                      color: AppColors.background,
+                                      height: 10,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    maxLines: 1,
+                                    instructor ?? "",
+                                    style: AppTextStyles.labelSmall.copyWith(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: AppColors.background,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       if (isShowProgress)
                         Align(

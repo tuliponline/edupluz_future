@@ -1,14 +1,20 @@
 import 'package:better_player_plus/better_player_plus.dart';
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/constant/app_size.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/providers/version/version_provider.dart';
+import 'package:edupluz_future/core/services/user/check_is_free.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/utili/format_duration.dart';
 import 'package:edupluz_future/features/classroom/presentation/classroom_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ChapterItem extends StatelessWidget {
+class ChapterItem extends ConsumerWidget {
   final Chapter chapter;
   final Lesson lesson;
   final CourseModel course;
@@ -21,32 +27,38 @@ class ChapterItem extends StatelessWidget {
       required this.playPause});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final versionStatus = ref.watch(versionProvider);
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         playPause();
-
-        if (course.data.joined) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ClassroomPage(
-                  courseId: course.data.id,
-                  chapterId: chapter.id,
-                  lessonId: lesson.id),
-            ),
-          );
-        } else if (course.data.isFree || lesson.isFree) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ClassroomPage(
-                  courseId: course.data.id,
-                  chapterId: chapter.id,
-                  lessonId: lesson.id,
-                  isFree: course.data.isFree || lesson.isFree),
-            ),
-          );
+        if (versionStatus == VersionStatus.higher ||
+            (checkIsFree(course: course) || lesson.isFree)) {
+          if (lesson.type == "VIDEO") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassroomPage(
+                    courseId: course.data.id,
+                    chapterId: chapter.id,
+                    lessonId: lesson.id,
+                    isFree: versionStatus == VersionStatus.higher ||
+                        checkIsFree(course: course) ||
+                        lesson.isFree),
+              ),
+            );
+          } else {
+            EasyLoading.show();
+            try {
+              Uri uri = Uri.parse(lesson.content.file?.url ?? "");
+              await launchUrl(uri);
+            } catch (e) {
+              EasyLoading.dismiss();
+              EasyLoading.showError(e.toString());
+            } finally {
+              EasyLoading.dismiss();
+            }
+          }
         }
       },
       child: Container(
@@ -90,11 +102,12 @@ class ChapterItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  formatDurationLesson(lesson.content.video?.durationMs ?? 0),
-                  style: AppTextStyles.bodySmall,
-                ),
+                if (lesson.type == "VIDEO") const SizedBox(height: 4),
+                if (lesson.type == "VIDEO")
+                  Text(
+                    formatDurationLesson(lesson.content.video?.durationMs ?? 0),
+                    style: AppTextStyles.bodySmall,
+                  ),
               ],
             ),
             Container(
@@ -105,14 +118,20 @@ class ChapterItem extends StatelessWidget {
               ),
               child: (lesson.type == "VIDEO")
                   ? Icon(
-                      course.data.isFree || lesson.isFree || course.data.joined
+                      versionStatus == VersionStatus.higher ||
+                              checkIsFree(course: course) ||
+                              lesson.isFree ||
+                              course.data.joined
                           ? LucideIcons.play
                           : LucideIcons.lock,
                       color: Colors.white,
                       size: 16,
                     )
                   : Icon(
-                      course.data.isFree || lesson.isFree || course.data.joined
+                      versionStatus == VersionStatus.higher ||
+                              checkIsFree(course: course) ||
+                              lesson.isFree ||
+                              course.data.joined
                           ? LucideIcons.file
                           : LucideIcons.lock,
                       color: Colors.white,

@@ -1,10 +1,14 @@
 import 'package:better_player_plus/better_player_plus.dart';
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/providers/version/version_provider.dart';
+import 'package:edupluz_future/core/services/user/check_is_free.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/chapter/chapter_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChapterList extends StatelessWidget {
+class ChapterList extends ConsumerWidget {
   final List<Chapter> chapter;
   final CourseModel course;
   final Function() playPause;
@@ -16,7 +20,8 @@ class ChapterList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final versionStatus = ref.watch(versionProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +45,8 @@ class ChapterList extends StatelessWidget {
                       lesson: chapter[i].lessons[j],
                       course: course,
                     ),
-                    if (!course.data.joined &&
+                    if (versionStatus != VersionStatus.higher &&
+                        !checkIsFree(course: course) &&
                         !chapter[i].lessons[j].isFree &&
                         !course.data.joined &&
                         !course.data.isFree)

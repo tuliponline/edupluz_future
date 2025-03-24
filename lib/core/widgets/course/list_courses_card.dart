@@ -144,9 +144,23 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
                           child: (items.length <
                                       coursesModel!.data.meta.totalItems &&
                                   index == items.length)
-                              ? const Center(child: CircularProgressIndicator())
+                              ? widget.landscape
+                                  ? SizedBox(
+                                      width: 230,
+                                      height: 130,
+                                      child: const Center(
+                                          child: CircularProgressIndicator()),
+                                    )
+                                  : SizedBox(
+                                      width: 132,
+                                      height: 198,
+                                      child: const Center(
+                                          child: CircularProgressIndicator()),
+                                    )
                               : widget.landscape
                                   ? CardCourseLandscape(
+                                      instructor:
+                                          "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                                       courseId: items[index].id,
                                       isShowDetail: widget.showDetail,
                                       title: items[index].title,
@@ -155,7 +169,10 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
                                           items[index].thumbnail.horizontal,
                                     )
                                   : CardCoursesPortrait(
+                                      instructor:
+                                          "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                                       courseId: items[index].id,
+                                      title: items[index].title,
                                       imageUrl: items[index].thumbnail.vertical,
                                     ),
                         );
@@ -180,6 +197,7 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
               padding: const EdgeInsets.only(right: 16),
               child: widget.landscape
                   ? CardCourseLandscape(
+                      instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                       courseId: "",
                       isShowDetail: widget.showDetail,
                       title: "ภาษาจีนเพื่อการท่องเที่ยว ",

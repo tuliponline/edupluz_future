@@ -1,6 +1,9 @@
 import 'package:better_player_plus/better_player_plus.dart';
+import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/providers/version/version_provider.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
+import 'package:edupluz_future/core/services/user/check_is_free.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/better_player/better_player_screen.dart';
@@ -10,23 +13,28 @@ import 'package:edupluz_future/features/preview/presentation/widget/chapter/chap
 import 'package:edupluz_future/features/preview/presentation/widget/chip_item.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/course_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PreviewPage extends StatefulWidget {
+class PreviewPage extends ConsumerStatefulWidget {
   final String courseId;
   const PreviewPage({super.key, required this.courseId});
 
   @override
-  State<PreviewPage> createState() => _PreviewPageState();
+  ConsumerState<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage> with WidgetsBindingObserver {
+class _PreviewPageState extends ConsumerState<PreviewPage>
+    with WidgetsBindingObserver {
   CourseModel? course;
   BetterPlayerController? _playerController;
 
   _fetchCourseFavolite() async {
+    EasyLoading.show();
     await fetchFavoriteCourse(context,
         courseId: widget.courseId, isFavorite: course?.data.favorited ?? false);
     await _fetchCourseById();
+    EasyLoading.dismiss();
   }
 
   _fetchCourseById() async {
@@ -65,6 +73,7 @@ class _PreviewPageState extends State<PreviewPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final versionStatus = ref.watch(versionProvider);
     return course == null
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))
         : Scaffold(
@@ -118,8 +127,8 @@ class _PreviewPageState extends State<PreviewPage> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                if (course?.data.joined == false &&
-                    course?.data.isFree == false)
+                if (versionStatus != VersionStatus.higher &&
+                    !checkIsFree(course: course))
                   BuySlider(course: course!)
               ],
             ),

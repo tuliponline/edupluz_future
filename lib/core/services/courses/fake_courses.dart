@@ -11,6 +11,7 @@ class FakeCourses {
             count,
             (index) => Item(
                   id: "course${index + 1}",
+                  views: index + 1,
                   workspaceId: "workspace${index + 1}",
                   instructor: Instructor(
                     id: "instructor${index + 1}",
@@ -145,6 +146,7 @@ class FakeCourses {
       code: "200",
       msg: "success",
       data: course.Data(
+        views: 100,
         id: "1",
         workspaceId: "1",
         instructor: course.Instructor(

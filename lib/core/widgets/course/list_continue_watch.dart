@@ -119,6 +119,8 @@ class _ListContinueWatchState extends ConsumerState<ListContinueWatch> {
                                     ? const Center(
                                         child: CircularProgressIndicator())
                                     : CardCoursesPortrait(
+                                        instructor:
+                                            "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
                                         courseId: items[index].id,
                                         imageUrl:
                                             items[index].thumbnail.vertical,

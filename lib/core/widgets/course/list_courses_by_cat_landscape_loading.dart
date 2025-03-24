@@ -56,6 +56,7 @@ class ListCoursesByCatLandscapeLoading extends StatelessWidget {
                       width: 16,
                     ),
                     CardCourseLandscape(
+                      instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                       isShowDetail: showDetail,
                       courseId: "",
                       title: "ภาษาจีนเพื่อการท่องเที่ยว ",
@@ -70,6 +71,7 @@ class ListCoursesByCatLandscapeLoading extends StatelessWidget {
                       width: 16,
                     ),
                     CardCourseLandscape(
+                      instructor: "ภาษาจีนเพื่อการท่องเที่ยว ",
                       isShowDetail: showDetail,
                       courseId: "",
                       title: "ภาษาจีนเพื่อการท่องเที่ยว ",
