@@ -68,33 +68,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     setState(() {});
   }
 
-  _fetchCourseContentWithVideo() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    if (chapterId == "" && lessonId == "") {
-      chapterId = widget.chapterId;
-      lessonId = widget.lessonId;
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-
-    setState(() {});
-  }
-
-  _fetchCourseFile() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   _findIndexAtId() {
     course!.data.chapters.asMap().forEach((i, chapter) {
       if (chapter.id == chapterId) {
@@ -111,60 +84,55 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     setState(() {});
   }
 
-  _goToExam() async {
-    if (examinationKey != null &&
-        examinationCheck != null &&
-        course!.data.chapters.length >= 100) {
-      if (!examinationCheck!.data.passed == false || true) {
-        EasyLoading.show();
-        Logger().i("ทำแบบทดสอบ");
-        String examUrl = await getExamUrl(examinationKey!.data.key);
-        EasyLoading.dismiss();
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return ExamScreen(
-                course: course!,
-                examUrl: examUrl,
-                examKey: examinationKey!.data.key);
-          },
-        ));
-      }
-    }
-  }
-
   _initData() async {
+    if (chapterId == "" && lessonId == "") {
+      chapterId = widget.chapterId;
+      lessonId = widget.lessonId;
+    }
     await _fetchCourseById();
-    await _fetchCourseContentWithVideo();
     await _findIndexAtId();
-    await _fetchCourseFile();
   }
 
   _nextLesson() async {
     EasyLoading.dismiss();
+    Logger().d("oldChapterId ${chapterId}");
+    Logger().d("oldLessonId ${lessonId}");
     if (lessonIndex < course!.data.chapters[chapterIndex].lessons.length - 1) {
       setState(() {
         chapterId = course!.data.chapters[chapterIndex].id;
         lessonId =
             course!.data.chapters[chapterIndex].lessons[lessonIndex + 1].id;
-        _fetchCourseContentWithVideo();
+
         _findIndexAtId();
       });
     } else if (chapterIndex < course!.data.chapters.length - 1) {
       setState(() {
         chapterId = course!.data.chapters[chapterIndex + 1].id;
         lessonId = course!.data.chapters[chapterIndex + 1].lessons[0].id;
-        _fetchCourseContentWithVideo();
+
         _findIndexAtId();
       });
-    } else {
-      _goToExam();
+    }
 
-      // setState(() {
-      //   chapterId = course!.chapters[0].id;
-      //   lessonId = course!.chapters[0].lessons[0].id;
-      //   _fetchCourseContentWithVideo();
-      //   _findIndexAtId();
-      // });
+    Logger().d("newChapterId ${chapterId}");
+    Logger().d("newLessonId ${lessonId}");
+    if (course!.data.chapters[chapterIndex].lessons[lessonIndex].type ==
+        "VIDEO") {
+      isVideoEnded = false;
+      betterPlayerController.setupDataSource(
+        BetterPlayerDataSource(
+          BetterPlayerDataSourceType.network,
+          course!.data.chapters[chapterIndex].lessons[lessonIndex].content.video
+                  ?.url ??
+              "",
+        ),
+      );
+    } else {
+      isVideoEnded = false;
+
+      launchUrl(Uri.parse(course!.data.chapters[chapterIndex]
+              .lessons[lessonIndex].content.file?.url ??
+          ""));
     }
   }
 
@@ -181,67 +149,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   }
 
   _eventListener() {
-    betterPlayerController.addEventsListener((event) async {
-      if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
-        isVideoEnded = false;
-      }
-      if (event.betterPlayerEventType == BetterPlayerEventType.finished) {
-        if (!isVideoEnded) {
-          EasyLoading.show();
-          Duration lessonDuration =
-              betterPlayerController.videoPlayerController!.value.duration ??
-                  Duration.zero;
-          isVideoEnded = true;
-          Logger().d("lessonDuration ${lessonDuration.inSeconds}");
-          await updateProgress(
-            ref: ref,
-            progress: lessonDuration,
-            betterPlayerController: betterPlayerController,
-            course: course!,
-            chapterIndex: chapterIndex,
-            lessonIndex: lessonIndex,
-          );
-          await _fetchCourseById();
-          await Future.delayed(const Duration(seconds: 3), () {
-            _nextLesson();
-          });
-        }
-      }
-      if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
-        Duration lessonDuration =
-            betterPlayerController.videoPlayerController!.value.duration ??
-                Duration.zero;
-        double progress = ((betterPlayerController
-                    .videoPlayerController!.value.position.inSeconds /
-                lessonDuration.inSeconds) *
-            100);
-
-        if (progress >= 90) {
-          if (!isVideoEnded) {
-            await updateProgress(
-              ref: ref,
-              progress: lessonDuration,
-              betterPlayerController: betterPlayerController,
-              course: course!,
-              chapterIndex: chapterIndex,
-              lessonIndex: lessonIndex,
-            );
-          }
-        } else {
-          Duration currentProgress =
-              betterPlayerController.videoPlayerController!.value.position;
-
-          await updateProgress(
-            ref: ref,
-            progress: currentProgress,
-            betterPlayerController: betterPlayerController,
-            course: course!,
-            chapterIndex: chapterIndex,
-            lessonIndex: lessonIndex,
-          );
-        }
-      }
-    });
+    betterPlayerController.addEventsListener((event) async {});
   }
 
   @override
@@ -289,6 +197,24 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                               this.betterPlayerController =
                                   betterPlayerController;
                               _eventListener();
+                            },
+                            onVideoEnded: () async {
+                              Logger().d("onVideoEnded");
+                              if (!isVideoEnded) {
+                                Logger().d("onVideoEnded isVideoEnded");
+                                EasyLoading.show();
+                                Duration lessonDuration = betterPlayerController
+                                        .videoPlayerController!
+                                        .value
+                                        .duration ??
+                                    Duration.zero;
+                                isVideoEnded = true;
+
+                                await Future.delayed(const Duration(seconds: 3),
+                                    () {
+                                  _nextLesson();
+                                });
+                              }
                             },
                           ),
                         ),
@@ -381,7 +307,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                 this.chapterId = chapterId;
                                 this.lessonId = lessonId;
                               });
-                              await _fetchCourseContentWithVideo();
+
                               await _findIndexAtId();
 
                               if (course!.data.chapters[chapterIndex]

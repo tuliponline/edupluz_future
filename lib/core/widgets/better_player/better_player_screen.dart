@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 
 class BetterPlayerScreen extends StatefulWidget {
   final String url;
-
   final Function(BetterPlayerController)? betterPlayerController;
-  const BetterPlayerScreen(
-      {super.key, required this.url, this.betterPlayerController});
+  final VoidCallback? onVideoEnded;
+  const BetterPlayerScreen({
+    super.key,
+    required this.url,
+    this.betterPlayerController,
+    this.onVideoEnded,
+  });
 
   @override
   State<BetterPlayerScreen> createState() => _BetterPlayerScreenState();
@@ -26,6 +30,12 @@ class _BetterPlayerScreenState extends State<BetterPlayerScreen> {
     if (widget.betterPlayerController != null) {
       widget.betterPlayerController!(_betterPlayerController!);
     }
+
+    _betterPlayerController?.addEventsListener((event) {
+      if (event.betterPlayerEventType == BetterPlayerEventType.finished) {
+        widget.onVideoEnded?.call();
+      }
+    });
   }
 
   @override
