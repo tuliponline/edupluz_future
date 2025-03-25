@@ -20,41 +20,11 @@ class _OrdersPageState extends State<OrdersPage> {
   OrdersModel? ordersData;
 
   _getOrders() async {
-    ordersData = OrdersModel(
-      code: "200",
-      msg: "success",
-      data: Data(
-        items: [
-          DataItem(
-              id: "1",
-              number: "1",
-              items: [
-                ItemItem(
-                  id: "1",
-                  name: "หนังสือพิมพ์",
-                  qty: 1,
-                  price: 100,
-                ),
-              ],
-              price: Price(
-                discountPrice: 100,
-                totalPrice: 100,
-              ),
-              status: "pending",
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now()),
-        ],
-        meta: Meta(
-          page: 1,
-          limit: 10,
-          itemCount: 1,
-          totalPages: 1,
-          totalItems: 1,
-        ),
-      ),
-    );
+    ordersData = await fetchOrders();
+    setState(() {});
   }
 
+  @override
   @override
   void initState() {
     _getOrders();
@@ -95,7 +65,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             return Column(
                               children: [
                                 CardOrderWidget(
-                                  order: ordersData!.data.items[index],
+                                  orders: ordersData!.data.items[index],
                                 ),
                                 const SizedBox(height: 8),
                               ],

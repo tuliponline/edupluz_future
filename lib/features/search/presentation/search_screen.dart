@@ -63,8 +63,6 @@ class _SearchScreenState extends State<SearchScreen> {
       coursesModel = await fetchCoursesNews(page: page);
     } else if (selectFilter == 2) {
       coursesModel = await fetchCoursesRandom(page: page);
-    } else if (selectFilter == 3) {
-      coursesModel = await fetchCoursesMastery(page: page);
     }
 
     if (coursesModel != null) {

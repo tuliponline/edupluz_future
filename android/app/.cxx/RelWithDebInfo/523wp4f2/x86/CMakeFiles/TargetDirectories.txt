@@ -1,0 +1,2 @@
+/Users/overtech/edupluz/edupluz_future/android/app/.cxx/RelWithDebInfo/523wp4f2/x86/CMakeFiles/edit_cache.dir
+/Users/overtech/edupluz/edupluz_future/android/app/.cxx/RelWithDebInfo/523wp4f2/x86/CMakeFiles/rebuild_cache.dir

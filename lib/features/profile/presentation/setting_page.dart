@@ -118,41 +118,50 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SettingMenu(
-                          icon: LucideIcons.user_cog,
-                          title: 'ตั้งค่าโปรไฟล์',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfileEditPage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        SettingMenu(
-                          icon: LucideIcons.globe,
-                          title: 'เปลี่ยนภาษา',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LanguagePage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        SettingMenu(
-                          icon: LucideIcons.shopping_bag,
-                          title: 'ประวัติการสั่งซื้อ',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const OrdersPage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
+                        if (versionStatus != null &&
+                            versionStatus != VersionStatus.higher)
+                          SettingMenu(
+                            icon: LucideIcons.user_cog,
+                            title: 'ตั้งค่าโปรไฟล์',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileEditPage()));
+                            },
+                          ),
+                        // const SizedBox(height: 12),
+                        // SettingMenu(
+                        //   icon: LucideIcons.globe,
+                        //   title: 'เปลี่ยนภาษา',
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) =>
+                        //                 const LanguagePage()));
+                        //   },
+                        // ),
+                        if (versionStatus != null &&
+                            versionStatus != VersionStatus.higher)
+                          const SizedBox(height: 12),
+                        if (versionStatus != null &&
+                            versionStatus != VersionStatus.higher)
+                          SettingMenu(
+                            icon: LucideIcons.shopping_bag,
+                            title: 'ประวัติการสั่งซื้อ',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const OrdersPage()));
+                            },
+                          ),
+                        if (versionStatus != null &&
+                            versionStatus != VersionStatus.higher)
+                          const SizedBox(height: 12),
                         SettingMenu(
                           icon: LucideIcons.headphones,
                           title: 'ติดต่อเรา',

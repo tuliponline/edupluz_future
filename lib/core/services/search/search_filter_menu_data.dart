@@ -16,11 +16,11 @@ List<SearchFilterMenuModel> searchFilterMenuData = [
     title: "สำหรับคุณ",
     image: "assets/icons/search/foryou.png",
   ),
-  SearchFilterMenuModel(
-    id: 4,
-    title: "Mastery",
-    image: "assets/icons/search/mastery.png",
-  ),
+  // SearchFilterMenuModel(
+  //   id: 4,
+  //   title: "Mastery",
+  //   image: "assets/icons/search/mastery.png",
+  // ),
 ];
 
 SearchFilterMenuModel searchFilterMenuModelFromJson(String str) =>

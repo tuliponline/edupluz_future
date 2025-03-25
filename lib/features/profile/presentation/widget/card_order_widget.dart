@@ -6,8 +6,8 @@ import 'package:edupluz_future/features/profile/domain/orders_model.dart';
 import 'package:flutter/material.dart';
 
 class CardOrderWidget extends StatelessWidget {
-  final DataItem order;
-  const CardOrderWidget({super.key, required this.order});
+  final Item orders;
+  const CardOrderWidget({super.key, required this.orders});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +47,7 @@ class CardOrderWidget extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    order.status,
+                    orders.status,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.w500,
@@ -75,7 +75,7 @@ class CardOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    order.items.first.name,
+                    orders.productName,
                     style: AppTextStyles.bodySmall.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -95,7 +95,7 @@ class CardOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    dateFormat(order.createdAt.toString()),
+                    dateFormat(orders.createdAt.toString()),
                     textAlign: TextAlign.right,
                     style: AppTextStyles.bodySmall.copyWith(
                       fontWeight: FontWeight.w500,
@@ -115,9 +115,8 @@ class CardOrderWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(width: 85),
                   Text(
-                    order.id,
+                    orders.id,
                     style: AppTextStyles.bodySmall.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -140,7 +139,7 @@ class CardOrderWidget extends StatelessWidget {
                   Text(
                     "${currencyFormat(
                       double.parse(
-                        order.price.totalPrice.toString(),
+                        orders.price.toString(),
                       ),
                     )} บาท",
                     style: AppTextStyles.bodySmall.copyWith(

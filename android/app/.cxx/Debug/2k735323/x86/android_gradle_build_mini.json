@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/overtech/development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/overtech/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/overtech/edupluz/edupluz_future/android/app/.cxx/Debug/2k735323/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/overtech/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/overtech/edupluz/edupluz_future/android/app/.cxx/Debug/2k735323/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

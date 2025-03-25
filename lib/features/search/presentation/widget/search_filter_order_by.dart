@@ -38,11 +38,11 @@ class _SearchOrderByState extends State<SearchOrderBy> {
     },
     {
       "name": "ก-ฮ",
-      "value": "name:asc",
+      "value": "title:asc",
     },
     {
       "name": "ฮ-ก",
-      "value": "name:desc",
+      "value": "title:desc",
     },
   ];
 
@@ -91,29 +91,7 @@ class _SearchOrderByState extends State<SearchOrderBy> {
               ),
             ],
           ),
-          const Divider(color: AppColors.background),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Mastery Course",
-                style: AppTextStyles.bodyMedium.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Switch(
-                value: isMatery,
-                activeColor: AppColors.success,
-                inactiveThumbColor: AppColors.buttonSecondary,
-                onChanged: (value) {
-                  setState(() {
-                    isMatery = value;
-                  });
-                },
-              ),
-            ],
-          ),
-          const Divider(color: AppColors.background),
+          const Divider(color: AppColors.textSecondary),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text("เรียงตาม",

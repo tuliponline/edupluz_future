@@ -18,8 +18,6 @@ import 'package:edupluz_future/features/classroom/data/get_examination_key.dart'
 import 'package:edupluz_future/features/classroom/data/update_progress.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_check_model.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_key_model.dart';
-import 'package:edupluz_future/features/classroom/domain/video_content_model.dart';
-import 'package:edupluz_future/features/classroom/presentation/exam_screen.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/course_info/modal_course_content.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/download_file.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/pdf_view.dart';

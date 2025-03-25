@@ -91,7 +91,7 @@ class CardCoursesWidth extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                          '#${course.categories[0]}',
+                          '#${course.categories.isNotEmpty ? course.categories[0].name : ""}',
                           style: AppTextStyles.bodySmall.copyWith(
                               overflow: TextOverflow.ellipsis,
                               color: AppColors.textPrimary),

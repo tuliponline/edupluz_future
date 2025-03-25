@@ -34,7 +34,7 @@ class OrdersModel {
 }
 
 class Data {
-  List<DataItem> items;
+  List<Item> items;
   Meta meta;
 
   Data({
@@ -43,8 +43,7 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        items:
-            List<DataItem>.from(json["items"].map((x) => DataItem.fromJson(x))),
+        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
         meta: Meta.fromJson(json["meta"]),
       );
 
@@ -54,92 +53,51 @@ class Data {
       };
 }
 
-class DataItem {
-  String id;
-  String number;
-  List<ItemItem> items;
-  Price price;
+class Item {
+  String userId;
+  String productId;
+  String productName;
+  int price;
   String status;
   DateTime createdAt;
   DateTime updatedAt;
+  String referenceNo;
+  String id;
 
-  DataItem({
-    required this.id,
-    required this.number,
-    required this.items,
+  Item({
+    required this.userId,
+    required this.productId,
+    required this.productName,
     required this.price,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
+    required this.referenceNo,
+    required this.id,
   });
 
-  factory DataItem.fromJson(Map<String, dynamic> json) => DataItem(
-        id: json["id"],
-        number: json["number"],
-        items:
-            List<ItemItem>.from(json["items"].map((x) => ItemItem.fromJson(x))),
-        price: Price.fromJson(json["price"]),
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+        userId: json["user_id"],
+        productId: json["product_id"],
+        productName: json["product_name"],
+        price: json["price"],
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        referenceNo: json["reference_no"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "number": number,
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "price": price.toJson(),
+        "user_id": userId,
+        "product_id": productId,
+        "product_name": productName,
+        "price": price,
         "status": status,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-      };
-}
-
-class ItemItem {
-  String id;
-  String name;
-  int qty;
-  int price;
-
-  ItemItem({
-    required this.id,
-    required this.name,
-    required this.qty,
-    required this.price,
-  });
-
-  factory ItemItem.fromJson(Map<String, dynamic> json) => ItemItem(
-        id: json["id"],
-        name: json["name"],
-        qty: json["qty"],
-        price: json["price"],
-      );
-
-  Map<String, dynamic> toJson() => {
+        "reference_no": referenceNo,
         "id": id,
-        "name": name,
-        "qty": qty,
-        "price": price,
-      };
-}
-
-class Price {
-  int discountPrice;
-  int totalPrice;
-
-  Price({
-    required this.discountPrice,
-    required this.totalPrice,
-  });
-
-  factory Price.fromJson(Map<String, dynamic> json) => Price(
-        discountPrice: json["discount_price"],
-        totalPrice: json["total_price"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "discount_price": discountPrice,
-        "total_price": totalPrice,
       };
 }
 

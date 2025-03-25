@@ -131,27 +131,27 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SafeArea(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: GestureDetector(
-                              onTap: () {
-                                context.goNamed(Routes.navigation.name);
-                              },
-                              child: Text(
-                                'ข้าม',
-                                style: AppTextStyles.bodyLarge.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // SafeArea(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.all(16),
+                    //         child: GestureDetector(
+                    //           onTap: () {
+                    //             context.goNamed(Routes.navigation.name);
+                    //           },
+                    //           child: Text(
+                    //             'ข้าม',
+                    //             style: AppTextStyles.bodyLarge.copyWith(
+                    //               fontWeight: FontWeight.bold,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -245,21 +245,21 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                               },
                               text: 'เข้าสู่ระบบ',
                             ),
-                            const SizedBox(height: 16),
-                            Center(
-                              child: Text(
-                                'หรือเข้าสู่ระบบด้วย',
-                                style: AppTextStyles.bodyMedium.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            AppButton.outlineButton(
-                              onPressed: () {},
-                              text: 'เข้าสู่ระบบด้วย gmail',
-                              icon: Image.asset('assets/social/google.png'),
-                            ),
+                            // const SizedBox(height: 16),
+                            // Center(
+                            //   child: Text(
+                            //     'หรือเข้าสู่ระบบด้วย',
+                            //     style: AppTextStyles.bodyMedium.copyWith(
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(height: 16),
+                            // AppButton.outlineButton(
+                            //   onPressed: () {},
+                            //   text: 'เข้าสู่ระบบด้วย gmail',
+                            //   icon: Image.asset('assets/social/google.png'),
+                            // ),
                           ],
                         ),
                       ),
