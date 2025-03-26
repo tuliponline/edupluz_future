@@ -35,8 +35,11 @@ Stack onBoardingScreen1(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                      width: 120,
-                      child: Image.asset("assets/logo/edupluz_logo.png")),
+                      width: 100,
+                      child: Image.asset(
+                        "assets/logo/edupluz_logo.png",
+                        fit: BoxFit.contain,
+                      )),
                   const SizedBox(
                     height: 16,
                   ),
