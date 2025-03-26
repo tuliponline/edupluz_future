@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edupluz_future/core/providers/firebase/card_landscape_detail_provider.dart';
+import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/images/logo_image_wide.dart';
 import 'package:edupluz_future/features/preview/presentation/preview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class CardCourseLandscape extends StatelessWidget {
+class CardCourseLandscape extends ConsumerWidget {
   final String courseId;
   String title;
   String subtitle;
@@ -26,7 +29,8 @@ class CardCourseLandscape extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool isShowText = ref.watch(cardLandscapeDetailProvider);
     return GestureDetector(
         onTap: () {
           if (courseId != '') {
@@ -67,47 +71,48 @@ class CardCourseLandscape extends StatelessWidget {
                             ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    child: SizedBox(
-                      width: 230,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 12, right: 12, bottom: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              maxLines: 1,
-                              style: AppTextStyles.bodyMedium.copyWith(
-                                overflow: TextOverflow.ellipsis,
-                                color: AppColors.background,
-                                fontWeight: FontWeight.bold,
+                  if (isShowText)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: SizedBox(
+                        width: 230,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, bottom: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                maxLines: 1,
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: AppColors.background,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            SizedBox(
-                              width: 230 / 5,
-                              child: Divider(
-                                color: AppColors.background,
-                                height: 10,
+                              const SizedBox(height: 4),
+                              SizedBox(
+                                width: 230 / 5,
+                                child: Divider(
+                                  color: AppColors.background,
+                                  height: 10,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              instructor,
-                              maxLines: 1,
-                              style: AppTextStyles.bodySmall.copyWith(
-                                color: AppColors.background,
+                              const SizedBox(height: 4),
+                              Text(
+                                instructor,
+                                maxLines: 1,
+                                style: AppTextStyles.bodySmall.copyWith(
+                                  color: AppColors.background,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
               if (isShowDetail)

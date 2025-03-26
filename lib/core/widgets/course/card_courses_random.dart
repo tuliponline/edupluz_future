@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/providers/firebase/card_landscape_detail_provider.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_random.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
@@ -40,6 +41,7 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
   }
 
   Container cardCourseDetail() {
+    bool isShowText = ref.watch(cardLandscapeDetailProvider);
     return Container(
       width: double.infinity,
       decoration: ShapeDecoration(
@@ -69,47 +71,48 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: SizedBox(
-                    width: 297,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            maxLines: 1,
-                            course!.data.title,
-                            style: AppTextStyles.bodyLarge.copyWith(
-                              overflow: TextOverflow.ellipsis,
-                              color: AppColors.background,
-                              fontWeight: FontWeight.w600,
+                if (isShowText)
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: SizedBox(
+                      width: 297,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16, right: 16, bottom: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              maxLines: 1,
+                              course!.data.title,
+                              style: AppTextStyles.bodyLarge.copyWith(
+                                overflow: TextOverflow.ellipsis,
+                                color: AppColors.background,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          SizedBox(
-                            width: 230 / 5,
-                            child: Divider(
-                              color: AppColors.background,
-                              height: 10,
+                            const SizedBox(height: 4),
+                            SizedBox(
+                              width: 230 / 5,
+                              child: Divider(
+                                color: AppColors.background,
+                                height: 10,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "${course!.data.instructor.firstName} ${course!.data.instructor.lastName}",
-                            maxLines: 1,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.background,
+                            const SizedBox(height: 4),
+                            Text(
+                              "${course!.data.instructor.firstName} ${course!.data.instructor.lastName}",
+                              maxLines: 1,
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: AppColors.background,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
             const SizedBox(height: 16),

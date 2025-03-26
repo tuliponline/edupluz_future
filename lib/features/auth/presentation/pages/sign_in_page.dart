@@ -4,6 +4,7 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/constant/test_account.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
+import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';

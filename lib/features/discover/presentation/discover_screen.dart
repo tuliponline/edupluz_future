@@ -1,20 +1,16 @@
 import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
-import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
-import 'package:edupluz_future/core/services/storages/login_model/login_model.dart';
+import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/services/user/get_user_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_random.dart';
-import 'package:edupluz_future/core/widgets/course/list_continue_watch.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_by_cat_landscape.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_by_cat_landscape_loading.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_card.dart';
-import 'package:edupluz_future/core/widgets/course/list_courses_mastery.dart';
 import 'package:edupluz_future/core/widgets/search/search_box.dart';
-import 'package:edupluz_future/features/discover/presentation/widget/card_promotion.dart';
 import 'package:edupluz_future/features/search/presentation/search_result_page.dart';
 
 import 'package:flutter/material.dart';
@@ -51,6 +47,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
     isLoading = true;
     await getUserService(ref);
     isLoading = false;
+    RemoteConfigService().cardLandscapeDetail(ref);
     setState(() {});
   }
 

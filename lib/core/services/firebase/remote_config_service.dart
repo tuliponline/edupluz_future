@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:edupluz_future/core/providers/firebase/card_landscape_detail_provider.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 class RemoteConfigService {
@@ -60,6 +62,26 @@ class RemoteConfigService {
       return isShowUpdatePatchDialog;
     } catch (exception) {
       Logger().e(" Failed to fetch isPatchDialog remote config. $exception");
+      return false;
+    }
+  }
+
+  Future<bool> cardLandscapeDetail(WidgetRef ref) async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(seconds: 5),
+    ));
+    try {
+      await remoteConfig.fetchAndActivate();
+      bool isShowCardLandscapeDetail =
+          remoteConfig.getBool('card_landscape_detail');
+      ref.read(cardLandscapeDetailProvider.notifier).state =
+          isShowCardLandscapeDetail;
+      return isShowCardLandscapeDetail;
+    } catch (exception) {
+      Logger()
+          .e(" Failed to fetch cardLandscapeDetail remote config. $exception");
       return false;
     }
   }
