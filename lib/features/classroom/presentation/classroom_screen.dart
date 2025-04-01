@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/models/courses/exam_model.dart' as exam;
 import 'package:edupluz_future/core/providers/version/version_provider.dart';
 import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
@@ -10,17 +11,12 @@ import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/better_player/better_player_screen.dart';
 import 'package:edupluz_future/core/widgets/dialogs/info_dialog.dart';
-import 'package:edupluz_future/features/classroom/data/check_examination.dart';
-import 'package:edupluz_future/features/classroom/data/fetch_content_with_video.dart';
-import 'package:edupluz_future/features/classroom/data/fetch_course_file.dart';
-import 'package:edupluz_future/features/classroom/data/get_exam_url.dart';
-import 'package:edupluz_future/features/classroom/data/get_examination_key.dart';
-import 'package:edupluz_future/features/classroom/data/update_progress.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_check_model.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_key_model.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/course_info/modal_course_content.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/download_file.dart';
-import 'package:edupluz_future/features/classroom/presentation/widget/pdf_view.dart';
+import 'package:edupluz_future/features/classroom/presentation/widget/exam_widget.dart';
+import 'package:edupluz_future/features/classroom/presentation/widget/course_info/pdf_view_widget.dart';
 import 'package:edupluz_future/features/classroom/provider/web_socket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -55,9 +51,11 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   ExaminationKeyModel? examinationKey;
   ExaminationCheckModel? examinationCheck;
 
-  late BetterPlayerController betterPlayerController;
+  late BetterPlayerController? betterPlayerController;
   bool isVideoEnded = false;
 
+  bool isExam = false;
+  exam.ExamModel? examData;
   _fetchCourseById() async {
     if (widget.courseId != "") {
       course = await fetchCourseById(id: widget.courseId);
@@ -116,15 +114,22 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     Logger().d("newLessonId ${lessonId}");
     if (course!.data.chapters[chapterIndex].lessons[lessonIndex].type ==
         "VIDEO") {
+      String newVideoUrl = course!.data.chapters[chapterIndex]
+              .lessons[lessonIndex].content.video?.url ??
+          "";
       isVideoEnded = false;
-      betterPlayerController.setupDataSource(
+      betterPlayerController!.setupDataSource(
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
-          course!.data.chapters[chapterIndex].lessons[lessonIndex].content.video
-                  ?.url ??
-              "",
+          newVideoUrl,
         ),
       );
+
+      setState(() {});
+    } else if (course!.data.chapters[chapterIndex].lessons[lessonIndex].type ==
+        "EXAM") {
+      isVideoEnded = false;
+      _goExam();
     } else {
       isVideoEnded = false;
 
@@ -136,18 +141,64 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
 
   @override
   void initState() {
+    betterPlayerController = null;
     _initData();
     super.initState();
   }
 
   @override
   void dispose() {
-    betterPlayerController.dispose();
+    betterPlayerController?.dispose();
     super.dispose();
   }
 
   _eventListener() {
-    betterPlayerController.addEventsListener((event) async {});
+    betterPlayerController?.addEventsListener((event) async {});
+  }
+
+  _goExam() {
+    var examString = (course!.data.chapters[chapterIndex]);
+    Logger().d("examString $examString");
+
+    // Convert the exam data to ExamModel
+    var sourceExam =
+        course!.data.chapters[chapterIndex].lessons[lessonIndex].content.exam!;
+    var convertedExam = exam.Exam(
+      questions: sourceExam.questions
+          .map((q) => exam.Question(
+                id: q.id,
+                title: q.title,
+                choices: q.choices
+                    .map((c) => exam.ChoiceElement(
+                          id: c.id,
+                          choice: exam.choiceEnumValues.map[c.choice]!,
+                          title: c.title,
+                          isCorrect: c.isCorrect,
+                        ))
+                    .toList(),
+                sequence: q.sequence,
+              ))
+          .toList(),
+    );
+
+    var examModel = exam.ExamModel(
+      id: course!.data.chapters[chapterIndex].lessons[lessonIndex].id,
+      type: "EXAM",
+      name: course!.data.chapters[chapterIndex].lessons[lessonIndex].name,
+      isFree: course!.data.chapters[chapterIndex].lessons[lessonIndex].isFree,
+      sequence: course!.data.chapters[chapterIndex].sequence,
+      content: exam.Content(
+        exam: convertedExam,
+      ),
+    );
+
+    Logger()
+        .d("Converted ExamModel: ${examModel.content.exam.questions.length}");
+
+    setState(() {
+      isExam = true;
+      examData = examModel;
+    });
   }
 
   @override
@@ -185,81 +236,64 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(0),
-                          child: BetterPlayerScreen(
-                            url: course!.data.chapters[chapterIndex]
-                                    .lessons[lessonIndex].content.video?.url ??
-                                "",
-                            betterPlayerController: (betterPlayerController) {
-                              this.betterPlayerController =
-                                  betterPlayerController;
-                              _eventListener();
-                            },
-                            onVideoEnded: () async {
-                              Logger().d("onVideoEnded");
-                              if (!isVideoEnded) {
-                                Logger().d("onVideoEnded isVideoEnded");
-                                EasyLoading.show();
-                                Duration lessonDuration = betterPlayerController
-                                        .videoPlayerController!
-                                        .value
-                                        .duration ??
-                                    Duration.zero;
-                                isVideoEnded = true;
-
-                                await Future.delayed(const Duration(seconds: 3),
-                                    () {
-                                  _nextLesson();
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                    course!.data.chapters[chapterIndex]
-                                        .lessons[lessonIndex].name,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.h4),
-                              ),
-                              if (course!.data.chapters[chapterIndex]
-                                          .lessons[lessonIndex].type ==
-                                      "FILE" &&
-                                  !widget.isFree)
-                                const SizedBox(width: 8),
-                              if (course!.data.chapters[chapterIndex]
-                                          .lessons[lessonIndex].type ==
-                                      "FILE" &&
-                                  !widget.isFree)
-                                DownloadFile(
-                                    url: course!
-                                            .data
-                                            .chapters[chapterIndex]
-                                            .lessons[lessonIndex]
-                                            .content
-                                            .file
-                                            ?.url ??
-                                        ""),
-                            ],
-                          ),
-                        ),
                         if (course!.data.chapters[chapterIndex]
-                                    .lessons[lessonIndex].type ==
-                                "FILE" &&
-                            !widget.isFree)
+                                .lessons[lessonIndex].type ==
+                            "File")
                           PdfView(
-                              pdfCourseFile: course!.data.chapters[chapterIndex]
-                                      .lessons[lessonIndex].content.file?.url ??
-                                  ""),
+                            pdfCourseFile: course!.data.chapters[chapterIndex]
+                                    .lessons[lessonIndex].content.file?.url ??
+                                "",
+                          ),
+                        if ((course!.data.chapters[chapterIndex]
+                                .lessons[lessonIndex].type ==
+                            "EXAM"))
+                          ExamWidget(
+                            exam: examData!,
+                            courseId: course!.data.id,
+                            chapterId: course!.data.chapters[chapterIndex].id,
+                            lessonId: course!.data.chapters[chapterIndex]
+                                .lessons[lessonIndex].id,
+                          ),
+                        if ((course!.data.chapters[chapterIndex]
+                                .lessons[lessonIndex].type ==
+                            "VIDEO"))
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(0),
+                            child: BetterPlayerScreen(
+                              url: course!
+                                      .data
+                                      .chapters[chapterIndex]
+                                      .lessons[lessonIndex]
+                                      .content
+                                      .video
+                                      ?.url ??
+                                  "",
+                              betterPlayerController: (controller) {
+                                betterPlayerController = controller;
+                                _eventListener();
+                              },
+                              onVideoEnded: () async {
+                                Logger().d("onVideoEnded");
+                                if (!isVideoEnded &&
+                                    betterPlayerController != null) {
+                                  Logger().d("onVideoEnded isVideoEnded");
+                                  EasyLoading.show();
+                                  Duration lessonDuration =
+                                      betterPlayerController!
+                                              .videoPlayerController
+                                              ?.value
+                                              .duration ??
+                                          Duration.zero;
+                                  isVideoEnded = true;
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 3), () {
+                                    _nextLesson();
+                                  });
+                                }
+                              },
+                            ),
+                          ),
                         if (course!.data.chapters[chapterIndex]
                                 .lessons[lessonIndex].type ==
                             "VIDEO")
@@ -269,85 +303,109 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                             widget.isFree ||
                             course!.data.joined)
                           CourseContent(
-                            onCerTap: () async {
-                              EasyLoading.show();
-
-                              if (examinationCheck != null &&
-                                  examinationCheck!.data.passed) {
-                                Uint8List cerData = await CerService()
-                                    .downloadCer(examinationKey!.data.key);
-                                await CerService().saveCertificate(cerData);
-
-                                EasyLoading.dismiss();
-                              } else {
-                                EasyLoading.dismiss();
-                                await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return InfoDialog(
-                                        testCenter: true,
-                                        callback: (value) {
-                                          Navigator.pop(context);
-                                        },
-                                        title: "ไม่สามารถดาวน์โหลดได้",
-                                        detail: "คุณต้องทำแบบทดสอบให้ผ่านก่อน",
-                                      );
-                                    });
-                              }
-                            },
-                            onExamTap: () async {},
-                            hasExam: false,
-                            course: course!,
-                            lessonId: lessonId,
-                            onLessonClick: (chapterId, lessonId) async {
-                              Logger().d("onLessonClick On Classroom");
-                              setState(() {
-                                this.chapterId = chapterId;
-                                this.lessonId = lessonId;
-                              });
-
-                              await _findIndexAtId();
-
-                              if (course!.data.chapters[chapterIndex]
-                                      .lessons[lessonIndex].type ==
-                                  "VIDEO") {
-                                String newVideoUrl = course!
-                                        .data
-                                        .chapters[chapterIndex]
-                                        .lessons[lessonIndex]
-                                        .content
-                                        .video
-                                        ?.url ??
-                                    "";
-                                if (newVideoUrl.isNotEmpty) {
-                                  betterPlayerController.setupDataSource(
-                                    BetterPlayerDataSource(
-                                      BetterPlayerDataSourceType.network,
-                                      newVideoUrl,
-                                    ),
-                                  );
-                                }
-                              } else {
+                              onCerTap: () async {
                                 EasyLoading.show();
-                                try {
-                                  Uri uri = Uri.parse(course!
+
+                                if (examinationCheck != null &&
+                                    examinationCheck!.data.passed) {
+                                  Uint8List cerData = await CerService()
+                                      .downloadCer(examinationKey!.data.key);
+                                  await CerService().saveCertificate(cerData);
+
+                                  EasyLoading.dismiss();
+                                } else {
+                                  EasyLoading.dismiss();
+                                  await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return InfoDialog(
+                                          testCenter: true,
+                                          callback: (value) {
+                                            Navigator.pop(context);
+                                          },
+                                          title: "ไม่สามารถดาวน์โหลดได้",
+                                          detail:
+                                              "คุณต้องทำแบบทดสอบให้ผ่านก่อน",
+                                        );
+                                      });
+                                }
+                              },
+                              onExamTap: () async {},
+                              hasExam: false,
+                              course: course!,
+                              lessonId: lessonId,
+                              onLessonClick: (chapterId, lessonId) async {
+                                Logger().d("onLessonClick On Classroom");
+
+                                setState(() {
+                                  this.chapterId = chapterId;
+                                  this.lessonId = lessonId;
+                                });
+
+                                await _findIndexAtId();
+
+                                if (course!.data.chapters[chapterIndex]
+                                        .lessons[lessonIndex].type ==
+                                    "VIDEO") {
+                                  setState(() {
+                                    isExam = false;
+                                  });
+
+                                  // No need to dispose controller here since we already did it above
+                                  String newVideoUrl = course!
                                           .data
                                           .chapters[chapterIndex]
                                           .lessons[lessonIndex]
                                           .content
-                                          .file
+                                          .video
                                           ?.url ??
-                                      "");
-                                  await launchUrl(uri);
-                                } catch (e) {
-                                  EasyLoading.dismiss();
-                                  EasyLoading.showError(e.toString());
-                                } finally {
-                                  EasyLoading.dismiss();
+                                      "";
+                                  if (newVideoUrl.isEmpty) {
+                                    EasyLoading.showError("Video URL is empty");
+                                    String newVideoUrl = course!
+                                            .data
+                                            .chapters[chapterIndex]
+                                            .lessons[lessonIndex]
+                                            .content
+                                            .video
+                                            ?.url ??
+                                        "";
+
+                                    if (newVideoUrl.isNotEmpty) {
+                                      betterPlayerController!.setupDataSource(
+                                        BetterPlayerDataSource(
+                                          BetterPlayerDataSourceType.network,
+                                          newVideoUrl,
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    betterPlayerController!.setupDataSource(
+                                      BetterPlayerDataSource(
+                                        BetterPlayerDataSourceType.network,
+                                        newVideoUrl,
+                                      ),
+                                    );
+                                  }
+                                } else if (course!.data.chapters[chapterIndex]
+                                        .lessons[lessonIndex].type ==
+                                    "EXAM") {
+                                  _goExam();
+                                } else {
+                                  setState(() {
+                                    isExam = false;
+                                  });
+                                  EasyLoading.show();
+                                  try {
+                                    setState(() {});
+                                  } catch (e) {
+                                    EasyLoading.dismiss();
+                                    EasyLoading.showError(e.toString());
+                                  } finally {
+                                    EasyLoading.dismiss();
+                                  }
                                 }
-                              }
-                            },
-                          ),
+                              }),
                       ],
                     ),
                   ),

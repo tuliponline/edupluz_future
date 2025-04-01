@@ -8,6 +8,8 @@ class ApiPath {
   static String courses = "/course/course/v1/courses";
   static String coursesJoinings = "/course/course/v1/courses/joinings";
 
+  static String exam = "/course/course/v1/courses/exams";
+
   static String orders = "/merchant/order/v1/orders";
   static String profile = "/account/user/v1/users/profile";
   static String courseFavorites = "/course/course/v1/courses/favorites";

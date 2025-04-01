@@ -103,7 +103,9 @@ class LessonItem extends StatelessWidget {
                       ? LucideIcons.book_check
                       : (lesson!.type == "FILE")
                           ? LucideIcons.download
-                          : LucideIcons.play,
+                          : (lesson!.type == "EXAM")
+                              ? LucideIcons.book_check
+                              : LucideIcons.play,
                   color: AppColors.background,
                   size: 16,
                 ),

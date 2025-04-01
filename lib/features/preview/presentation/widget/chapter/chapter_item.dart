@@ -127,16 +127,27 @@ class ChapterItem extends ConsumerWidget {
                       color: Colors.white,
                       size: 16,
                     )
-                  : Icon(
-                      versionStatus == VersionStatus.higher ||
-                              checkIsFree(course: course) ||
-                              lesson.isFree ||
-                              course.data.joined
-                          ? LucideIcons.file
-                          : LucideIcons.lock,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                  : (lesson.type == "VIDEO")
+                      ? Icon(
+                          versionStatus == VersionStatus.higher ||
+                                  checkIsFree(course: course) ||
+                                  lesson.isFree ||
+                                  course.data.joined
+                              ? LucideIcons.file
+                              : LucideIcons.lock,
+                          color: Colors.white,
+                          size: 16,
+                        )
+                      : Icon(
+                          versionStatus == VersionStatus.higher ||
+                                  checkIsFree(course: course) ||
+                                  lesson.isFree ||
+                                  course.data.joined
+                              ? LucideIcons.book_check
+                              : LucideIcons.lock,
+                          color: Colors.white,
+                          size: 16,
+                        ),
             )
           ],
         ),

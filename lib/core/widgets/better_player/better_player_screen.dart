@@ -46,7 +46,6 @@ class _BetterPlayerScreenState extends State<BetterPlayerScreen> {
 
   @override
   void dispose() {
-    _betterPlayerController?.pause();
     _betterPlayerController?.dispose();
     super.dispose();
   }

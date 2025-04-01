@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final ButtonVariant variant;
   final ButtonSize size;
   final Image? icon;
+  final Widget? child;
   const AppButton({
     Key? key,
     this.enabled = true,
@@ -18,6 +19,7 @@ class AppButton extends StatelessWidget {
     this.variant = ButtonVariant.primary,
     this.size = ButtonSize.medium,
     this.icon,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -25,31 +27,32 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: enabled ? onPressed : null,
       style: _getButtonStyle(context),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            icon!,
-            const SizedBox(width: 8),
-          ],
-          if (hasSearchIcon) ...[
-            Icon(
-              Icons.search,
-              color: _getTextColor(context),
-              size: _getIconSize(),
-            ),
-            const SizedBox(width: 8),
-          ],
-          if (text != null)
-            Text(
-              text!,
-              style: TextStyle(
-                color: _getTextColor(context),
-                fontSize: _getFontSize(),
-              ),
-            ),
-        ],
-      ),
+      child: child ??
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[
+                icon!,
+                const SizedBox(width: 8),
+              ],
+              if (hasSearchIcon) ...[
+                Icon(
+                  Icons.search,
+                  color: _getTextColor(context),
+                  size: _getIconSize(),
+                ),
+                const SizedBox(width: 8),
+              ],
+              if (text != null)
+                Text(
+                  text!,
+                  style: TextStyle(
+                    color: _getTextColor(context),
+                    fontSize: _getFontSize(),
+                  ),
+                ),
+            ],
+          ),
     );
   }
 
@@ -249,6 +252,34 @@ class AppButton extends StatelessWidget {
       variant: ButtonVariant.ghost,
       size: size,
       enabled: enabled,
+    );
+  }
+
+  static Widget iconAndTextButton({
+    required IconData icon,
+    required String text,
+    VoidCallback? onPressed,
+    ButtonVariant variant = ButtonVariant.primary,
+    ButtonSize size = ButtonSize.medium,
+    bool enabled = true,
+  }) {
+    return AppButton(
+      text: text,
+      onPressed: onPressed,
+      variant: variant,
+      size: size,
+      enabled: enabled,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: AppColors.background,
+          ),
+          const SizedBox(width: 8),
+          Text(text),
+        ],
+      ),
     );
   }
 }

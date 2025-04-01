@@ -1,4 +1,5 @@
 enum Routes {
+  exam,
   splash,
   maintenance,
   signin,

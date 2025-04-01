@@ -85,16 +85,16 @@ class _SplashPageState extends ConsumerState<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Gif(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width / 1.5,
+              height: MediaQuery.of(context).size.width / 1.5,
               image: AssetImage(
-                'assets/splash/splash_new.gif',
+                'assets/splash/splash.gif',
               ),
               controller: controller,
               autostart: Autostart.no,

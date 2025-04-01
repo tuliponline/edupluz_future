@@ -1,6 +1,7 @@
 import 'package:edupluz_future/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:edupluz_future/features/classroom/presentation/widget/exam_widget.dart';
 import 'package:edupluz_future/features/maintenance/presentation/pages/maintenance_page.dart';
 import 'package:edupluz_future/features/navigation/presentation/pages/navigation_page.dart';
 import 'package:edupluz_future/features/onboarding/onboarding_page.dart';

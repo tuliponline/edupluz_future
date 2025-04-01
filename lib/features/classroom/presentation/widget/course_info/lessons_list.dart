@@ -118,13 +118,16 @@ class _LessonsListState extends State<LessonsList> {
                       itemBuilder: (context, j) {
                         return GestureDetector(
                           onTap: () {
-                            Logger().d("onLessonTap");
                             setState(() {
                               chapterId = widget.course.data.chapters[i].id;
                               lessonId =
                                   widget.course.data.chapters[i].lessons[j].id;
                             });
+                            Logger().d("onLessonTap");
+                            Logger().d("Chapter ID: $chapterId");
+                            Logger().d("Lesson ID: $lessonId");
                             widget.onLessonClick(chapterId, lessonId);
+                            Navigator.pop(context);
                           },
                           child: LessonItem(
                             course: widget.course,
