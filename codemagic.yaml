@@ -325,3 +325,8 @@ workflows:
               success: true 
               failure: true
        
+# shorebird release ios --flavor nonprod  -t lib/main_nonprod.dart
+# shorebird release ios --flavor prod  -t lib/main_prod.dart
+
+#  shorebird release android --artifact=apk --flavor nonprod --target lib/main_nonprod.dart
+#  shorebird release android --artifact=aab --flavor prod --target lib/main_prod.dart

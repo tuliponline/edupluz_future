@@ -1,5 +1,6 @@
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/courses/check_exam_200_response.dart';
+import 'package:edupluz_future/core/models/courses/get_exams_200_response.dart';
 import 'package:edupluz_future/core/providers/language_provider.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,6 +67,20 @@ class ExamServices {
                 .toList(),
           });
       Logger().d(response);
+    } catch (e) {
+      Logger().e(e);
+      throw Exception(e);
+    }
+  }
+
+  Future<GetExams200Response> getExam({
+    required String courseId,
+  }) async {
+    try {
+      final response = await PrivateApiService()
+          .get(path: "${ApiPath.exam}?filters=course_id:$courseId");
+      Logger().d(response);
+      return getExams200ResponseFromJson(response);
     } catch (e) {
       Logger().e(e);
       throw Exception(e);

@@ -7,6 +7,7 @@ import 'package:edupluz_future/core/models/courses/exam_model.dart' as exam;
 import 'package:edupluz_future/core/providers/version/version_provider.dart';
 import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
+import 'package:edupluz_future/core/services/exam/exam_services.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/better_player/better_player_screen.dart';
@@ -133,9 +134,9 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     } else {
       isVideoEnded = false;
 
-      launchUrl(Uri.parse(course!.data.chapters[chapterIndex]
-              .lessons[lessonIndex].content.file?.url ??
-          ""));
+      setState(() {
+        isExam = false;
+      });
     }
   }
 
@@ -156,7 +157,34 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     betterPlayerController?.addEventsListener((event) async {});
   }
 
-  _goExam() {
+  _goExam() async {
+    EasyLoading.show();
+    var examResponse = await ExamServices().getExam(
+      courseId: widget.courseId,
+    );
+    EasyLoading.dismiss();
+    if (examResponse.data.items.isNotEmpty &&
+        examResponse.data.items.length > 0) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("คุณได้ทำแบบทดสอบแล้ว", style: AppTextStyles.h4),
+          content: Text("แบบทดสอบนี้จะไม่สามารถทำได้อีก",
+              style: AppTextStyles.bodyLarge),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text("ตกลง"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     var examString = (course!.data.chapters[chapterIndex]);
     Logger().d("examString $examString");
 
@@ -245,8 +273,9 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                 "",
                           ),
                         if ((course!.data.chapters[chapterIndex]
-                                .lessons[lessonIndex].type ==
-                            "EXAM"))
+                                    .lessons[lessonIndex].type ==
+                                "EXAM" &&
+                            examData != null))
                           ExamWidget(
                             exam: examData!,
                             courseId: course!.data.id,
@@ -395,15 +424,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                   setState(() {
                                     isExam = false;
                                   });
-                                  EasyLoading.show();
-                                  try {
-                                    setState(() {});
-                                  } catch (e) {
-                                    EasyLoading.dismiss();
-                                    EasyLoading.showError(e.toString());
-                                  } finally {
-                                    EasyLoading.dismiss();
-                                  }
                                 }
                               }),
                       ],
