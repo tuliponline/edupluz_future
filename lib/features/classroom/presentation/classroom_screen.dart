@@ -238,9 +238,9 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                       children: [
                         if (course!.data.chapters[chapterIndex]
                                 .lessons[lessonIndex].type ==
-                            "File")
+                            "FILE")
                           PdfView(
-                            pdfCourseFile: course!.data.chapters[chapterIndex]
+                            url: course!.data.chapters[chapterIndex]
                                     .lessons[lessonIndex].content.file?.url ??
                                 "",
                           ),

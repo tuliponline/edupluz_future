@@ -1,66 +1,68 @@
-import 'package:edupluz_future/core/theme/app_colors.dart';
-import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:logger/logger.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class PdfView extends StatefulWidget {
-  final String pdfCourseFile;
-  const PdfView({super.key, required this.pdfCourseFile});
+  final String url;
+
+  const PdfView({
+    super.key,
+    required this.url,
+  });
 
   @override
   State<PdfView> createState() => _PdfViewState();
 }
 
 class _PdfViewState extends State<PdfView> {
-  int page = 0;
-  int totalPages = 0;
+  String? localPath;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPDF();
+  }
+
+  Future<void> loadPDF() async {
+    try {
+      final response = await http.get(Uri.parse(widget.url));
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/document.pdf');
+      await file.writeAsBytes(response.bodyBytes);
+
+      setState(() {
+        localPath = file.path;
+        isLoading = false;
+      });
+    } catch (e) {
+      Logger().e('Error loading PDF: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        children: [
-          PDFView(
-            filePath: widget.pdfCourseFile,
-            enableSwipe: true,
-            onPageChanged: (page, total) {
-              Logger().d('page change: $page/$total');
-              setState(() {
-                this.page = page ?? 0;
-                totalPages = total ?? 0;
-              });
-            },
-            // swipeHorizontal: true,
-            // autoSpacing: false,
-            // pageFling: false,
-            // pageSnap: false,
-            // defaultPage: 1,
-            // fitEachPage: true,
-            // onRender: (pages) {
-            //   setState(() {});
-            // },
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              margin: const EdgeInsets.all(8),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: ShapeDecoration(
-                color: AppColors.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(999),
+    return isLoading
+        ? Expanded(child: const Center(child: CircularProgressIndicator()))
+        : localPath == null
+            ? Expanded(child: const Center(child: Text('Error loading PDF')))
+            : Expanded(
+                child: PDFView(
+                  filePath: localPath!,
+                  enableSwipe: true,
+                  swipeHorizontal: false,
+                  autoSpacing: true,
+                  pageFling: true,
+                  onError: (error) {
+                    Logger().e('Error rendering PDF: $error');
+                  },
                 ),
-              ),
-              child: Text(
-                "${page + 1} / $totalPages",
-                style: AppTextStyles.bodySmall
-                    .copyWith(color: AppColors.background),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+              );
   }
 }

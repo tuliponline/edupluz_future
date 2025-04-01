@@ -80,6 +80,8 @@ dependencies:
   saver_gallery: ^3.0.6
   flutter_alice_http: ^2.1.1
   url_launcher_ios: ^6.3.2
+  path_provider: ^2.1.2
+  webview_flutter_plus: ^0.4.12
   
 
 

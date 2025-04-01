@@ -45,13 +45,5 @@ class CerService {
     final path = '${directory.path}/certificate.jpg';
     final file = File(path);
     await file.writeAsBytes(data);
-    final result = await SaverGallery.saveImage(Uint8List.fromList(data),
-        quality: 60, name: "certificate.jpg", androidExistNotSave: true);
-    Logger().d(result);
-    if (result == null) {
-      EasyLoading.showError("ดาวน์โหลดไม่สําเร็จ");
-    } else {
-      EasyLoading.showSuccess("ดาวน์โหลดสําเร็จ");
-    }
   }
 }
