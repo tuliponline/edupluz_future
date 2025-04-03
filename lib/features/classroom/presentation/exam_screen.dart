@@ -1,4 +1,5 @@
 import 'package:edupluz_future/core/models/courses/course_model.dart';
+import 'package:edupluz_future/core/services/api/private_api_service.dart';
 import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
@@ -60,7 +61,7 @@ class _ExamScreenState extends State<ExamScreen> {
               onDownloadStartRequest: (controller, downloadStartRequest) async {
                 EasyLoading.show();
                 Uint8List cerData =
-                    await CerService().downloadCer(widget.examKey);
+                    await PrivateApiService().downloadCer(widget.examKey);
                 await CerService().saveCertificate(cerData);
                 EasyLoading.dismiss();
                 // Logger().d(cerData);

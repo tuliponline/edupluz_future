@@ -3,7 +3,6 @@ import 'package:edupluz_future/core/services/auth/authsService_service.dart';
 import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
 import 'package:edupluz_future/core/services/shorebird/shorebird_service.dart';
 import 'package:edupluz_future/core/services/storages/storage_services.dart';
-import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/features/splash/presentation/wisgets/patch_dialog.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
       if (versionStatus == VersionStatus.higher) {
         context.goNamed(Routes.signin.name);
       } else {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 3));
         if (mounted) {
           bool isOpenAppFirstTime = await StorageServices.isOpenFirstTime();
           if (isOpenAppFirstTime) {

@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:edupluz_future/core/models/courses/check_exam_200_response.dart';
 import 'package:edupluz_future/core/models/courses/exam_model.dart';
+import 'package:edupluz_future/core/models/courses/get_exam_key_200_response.dart';
+import 'package:edupluz_future/core/services/api/private_api_service.dart';
+import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/services/exam/exam_services.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/features/classroom/provider/fake_exam.dart';
@@ -7,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'dart:math';
 
 class ExamWidget extends ConsumerStatefulWidget {
   final String courseId;
@@ -28,6 +34,17 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
   int index = 0;
   ExamModel? examData;
   Map<int, String> selectedChoices = {};
+  String key = "";
+
+  _getExamKey() async {
+    GetExamKey200Response response = await ExamServices().getExamKey(
+      ref: ref,
+      courseId: widget.courseId,
+      chapterId: widget.chapterId,
+      lessonId: widget.lessonId,
+    );
+    key = response.data.key;
+  }
 
   void onChanged(String? value) {
     setState(() {
@@ -64,9 +81,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
     try {
       CheckExam200Response response = await ExamServices().checkExam(
         ref: ref,
-        courseId: widget.courseId,
-        chapterId: widget.chapterId,
-        lessonId: widget.lessonId,
+        key: key,
         answers: answers,
       );
 
@@ -109,6 +124,23 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
               ],
             ),
             actions: [
+              if (response.data.isPassed)
+                TextButton(
+                    onPressed: () async {
+                      try {
+                        EasyLoading.show();
+                        Uint8List cerData =
+                            await PrivateApiService().downloadCer(key);
+                        await CerService().saveCertificate(cerData);
+                      } catch (e) {
+                        Logger().e(e);
+                        EasyLoading.showError(
+                            "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+                      } finally {
+                        EasyLoading.dismiss();
+                      }
+                    },
+                    child: Text("ดาวน์โหลดใบรับรอง")),
               TextButton(
                 onPressed: () async {
                   if (response.data.isPassed) {
@@ -116,9 +148,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                     try {
                       await ExamServices().submitExam(
                         ref: ref,
-                        courseId: widget.courseId,
-                        chapterId: widget.chapterId,
-                        lessonId: widget.lessonId,
+                        key: key,
                         answers: answers,
                       );
                       Navigator.pop(context);
@@ -132,6 +162,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                     }
                   } else {
                     setState(() {
+                      examData!.content.exam.questions.shuffle(Random());
                       index = 0;
                       selectedChoices.clear();
                     });
@@ -153,12 +184,15 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
 
   _initData() {
     examData = widget.exam ?? fakeExam;
+    // Shuffle with random seed
+    examData!.content.exam.questions.shuffle(Random());
     setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
+    _getExamKey();
     _initData();
   }
 
@@ -196,7 +230,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                   SizedBox(height: 16),
                   ...examData!.content.exam.questions[index].choices
                       .map((e) => RadioListTile(
-                            title: Text(e.title,
+                            title: Text("${e.choice.name}. ${e.title}",
                                 style: AppTextStyles.bodyMedium
                                     .copyWith(color: Colors.black)),
                             value: e.id,

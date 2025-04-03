@@ -40,7 +40,7 @@ class MainNavBar extends StatelessWidget {
             hoverColor: AppColors.background,
             backgroundColor: AppColors.background,
             activeColor: AppColors.buttonText,
-            iconSize: 16,
+            iconSize: 24,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             duration: const Duration(milliseconds: 400),
             tabBackgroundColor: AppColors.primary,

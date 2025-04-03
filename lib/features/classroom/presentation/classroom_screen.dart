@@ -4,7 +4,9 @@ import 'package:better_player_plus/better_player_plus.dart';
 import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/models/courses/course_model.dart';
 import 'package:edupluz_future/core/models/courses/exam_model.dart' as exam;
+import 'package:edupluz_future/core/models/courses/get_exam_key_200_response.dart';
 import 'package:edupluz_future/core/providers/version/version_provider.dart';
+import 'package:edupluz_future/core/services/api/private_api_service.dart';
 import 'package:edupluz_future/core/services/cer_service.dart';
 import 'package:edupluz_future/core/services/courses/fetch_course_by_id.dart';
 import 'package:edupluz_future/core/services/exam/exam_services.dart';
@@ -133,7 +135,6 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
       _goExam();
     } else {
       isVideoEnded = false;
-
       setState(() {
         isExam = false;
       });
@@ -160,7 +161,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   _goExam() async {
     EasyLoading.show();
     var examResponse = await ExamServices().getExam(
-      courseId: widget.courseId,
+      lessonId: lessonId,
     );
     EasyLoading.dismiss();
     if (examResponse.data.items.isNotEmpty &&
@@ -172,6 +173,34 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
           content: Text("แบบทดสอบนี้จะไม่สามารถทำได้อีก",
               style: AppTextStyles.bodyLarge),
           actions: [
+            TextButton(
+                onPressed: () async {
+                  try {
+                    EasyLoading.show();
+                    GetExamKey200Response response =
+                        await ExamServices().getExamKey(
+                      ref: ref,
+                      courseId: course!.data.id,
+                      chapterId: course!.data.chapters[chapterIndex].id,
+                      lessonId: course!
+                          .data.chapters[chapterIndex].lessons[lessonIndex].id,
+                    );
+
+                    Logger().d("response.data.key ${response.data.key}");
+                    Uint8List cerData = await PrivateApiService()
+                        .downloadCer(response.data.key);
+
+                    await CerService().saveCertificate(cerData);
+                    EasyLoading.showSuccess("ดาวน์โหลดใบรับรองสำเร็จ");
+                  } catch (e) {
+                    Logger().e(e);
+                    EasyLoading.showError(
+                        "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+                  } finally {
+                    EasyLoading.dismiss();
+                  }
+                },
+                child: Text("ดาวน์โหลดใบรับรอง")),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -337,7 +366,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
 
                                 if (examinationCheck != null &&
                                     examinationCheck!.data.passed) {
-                                  Uint8List cerData = await CerService()
+                                  Uint8List cerData = await PrivateApiService()
                                       .downloadCer(examinationKey!.data.key);
                                   await CerService().saveCertificate(cerData);
 

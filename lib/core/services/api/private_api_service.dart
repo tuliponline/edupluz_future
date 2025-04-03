@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/constant/app_env.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
@@ -24,6 +26,27 @@ class PrivateApiService {
       return _loginData.data.accessToken;
     } catch (e) {
       throw Exception('Failed to get access token');
+    }
+  }
+
+  Future<Uint8List> downloadCer(
+    String examKey,
+  ) async {
+    String accessToken = await _getToken();
+
+    Uri uri = Uri.parse(
+        "${dotenv.get(AppEnv.apiBasePath)}${ApiPath.exam}/certificate?key=$examKey");
+    final response = await http.get(uri, headers: {
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': 'attachment; filename=certificate.jpg',
+      'Authorization': "Bearer $accessToken",
+    });
+    if (response.statusCode == 200) {
+      Uint8List data = response.bodyBytes;
+      return data;
+    } else {
+      Logger().e(response.reasonPhrase);
+      throw Exception('Failed Call API code ${response.statusCode}');
     }
   }
 

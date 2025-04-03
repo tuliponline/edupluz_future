@@ -8,6 +8,7 @@ import 'package:edupluz_future/core/services/user/get_user_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_bar/appbar_widget.dart';
+import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
 import 'package:edupluz_future/features/profile/data/update_profile.dart';
 import 'package:edupluz_future/features/profile/presentation/widget/profile_avatar.dart';
@@ -143,69 +144,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                                 const SizedBox(height: 16),
                               ],
                             ),
-                            SizedBox(
-                              height: 56,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  EasyLoading.show();
-                                  bool result = await updateProfile(
-                                      picture: base64Image ?? "",
-                                      name: name.text,
-                                      lastName: lastName.text,
-                                      ref: ref);
-                                  EasyLoading.dismiss();
-                                  if (result) {
-                                    // fetchUserMe(ref);
-
-                                    Logger().d(
-                                        "Update Profile: ${meData.data.firstName} ${meData.data.lastName} ${meData.data.firstName}");
-
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                          SnackBar(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 24,
-                                                left: 24,
-                                                right: 24),
-                                            behavior: SnackBarBehavior.floating,
-                                            backgroundColor:
-                                                AppColors.cardBackground,
-                                            content: Text(
-                                              'บันทึกข้อมูลสําเร็จ',
-                                              style: AppTextStyles.bodyMedium,
-                                            ),
-                                          ),
-                                        )
-                                        .closed
-                                        .then((value) async {
-                                      if (!isBack) {
-                                        Navigator.pop(context);
-                                      }
-                                    });
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        margin: const EdgeInsets.only(
-                                            bottom: 24, left: 24, right: 24),
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor:
-                                            AppColors.cardBackground,
-                                        content: Text('บันทึกข้อมูลไม่สําเร็จ',
-                                            style: AppTextStyles.bodyMedium),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  "บันทึก",
-                                  style: AppTextStyles.bodyLarge.copyWith(
-                                    color: AppColors.background,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -218,6 +156,61 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
           ],
         ),
       ),
+      floatingActionButton: SizedBox(
+          height: 56,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: AppButton(
+                text: "บันทึก",
+                onPressed: () async {
+                  EasyLoading.show();
+                  bool result = await updateProfile(
+                      picture: base64Image ?? "",
+                      name: name.text,
+                      lastName: lastName.text,
+                      ref: ref);
+                  EasyLoading.dismiss();
+                  if (result) {
+                    // fetchUserMe(ref);
+
+                    Logger().d(
+                        "Update Profile: ${meData!.data.firstName} ${meData.data.lastName} ${meData.data.firstName}");
+
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            margin: const EdgeInsets.only(
+                                bottom: 24, left: 24, right: 24),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: AppColors.cardBackground,
+                            content: Text(
+                              'บันทึกข้อมูลสําเร็จ',
+                              style: AppTextStyles.bodyMedium,
+                            ),
+                          ),
+                        )
+                        .closed
+                        .then((value) async {
+                      if (!isBack) {
+                        Navigator.pop(context);
+                      }
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        margin: const EdgeInsets.only(
+                            bottom: 24, left: 24, right: 24),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: AppColors.cardBackground,
+                        content: Text('บันทึกข้อมูลไม่สําเร็จ',
+                            style: AppTextStyles.bodyMedium),
+                      ),
+                    );
+                  }
+                }),
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

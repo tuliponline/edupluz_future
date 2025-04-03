@@ -95,7 +95,7 @@ class _AppTextFieldState extends State<AppTextField> {
         suffixIcon: widget.obscureText
             ? IconButton(
                 icon: Icon(
-                  _isPasswordVisible
+                  !_isPasswordVisible
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
                   color: AppColors.iconSecondary,
