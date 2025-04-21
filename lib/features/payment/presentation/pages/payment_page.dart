@@ -1,33 +1,63 @@
+import 'package:edupluz_future/core/models/courses/create_order_200_response.dart';
+import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/widgets/dialogs/info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
 
-class PaymentScreen extends StatefulWidget {
-  final String paymentHtml;
+class PaymentScreen extends ConsumerStatefulWidget {
+  final CreateOrder200Response order;
   final Function(bool success) onPaymentComplete;
 
   const PaymentScreen({
     super.key,
-    required this.paymentHtml,
+    required this.order,
     required this.onPaymentComplete,
   });
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   late final WebViewController _controller;
   final _logger = Logger();
   bool _hasSubmittedForm = false;
+  String? paymentHtml;
+
+  void _initHtml() {
+    final userEmail = ref.watch(userProvider)?.data.email;
+    paymentHtml = '''
+ <html>
+  <head>
+    <title>EPAYLINK Testing</title>
+    <style>
+      input[type="submit"] { display: none; }
+    </style>
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <form method="post" action="${widget.order.data.merchantUrl}">
+    <input type="hidden" name="returnurl" value="${dotenv.env['PAY_SOLUTION_RETURN_URL']}">
+      <input type="hidden" name="refno" value="${widget.order.data.referenceNo}" />
+      <input type="hidden" name="merchantid" value="${widget.order.data.merchantId}" />
+      <input type="hidden" name="customeremail" value="$userEmail" />
+      <input type="hidden" name="channel" value="full" />
+      <input type="hidden" name="cc" value="00" />
+      <input type="hidden" name="productdetail" value="${widget.order.data.productName}" />
+      <input type="hidden" name="total" value="${widget.order.data.price}" />
+      <input type="submit" name="Submit" value="Confirm Order" />
+    </form>
+  </body>
+</html>
+    ''';
+  }
 
   @override
   void initState() {
     super.initState();
-
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -62,8 +92,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
             _logger.e('Web resource error: ${error.description}');
           },
         ),
-      )
-      ..loadHtmlString(widget.paymentHtml);
+      );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _initHtml();
+    _controller.loadHtmlString(paymentHtml!);
   }
 
   @override

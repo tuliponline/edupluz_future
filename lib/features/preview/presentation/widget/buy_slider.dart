@@ -151,7 +151,7 @@ class _BuySliderState extends ConsumerState<BuySlider> {
         context,
         MaterialPageRoute(
           builder: (context) => PaymentScreen(
-            paymentHtml: paymentHtml,
+            order: order,
             onPaymentComplete: (success) async {
               if (success) {
                 Logger().d("payment success");
