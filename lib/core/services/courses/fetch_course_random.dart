@@ -9,7 +9,7 @@ Future<CourseModel> fetchCourseRandom({
 }) async {
   Logger().d("Fetching random courses");
   try {
-    String finalPath = "${ApiPath.courses}/random";
+    String finalPath = "${ApiPath.courses}/random?is_edupluz=true";
     String courseData = await PrivateApiService().get(path: finalPath);
     CourseModel courseDataModel = courseModelFromJson(courseData);
     return courseDataModel;

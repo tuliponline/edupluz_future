@@ -17,7 +17,6 @@ import 'package:edupluz_future/core/widgets/dialogs/info_dialog.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_check_model.dart';
 import 'package:edupluz_future/features/classroom/domain/examination_key_model.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/course_info/modal_course_content.dart';
-import 'package:edupluz_future/features/classroom/presentation/widget/download_file.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/exam_widget.dart';
 import 'package:edupluz_future/features/classroom/presentation/widget/course_info/pdf_view_widget.dart';
 import 'package:edupluz_future/features/classroom/provider/web_socket_provider.dart';
@@ -25,7 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ClassroomPage extends ConsumerStatefulWidget {
   final String courseId;

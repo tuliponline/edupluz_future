@@ -12,8 +12,8 @@ class InfoDialog extends StatelessWidget {
   final IconData icon;
   final bool showIcon;
   final bool testCenter;
-  final Color color = AppColors.buttonText;
-  final Color contentColor = AppColors.buttonText;
+  final Color color = AppColors.textPrimary;
+  final Color contentColor = AppColors.textPrimary;
 
   const InfoDialog(
       {super.key,

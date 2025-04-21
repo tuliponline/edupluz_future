@@ -56,21 +56,23 @@ class _OrdersPageState extends State<OrdersPage> {
                         style: AppTextStyles.bodyMedium,
                       ),
                     ))
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: ordersData!.data.items.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                CardOrderWidget(
-                                  orders: ordersData!.data.items[index],
-                                ),
-                                const SizedBox(height: 8),
-                              ],
-                            );
-                          })),
+                  : Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: ListView.builder(
+                              shrinkWrap: false,
+                              itemCount: ordersData!.data.items.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    CardOrderWidget(
+                                      orders: ordersData!.data.items[index],
+                                    ),
+                                    const SizedBox(height: 8),
+                                  ],
+                                );
+                              })),
+                    ),
         ],
       )),
     );

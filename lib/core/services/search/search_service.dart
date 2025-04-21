@@ -10,7 +10,7 @@ class SearchService {
       required String orderBy,
       bool isMastery = false}) async {
     String apiUrl =
-        "${ApiPath.courses}?page=$page&limit=10&filters=title:$keyword&order_by=$orderBy";
+        "${ApiPath.courses}?is_edupluz=true&page=$page&limit=10&filters=title:$keyword&order_by=$orderBy";
 
     try {
       final response = await PublicApiService().get(path: apiUrl);

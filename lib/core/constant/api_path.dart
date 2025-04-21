@@ -10,7 +10,6 @@ class ApiPath {
 
   static String exam = "/course/course/v1/courses/exams";
 
-  static String orders = "/merchant/order/v1/orders";
   static String profile = "/account/user/v1/users/profile";
   static String courseFavorites = "/course/course/v1/courses/favorites";
 //courses
@@ -25,6 +24,11 @@ class ApiPath {
 // examination
   static String examPath = "/course-exam";
 
+  //products
+  static String products = "/merchant/product/v1/products";
+
+  //order
+  static String orders = "/merchant/order/v1/orders";
   //auth
   static const String register = "/account/auth/v1/auth/register";
   static const String verifyOtp = "/account/auth/v1/auth/register/otp/verify";

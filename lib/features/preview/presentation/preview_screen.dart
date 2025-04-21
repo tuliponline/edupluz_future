@@ -31,7 +31,7 @@ class _PreviewPageState extends ConsumerState<PreviewPage>
     with WidgetsBindingObserver {
   CourseModel? course;
   BetterPlayerController? _playerController;
-
+  bool _isPaymentSuccess = false;
   _fetchCourseFavolite() async {
     EasyLoading.show();
     await fetchFavoriteCourse(context,
@@ -130,9 +130,21 @@ class _PreviewPageState extends ConsumerState<PreviewPage>
                     ),
                   ),
                 ),
-                (versionStatus != VersionStatus.higher &&
-                        !checkIsFree(course: course))
-                    ? BuySlider(course: course!)
+                (_isPaymentSuccess == false &&
+                        (versionStatus != VersionStatus.higher &&
+                            !checkIsFree(course: course)))
+                    ? BuySlider(
+                        course: course!,
+                        onPaymentComplete: (success) async {
+                          if (success) {
+                            EasyLoading.show();
+                            await _fetchCourseById();
+                            EasyLoading.dismiss();
+                            setState(() {
+                              _isPaymentSuccess = true;
+                            });
+                          }
+                        })
                     : Positioned(
                         left: 0,
                         right: 0,
