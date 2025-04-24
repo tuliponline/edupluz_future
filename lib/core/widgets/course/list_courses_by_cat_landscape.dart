@@ -15,10 +15,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 class ListCoursesByCatLandscape extends ConsumerStatefulWidget {
   Item category;
   bool showDetail;
+  bool isEdupluz;
   ListCoursesByCatLandscape({
     super.key,
     required this.category,
     this.showDetail = false,
+    this.isEdupluz = true,
   });
 
   @override
@@ -39,6 +41,7 @@ class _ListCoursesByCatLandscapeState
       catId: widget.category.id.toString(),
       page: page,
       limit: 10,
+      isEdupluz: widget.isEdupluz,
     );
     items.addAll(coursesModel!.data.items);
     if (mounted) setState(() {});
@@ -89,43 +92,56 @@ class _ListCoursesByCatLandscapeState
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return CourseByCategoryScreen(
-                        categoryName: widget.category.name,
-                        categoryId: widget.category.id,
-                      );
-                    }));
+                    if (coursesModel != null) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CourseByCategoryScreen(
+                          categoryName: widget.category.name,
+                          categoryId: widget.category.id,
+                        );
+                      }));
+                    }
                   },
                   child: Row(
                     children: [
                       Flexible(
                         flex: 1,
-                        child: Text(
-                          widget.category.name,
-                          style: AppTextStyles.h4.copyWith(
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        child: coursesModel == null
+                            ? Skeletonizer(
+                                enabled: true,
+                                child: Text(
+                                  "กำลังโหลดข้อมูล",
+                                  style: AppTextStyles.h4.copyWith(
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                widget.category.name,
+                                style: AppTextStyles.h4.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return CourseByCategoryScreen(
-                              categoryName: widget.category.name,
-                              categoryId: widget.category.id,
-                            );
-                          }));
-                        },
-                        child: const Icon(
-                          LucideIcons.chevron_right,
-                          color: AppColors.textPrimary,
-                        ),
-                      )
+                      if (coursesModel != null)
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CourseByCategoryScreen(
+                                categoryName: widget.category.name,
+                                categoryId: widget.category.id,
+                              );
+                            }));
+                          },
+                          child: const Icon(
+                            LucideIcons.chevron_right,
+                            color: AppColors.textPrimary,
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -173,6 +189,7 @@ class _ListCoursesByCatLandscapeState
                                     );
                                   }),
                             )),
+              items.isNotEmpty ? const SizedBox(height: 8) : Container(),
             ],
           );
   }

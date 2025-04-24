@@ -19,7 +19,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 class SearchResultPage extends ConsumerStatefulWidget {
-  const SearchResultPage({super.key});
+  final bool isEdupluz;
+  const SearchResultPage({super.key, this.isEdupluz = true});
 
   @override
   ConsumerState<SearchResultPage> createState() => _SearchScreenState();
@@ -50,8 +51,11 @@ class _SearchScreenState extends ConsumerState<SearchResultPage> {
   _doSearch({
     required String value,
   }) async {
-    coursesModel = await SearchService()
-        .searchWithKeyword(keyword: value, page: page, orderBy: orderBy);
+    coursesModel = await SearchService().searchWithKeyword(
+        keyword: value,
+        page: page,
+        orderBy: orderBy,
+        isEdupluz: widget.isEdupluz);
     if (coursesModel != null) {
       courses.addAll(coursesModel!.data.items);
     }

@@ -8,9 +8,11 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class ListCoursesByCatLandscapeLoading extends StatelessWidget {
   bool showDetail;
+  bool isEdupluz;
   ListCoursesByCatLandscapeLoading({
     super.key,
     this.showDetail = true,
+    this.isEdupluz = true,
   });
 
   @override

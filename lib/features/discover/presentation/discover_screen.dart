@@ -277,7 +277,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                     showDetail: false,
                                   ),
                             if (showRandomCourses.contains(index))
-                              (index == 0 && isOpenBiz || false)
+                              (index == 0 && isOpenBiz)
                                   ? const BizNavigatorWidget()
                                   : const Padding(
                                       padding:

@@ -20,7 +20,8 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:logger/logger.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final bool isEdupluz;
+  const SearchScreen({super.key, this.isEdupluz = true});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -58,11 +59,14 @@ class _SearchScreenState extends State<SearchScreen> {
   _getCourses() async {
     Logger().d("Fetching Courses");
     if (selectFilter == 0) {
-      coursesModel = await fetchCoursesTopViews(page: page);
+      coursesModel =
+          await fetchCoursesTopViews(page: page, isEdupluz: widget.isEdupluz);
     } else if (selectFilter == 1) {
-      coursesModel = await fetchCoursesNews(page: page);
+      coursesModel =
+          await fetchCoursesNews(page: page, isEdupluz: widget.isEdupluz);
     } else if (selectFilter == 2) {
-      coursesModel = await fetchCoursesRandom(page: page);
+      coursesModel =
+          await fetchCoursesRandom(page: page, isEdupluz: widget.isEdupluz);
     }
 
     if (coursesModel != null) {

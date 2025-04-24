@@ -16,6 +16,7 @@ Future<CoursesModel> fetchCoursesBycat(
   try {
     String finalPath =
         "${ApiPath.courses}?filters=category_ids:$catId,status:$status,is_edupluz:$isEdupluz&page=$page&limit=$limit${sort == null ? "" : "&order_by=created_at:${sort.name}"}";
+    Logger().d("finalPath $finalPath");
     String userData = await PrivateApiService().get(path: finalPath);
     CoursesModel coursesModel = coursesModelFromJson(userData);
     Logger().d(coursesModel.data.items.length);

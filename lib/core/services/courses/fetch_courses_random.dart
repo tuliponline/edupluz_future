@@ -13,7 +13,7 @@ Future<CoursesModel> fetchCoursesRandom({
   Logger().d("Fetching Courses Top Views");
   try {
     String finalPath =
-        "${ApiPath.courses}?page=$page&limit=$limit&filters=status:$status,is_edupluz:$isEdupluz";
+        "${ApiPath.courses}?page=$page&limit=$limit&filters=status:$status&is_edupluz:$isEdupluz";
     String userData = await PrivateApiService().get(path: finalPath);
     CoursesModel coursesModel = coursesModelFromJson(userData);
     coursesModel.data.items.shuffle();

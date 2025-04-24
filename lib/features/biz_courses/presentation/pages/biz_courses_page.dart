@@ -1,6 +1,8 @@
 import 'package:edupluz_future/core/models/category/get_categories_200_response.dart';
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_by_cat_landscape.dart';
+import 'package:edupluz_future/core/widgets/search/search_box.dart';
+import 'package:edupluz_future/features/search/presentation/search_result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -18,11 +20,16 @@ class _BizCoursesPageState extends ConsumerState<BizCoursesPage> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoadingMore = false;
 
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  bool _isSearchFocus = false;
+
   _fetchCategory() async {
     catagories = await fetchCategories(ref: ref);
-    if (showCategory > catagories!.data.items.length) {
-      showCategory = catagories!.data.items.length;
-    }
+    // if (showCategory > catagories!.data.items.length) {
+    //   showCategory = catagories!.data.items.length;
+    // }
+    showCategory = catagories!.data.items.length;
 
     setState(() {});
   }
@@ -70,25 +77,61 @@ class _BizCoursesPageState extends ConsumerState<BizCoursesPage> {
         title: const Text("คอร์สจากพาร์ทเนอร์"),
       ),
       body: catagories != null
-          ? ListView.builder(
-              controller: _scrollController,
-              itemCount: showCategory,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    (showCategory < catagories!.data.items.length &&
-                            index == showCategory - 1)
-                        ? const Center(child: CircularProgressIndicator())
-                        : ListCoursesByCatLandscape(
-                            category: catagories!.data.items[index],
-                            showDetail: false,
-                          ),
-                    const SizedBox(
-                      height: 8,
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Logger().d("Search");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchResultPage(
+                                    isEdupluz: false,
+                                  )));
+                    },
+                    child: SearchBox(
+                      readOnly: true,
+                      textEditingController: _searchController,
+                      focusNode: _searchFocusNode,
+                      hasFocus: _isSearchFocus,
+                      onSearch: (string) {},
                     ),
-                  ],
-                );
-              },
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: showCategory,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            (showCategory < catagories!.data.items.length &&
+                                    index == showCategory - 1)
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : Column(
+                                    children: [
+                                      ListCoursesByCatLandscape(
+                                        category: catagories!.data.items[index],
+                                        showDetail: false,
+                                        isEdupluz: false,
+                                      ),
+                                      // const SizedBox(
+                                      //   height: 8,
+                                      // ),
+                                    ],
+                                  ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             )
           : const Center(child: CircularProgressIndicator()),
     );

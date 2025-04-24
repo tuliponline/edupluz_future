@@ -17,8 +17,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 class CourseByCategoryScreen extends ConsumerStatefulWidget {
   final String categoryName;
   final String? categoryId;
+  final bool isEdupluz;
   const CourseByCategoryScreen(
-      {super.key, required this.categoryName, this.categoryId});
+      {super.key,
+      required this.categoryName,
+      this.categoryId,
+      this.isEdupluz = true});
 
   @override
   ConsumerState<CourseByCategoryScreen> createState() =>
@@ -42,16 +46,20 @@ class _CourseByCategoryScreenState
     } else if (widget.categoryName == "เรียนต่อ") {
       coursesModel = await fetchContinueWatch(ref: ref, page: page);
     } else if (widget.categoryName == "ยอดนิยม") {
-      coursesModel = await fetchCoursesTopViews(page: page);
+      coursesModel =
+          await fetchCoursesTopViews(page: page, isEdupluz: widget.isEdupluz);
     } else if (widget.categoryName == "มาใหม่") {
-      coursesModel = await fetchCoursesNews(page: page);
+      coursesModel =
+          await fetchCoursesNews(page: page, isEdupluz: widget.isEdupluz);
     } else if (widget.categoryName == "สำหรับคุณ") {
-      coursesModel = await fetchCoursesRandom(page: page);
+      coursesModel =
+          await fetchCoursesRandom(page: page, isEdupluz: widget.isEdupluz);
     } else {
       coursesModel = await fetchCoursesBycat(
         catId: widget.categoryId ?? "",
         page: page,
         limit: 10,
+        isEdupluz: widget.isEdupluz,
       );
     }
     items.addAll(coursesModel!.data.items);
@@ -98,38 +106,46 @@ class _CourseByCategoryScreenState
           ? _loading()
           : Container(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  controller: _scrollController,
-                  itemCount: items.length +
-                      (items.length < coursesModel!.data.meta.totalItems
-                          ? 1
-                          : 0),
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        if (index == 0) const SizedBox(height: 16),
-                        (index == items.length &&
-                                items.length <
-                                    coursesModel!.data.meta.totalItems)
-                            ? const Center(child: CircularProgressIndicator())
-                            : CourseCard(
-                                courseId: items[index].id,
-                                courseName: items[index].title,
-                                imageUrl: items[index].thumbnail.horizontal,
-                                duration: items[index].rating.toInt(),
-                                chapters: items[index].chapters,
-                                categories: items[index]
-                                    .categories
-                                    .map((e) => e.name)
-                                    .toList(),
-                                instructorName:
-                                    "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
-                              ),
-                      ],
-                    );
-                  }),
+              child: (coursesModel != null && items.isEmpty)
+                  ? Center(
+                      child: Text(
+                        "ไม่พบคอร์สในหมวดหมู่นี้",
+                        style: AppTextStyles.bodyLarge,
+                      ),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      itemCount: items.length +
+                          (items.length < coursesModel!.data.meta.totalItems
+                              ? 1
+                              : 0),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            if (index == 0) const SizedBox(height: 16),
+                            (index == items.length &&
+                                    items.length <
+                                        coursesModel!.data.meta.totalItems)
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : CourseCard(
+                                    courseId: items[index].id,
+                                    courseName: items[index].title,
+                                    imageUrl: items[index].thumbnail.horizontal,
+                                    duration: items[index].rating.toInt(),
+                                    chapters: items[index].chapters,
+                                    categories: items[index]
+                                        .categories
+                                        .map((e) => e.name)
+                                        .toList(),
+                                    instructorName:
+                                        "${items[index].instructor.firstName} ${items[index].instructor.lastName}",
+                                  ),
+                          ],
+                        );
+                      }),
             ),
     );
   }

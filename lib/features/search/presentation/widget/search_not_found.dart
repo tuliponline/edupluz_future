@@ -2,6 +2,7 @@ import 'package:edupluz_future/core/models/category/get_categories_200_response.
 import 'package:edupluz_future/core/services/category/fetch_category.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
+import 'package:edupluz_future/features/course_by_category/presentation/course_by_category_screen.dart';
 import 'package:edupluz_future/features/search/presentation/widget/cat_menu_item.dart';
 import 'package:faker/faker.dart' as faker_lib;
 import 'package:flutter/material.dart';
@@ -16,25 +17,30 @@ class SearchNotFound extends ConsumerStatefulWidget {
 }
 
 class _SearchNotFoundState extends ConsumerState<SearchNotFound> {
-  GetCategories200Response? catagoriesModel;
-
-  _tapMenu(int index) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) {
-    //       return CourseByCategoryScreen(
-    //         categoryName: catagoriesModel!.data.items[index].name,
-    //         categoryId: catagoriesModel!.data.items[index].id,
-    //       );
-    //     },
-    //   ),
-    // );
-  }
+  GetCategories200Response? catagories;
 
   _fetchCategory() async {
-    catagoriesModel = await fetchCategories(ref: ref);
+    catagories = await fetchCategories(ref: ref);
+    // if (showCategory > catagories!.data.items.length) {
+    //   showCategory = catagories!.data.items.length;
+    // }
+
     setState(() {});
+  }
+
+  _tapMenu(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return CourseByCategoryScreen(
+            categoryName: catagories!.data.items[index].name,
+            categoryId: catagories!.data.items[index].id,
+            isEdupluz: false,
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -76,25 +82,25 @@ class _SearchNotFoundState extends ConsumerState<SearchNotFound> {
                 child: Image.asset('assets/icons/information.png'),
               ),
               const SizedBox(height: 16),
-              Text('No information found',
+              Text('ไม่พบคอร์สที่คุณกำลังค้นหา',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodySmall.copyWith(
                     fontWeight: FontWeight.w600,
                   )),
               const SizedBox(height: 16),
-              Text('Do you want to search this, Right? :',
+              Text('คุณต้องการค้นหาคอร์สนี้ใช่หรือไม่?',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodySmall.copyWith(
                     fontWeight: FontWeight.w600,
                   )),
               const SizedBox(height: 14),
-              (catagoriesModel == null)
+              (catagories == null)
                   ? _loading()
                   : Wrap(
                       alignment: WrapAlignment.center,
                       spacing: 8,
-                      children: catagoriesModel!.data.items.map((e) {
-                        int index = catagoriesModel!.data.items.indexOf(e);
+                      children: catagories!.data.items.map((e) {
+                        int index = catagories!.data.items.indexOf(e);
                         return Column(
                           children: [
                             InkWell(
