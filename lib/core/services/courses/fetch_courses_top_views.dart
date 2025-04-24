@@ -7,11 +7,13 @@ import 'package:logger/logger.dart';
 Future<CoursesModel> fetchCoursesTopViews({
   int page = 1,
   int limit = 10,
+  String status = "PUBLISHED",
+  bool isEdupluz = true,
 }) async {
   Logger().d("Fetching Courses Top Views");
   try {
     String finalPath =
-        "${ApiPath.courses}?page=$page&limit=$limit&order_by=views:desc";
+        "${ApiPath.courses}?page=$page&limit=$limit&order_by=views:desc&filters=status:$status,is_edupluz:$isEdupluz";
     String userData = await PrivateApiService().get(path: finalPath);
     CoursesModel coursesModel = coursesModelFromJson(userData);
     Logger().d(coursesModel.data.items.length);

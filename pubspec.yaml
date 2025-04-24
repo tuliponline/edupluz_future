@@ -130,6 +130,7 @@ flutter:
     - assets/images/question/age_select/
     - assets/images/question/looking_for/
     - assets/images/setting/
+    - assets/images/biz/
     - shorebird.yaml
 
 

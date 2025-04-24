@@ -50,8 +50,8 @@ class _SearchScreenState extends ConsumerState<SearchResultPage> {
   _doSearch({
     required String value,
   }) async {
-    coursesModel = await SearchService().searchWithKeyword(
-        keyword: value, page: page, orderBy: orderBy, isMastery: isMastery);
+    coursesModel = await SearchService()
+        .searchWithKeyword(keyword: value, page: page, orderBy: orderBy);
     if (coursesModel != null) {
       courses.addAll(coursesModel!.data.items);
     }

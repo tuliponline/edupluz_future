@@ -85,4 +85,20 @@ class RemoteConfigService {
       return false;
     }
   }
+
+  Future<bool> openBizCourses() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(seconds: 5),
+    ));
+    try {
+      await remoteConfig.fetchAndActivate();
+      bool isOpenBiz = remoteConfig.getBool('open_biz');
+      return isOpenBiz;
+    } catch (exception) {
+      Logger().e(" Failed to fetch openBiz remote config. $exception");
+      return false;
+    }
+  }
 }

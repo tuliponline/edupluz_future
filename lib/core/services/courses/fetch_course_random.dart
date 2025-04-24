@@ -6,10 +6,13 @@ import 'package:logger/logger.dart';
 Future<CourseModel> fetchCourseRandom({
   int page = 1,
   int limit = 1,
+  bool isEdupluz = true,
+  String status = "PUBLISHED",
 }) async {
   Logger().d("Fetching random courses");
   try {
-    String finalPath = "${ApiPath.courses}/random?is_edupluz=true";
+    String finalPath =
+        "${ApiPath.courses}/random?filters=is_edupluz:$isEdupluz,status:$status";
     String courseData = await PrivateApiService().get(path: finalPath);
     CourseModel courseDataModel = courseModelFromJson(courseData);
     return courseDataModel;

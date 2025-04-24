@@ -4,13 +4,15 @@ import 'package:edupluz_future/core/services/api/public_api_service.dart';
 import 'package:logger/logger.dart';
 
 class SearchService {
-  Future<CoursesModel> searchWithKeyword(
-      {required String keyword,
-      required int page,
-      required String orderBy,
-      bool isMastery = false}) async {
+  Future<CoursesModel> searchWithKeyword({
+    required String keyword,
+    required int page,
+    required String orderBy,
+    bool isEdupluz = true,
+    String status = 'PUBLISHED',
+  }) async {
     String apiUrl =
-        "${ApiPath.courses}?is_edupluz=true&page=$page&limit=10&filters=title:$keyword&order_by=$orderBy";
+        "${ApiPath.courses}?page=$page&limit=10&filters=title:$keyword,is_edupluz:$isEdupluz,status:$status&order_by=$orderBy";
 
     try {
       final response = await PublicApiService().get(path: apiUrl);

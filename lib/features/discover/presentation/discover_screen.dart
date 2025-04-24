@@ -6,6 +6,7 @@ import 'package:edupluz_future/core/services/firebase/remote_config_service.dart
 import 'package:edupluz_future/core/services/user/get_user_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
+import 'package:edupluz_future/core/widgets/biz/biz_navigator_widget.dart';
 import 'package:edupluz_future/core/widgets/course/card_courses_random.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_by_cat_landscape.dart';
 import 'package:edupluz_future/core/widgets/course/list_courses_by_cat_landscape_loading.dart';
@@ -33,7 +34,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   bool _isSearchFocus = false;
   bool _isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
-
+  bool isOpenBiz = false;
   GetCategories200Response? catagories;
   int showCategory = 4;
 
@@ -48,6 +49,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
     await getUserService(ref);
     isLoading = false;
     RemoteConfigService().cardLandscapeDetail(ref);
+    isOpenBiz = await RemoteConfigService().openBizCourses();
     setState(() {});
   }
 
@@ -275,15 +277,18 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                     showDetail: false,
                                   ),
                             if (showRandomCourses.contains(index))
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24),
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 24),
-                                    CardCoursesRandom(),
-                                  ],
-                                ),
-                              ),
+                              (index == 0 && isOpenBiz || false)
+                                  ? const BizNavigatorWidget()
+                                  : const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 24),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 24),
+                                          CardCoursesRandom(),
+                                        ],
+                                      ),
+                                    ),
                             const SizedBox(
                               height: 8,
                             ),
