@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:edupluz_future/core/constant/test_account.dart';
+import 'package:edupluz_future/core/models/auth/otp_verify_request.dart';
+import 'package:edupluz_future/core/models/auth/register_otp_verify_response.dart';
 import 'package:edupluz_future/core/models/auth/register_response_model.dart';
 import 'package:edupluz_future/core/services/auth/register_service.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -15,6 +17,7 @@ import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -43,17 +46,31 @@ class _SignUpPageState extends State<SignUpPage> {
         phone: _phoneController.text,
       );
       if (registerResponse != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ConfirmOTPPage(
-              contactInfo: _emailController.text,
-              refCode: registerResponse.data.refCode,
-              isEmail: true,
-              isForgotPassword: false,
-            ),
-          ),
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ConfirmOTPPage(
+        //       contactInfo: _emailController.text,
+        //       refCode: registerResponse.data.refCode,
+        //       isEmail: true,
+        //       isForgotPassword: false,
+        //     ),
+        //   ),
+        // );
+        OtpVerifyRequest request = OtpVerifyRequest(
+          refCode: registerResponse.data.refCode,
+          otpCode: "507392",
         );
+        RegisterOtpVerifyResponse response = await registerOtpVerify(request);
+        Logger().d(response);
+        if (mounted) {
+          // Add delay before navigation
+
+          if (mounted) {
+            EasyLoading.showSuccess('สมัครสมาชิกสำเร็จ โปรดเข้าสู่ระบบ');
+            context.goNamed(Routes.signin.name);
+          }
+        }
       } else {
         EasyLoading.dismiss();
         AppSnackBar.alert(
