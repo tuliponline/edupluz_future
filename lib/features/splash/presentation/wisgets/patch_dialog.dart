@@ -15,7 +15,6 @@ class _MaintenancePlanDialogState extends State<PatchDialog> {
   bool isDownloading = true;
   @override
   void initState() {
-    _update();
     super.initState();
   }
 
@@ -28,6 +27,7 @@ class _MaintenancePlanDialogState extends State<PatchDialog> {
 
   @override
   Widget build(BuildContext context) {
+    _update();
     return Dialog(
       child: Container(
         padding: const EdgeInsets.all(24.0),
