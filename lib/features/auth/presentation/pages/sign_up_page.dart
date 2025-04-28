@@ -46,31 +46,31 @@ class _SignUpPageState extends State<SignUpPage> {
         phone: _phoneController.text,
       );
       if (registerResponse != null) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ConfirmOTPPage(
-        //       contactInfo: _emailController.text,
-        //       refCode: registerResponse.data.refCode,
-        //       isEmail: true,
-        //       isForgotPassword: false,
-        //     ),
-        //   ),
-        // );
-        OtpVerifyRequest request = OtpVerifyRequest(
-          refCode: registerResponse.data.refCode,
-          otpCode: "507392",
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ConfirmOTPPage(
+              contactInfo: _emailController.text,
+              refCode: registerResponse.data.refCode,
+              isEmail: true,
+              isForgotPassword: false,
+            ),
+          ),
         );
-        RegisterOtpVerifyResponse response = await registerOtpVerify(request);
-        Logger().d(response);
-        if (mounted) {
-          // Add delay before navigation
+        // OtpVerifyRequest request = OtpVerifyRequest(
+        //   refCode: registerResponse.data.refCode,
+        //   otpCode: "507392",
+        // );
+        // RegisterOtpVerifyResponse response = await registerOtpVerify(request);
+        // Logger().d(response);
+        // if (mounted) {
+        //   // Add delay before navigation
 
-          if (mounted) {
-            EasyLoading.showSuccess('สมัครสมาชิกสำเร็จ โปรดเข้าสู่ระบบ');
-            context.goNamed(Routes.signin.name);
-          }
-        }
+        //   if (mounted) {
+        //     EasyLoading.showSuccess('สมัครสมาชิกสำเร็จ โปรดเข้าสู่ระบบ');
+        //     context.goNamed(Routes.signin.name);
+        //   }
+        // }
       } else {
         EasyLoading.dismiss();
         AppSnackBar.alert(

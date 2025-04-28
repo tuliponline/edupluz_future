@@ -1,6 +1,4 @@
 import 'package:edupluz_future/core/constant/test_account.dart';
-import 'package:edupluz_future/core/models/auth/forgot_password_otp_verify_response.dart';
-import 'package:edupluz_future/core/models/auth/otp_verify_request.dart';
 import 'package:edupluz_future/core/models/auth/register_response_model.dart';
 import 'package:edupluz_future/core/services/auth/forgot_password.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
@@ -10,7 +8,6 @@ import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
 import 'package:edupluz_future/features/auth/presentation/pages/confirm_otp_page.dart';
-import 'package:edupluz_future/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -115,35 +112,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             await ForgotPasswordService().forgotPassword(
                           emailController.text,
                         );
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ConfirmOTPPage(
-                        //       contactInfo: emailController.text,
-                        //       refCode: response.data.refCode,
-                        //       isEmail: true,
-                        //       isForgotPassword: true,
-                        //     ),
-                        //   ),
-                        // );
-                        OtpVerifyRequest request = OtpVerifyRequest(
-                          refCode: response.data.refCode,
-                          otpCode: "507392",
-                        );
-                        ForgotPasswordOtpVerifyResponse verifyResponse =
-                            await ForgotPasswordService()
-                                .forgotPasswordOtpVerify(request);
-
-                        Logger().d(verifyResponse.data.token);
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ResetPasswordPage(
-                              token: verifyResponse.data.token,
+                            builder: (context) => ConfirmOTPPage(
+                              contactInfo: emailController.text,
+                              refCode: response.data.refCode,
+                              isEmail: true,
+                              isForgotPassword: true,
                             ),
                           ),
                         );
+                        // OtpVerifyRequest request = OtpVerifyRequest(
+                        //   refCode: response.data.refCode,
+                        //   otpCode: "507392",
+                        // );
+                        // ForgotPasswordOtpVerifyResponse verifyResponse =
+                        //     await ForgotPasswordService()
+                        //         .forgotPasswordOtpVerify(request);
+
+                        // Logger().d(verifyResponse.data.token);
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ResetPasswordPage(
+                        //       token: verifyResponse.data.token,
+                        //     ),
+                        //   ),
+                        // );
                       } else {
                         AppSnackBar.alert(
                           context: context,

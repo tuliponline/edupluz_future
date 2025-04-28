@@ -44,6 +44,8 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
     (index) => FocusNode(),
   );
 
+  bool isButtonEnabled = false;
+
   Timer? _timer;
   int _countdown = 60;
   bool _canResend = false;
@@ -170,6 +172,12 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                   color: AppColors.textSecondary,
                 ),
               ),
+              Text(
+                'รหัสอ้างอิง: ${widget.refCode}',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
               const SizedBox(height: 32),
 
               // OTP Input Fields
@@ -208,6 +216,9 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                         if (value.isEmpty && index > 0) {
                           _focusNodes[index - 1].requestFocus();
                         }
+                        setState(() {
+                          isButtonEnabled = _getOtpValue.length == 6;
+                        });
                       },
                     ),
                   ),
@@ -265,7 +276,7 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                 child: AppButton.primaryButton(
                   text: 'ยืนยัน',
                   onPressed: _verifyOTP,
-                  enabled: _getOtpValue.length == 6,
+                  enabled: isButtonEnabled,
                 ),
               ),
             ],
