@@ -36,12 +36,12 @@ class _MaintenancePageState extends State<MaintenancePage> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Under Maintenance',
+              'กำลังดำเนินการปรับปรุงระบบ',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 16),
             const Text(
-              'We\'re working to improve our service.\nPlease check back later.',
+              'กำลังดำเนินการปรับปรุงระบบ\nกรุณาตรวจสอบอีกครั้ง',
               textAlign: TextAlign.center,
             ),
             if (_version != null)

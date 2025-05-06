@@ -1,0 +1,7 @@
+shorebird release android --artifact=aab --flavor prod --target lib/main_prod.dart
+shorebird patch android --flavor prod -t lib/main_prod.dart
+
+shorebird release ios --flavor prod  -t lib/main_prod.dart
+shorebird patch ios --flavor prod  -t lib/main_prod.dart
+
+

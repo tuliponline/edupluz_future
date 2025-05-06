@@ -23,6 +23,7 @@ class ShorebirdService {
       try {
         // Perform the update
         // await updater.update();
+
         return updater;
       } on UpdateException catch (error) {
         logger.e(error);

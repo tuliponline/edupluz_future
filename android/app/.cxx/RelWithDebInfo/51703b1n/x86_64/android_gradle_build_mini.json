@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/overtech/.shorebird/bin/cache/flutter/0ac69de92c7201830d6a687a44fa0d34f6003f90/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/overtech/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/overtech/edupluz/edupluz_future/android/app/.cxx/RelWithDebInfo/51703b1n/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/overtech/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/overtech/edupluz/edupluz_future/android/app/.cxx/RelWithDebInfo/51703b1n/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

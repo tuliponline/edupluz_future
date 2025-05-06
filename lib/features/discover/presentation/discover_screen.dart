@@ -166,7 +166,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('สวัสดี',
+                                    Text('สวัสดี patch3',
                                         style: AppTextStyles.bodyMedium
                                             .copyWith(
                                                 fontWeight: FontWeight.w500)),
