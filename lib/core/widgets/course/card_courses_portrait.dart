@@ -85,6 +85,7 @@ class CardCoursesPortrait extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                           Container(
+                            width: 132,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),

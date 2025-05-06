@@ -9,8 +9,9 @@ import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/better_player/better_player_screen.dart';
 import 'package:edupluz_future/features/classroom/presentation/classroom_screen.dart';
+import 'package:edupluz_future/features/navigation/presentation/pages/navigation_page.dart';
 import 'package:edupluz_future/features/preview/data/fetch_favorite_course.dart';
-import 'package:edupluz_future/features/preview/presentation/widget/buy_slider.dart';
+import 'package:edupluz_future/features/preview/presentation/widget/buy_slider_package.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/chapter/chapter_list.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/chip_item.dart';
 import 'package:edupluz_future/features/preview/presentation/widget/course_info.dart';
@@ -18,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 class PreviewPage extends ConsumerStatefulWidget {
   final String courseId;
@@ -133,18 +135,22 @@ class _PreviewPageState extends ConsumerState<PreviewPage>
                 (_isPaymentSuccess == false &&
                         (versionStatus != VersionStatus.higher &&
                             !checkIsFree(course: course)))
-                    ? BuySlider(
-                        course: course!,
-                        onPaymentComplete: (success) async {
-                          if (success) {
-                            EasyLoading.show();
-                            await _fetchCourseById();
-                            EasyLoading.dismiss();
-                            setState(() {
-                              _isPaymentSuccess = true;
-                            });
-                          }
-                        })
+                    ? BuySliderPackage(onPaymentComplete: (success) async {
+                        if (success) {
+                          Logger().i("payment success");
+
+                          Navigator.pop(context);
+                          Navigator.pop(context, true);
+                          EasyLoading.showSuccess("ชำระเงินสำเร็จ");
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const NavigationPage(initialIndex: 1),
+                            ),
+                          );
+                        }
+                      })
                     : Positioned(
                         left: 0,
                         right: 0,

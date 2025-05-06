@@ -21,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class BuySlider extends ConsumerStatefulWidget {
   final CourseModel course;
+
   final Function(bool success) onPaymentComplete;
   const BuySlider({
     super.key,

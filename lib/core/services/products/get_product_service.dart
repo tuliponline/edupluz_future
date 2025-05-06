@@ -6,8 +6,9 @@ import 'package:logger/logger.dart';
 class GetProductService {
   Future<ProductsModel> getProductBuffet() async {
     try {
-      final response = await PrivateApiService()
-          .get(path: "${ApiPath.products}?filters=item_type:BUFFET");
+      final response = await PrivateApiService().get(
+          path:
+              "${ApiPath.products}?filters=item_type:BUFFET&order_by=duration:Aasc");
       ProductsModel productsModel = productsModelFromJson(response);
       return productsModel;
     } catch (e) {

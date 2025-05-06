@@ -41,8 +41,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
     if (await RemoteConfigService().isMaintenance()) {
       context.goNamed(Routes.maintenance.name);
     } else {
-      ShorebirdUpdater? shorebirdUpdater =
-          await ShorebirdService().checkForUpdates();
+      final shorebirdUpdater = await ShorebirdService().checkForUpdates();
       if (shorebirdUpdater != null) {
         bool showPatchDialog = await RemoteConfigService().isShowPatchDialog();
         if (showPatchDialog) {

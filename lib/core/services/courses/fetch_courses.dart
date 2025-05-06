@@ -9,11 +9,16 @@ Future<CoursesModel> fetchCourses({
   String orderBy = "",
   String status = "PUBLISHED",
   bool isEdupluz = true,
+  String? filter,
 }) async {
   Logger().d("Fetching Courses");
   try {
     String finalPath =
         "${ApiPath.courses}?page=$page&limit=$limit&order_by=$orderBy&filters=status:$status,is_edupluz:$isEdupluz";
+    if (filter != null) {
+      finalPath += ",$filter";
+    }
+    Logger().d(finalPath);
     String userData = await PrivateApiService().get(path: finalPath);
     CoursesModel coursesModel = coursesModelFromJson(userData);
     Logger().d(coursesModel.data.items.length);

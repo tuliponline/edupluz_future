@@ -1,7 +1,8 @@
 enum DiscoverFilter {
   all,
   popular,
-  newest;
+  newest,
+  free;
 
   String get name => toString().split('.').last;
 }

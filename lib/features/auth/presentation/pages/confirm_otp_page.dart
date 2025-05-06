@@ -199,7 +199,8 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
-                            color: AppColors.textSecondary.withOpacity(0.3),
+                            color:
+                                AppColors.textSecondary.withValues(alpha: 0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(

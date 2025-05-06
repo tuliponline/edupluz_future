@@ -61,6 +61,13 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
         orderBy: "created_at:desc",
         limit: 10,
       );
+    } else if (_selectedFilter == DiscoverFilter.free) {
+      courses = await fetchCourses(
+        page: page,
+        filter: "is_free:true",
+        orderBy: "price:asc",
+        limit: 10,
+      );
     }
     coursesModel = courses;
     items.addAll(courses.data.items);
@@ -110,13 +117,10 @@ class _ListCoursesLandscapeState extends ConsumerState<ListCoursesCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: FilterMenu(
-            height: 38,
-            discoverFilter: _selectedFilter,
-            onTap: _updateDiscoverFilter,
-          ),
+        FilterMenu(
+          height: 38,
+          discoverFilter: _selectedFilter,
+          onTap: _updateDiscoverFilter,
         ),
         const SizedBox(
           height: 16,

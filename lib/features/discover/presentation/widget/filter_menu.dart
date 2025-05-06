@@ -18,9 +18,9 @@ class FilterMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height.toDouble(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         children: [
           _menuItem(
             icon: LucideIcons.layout_grid,
@@ -51,6 +51,17 @@ class FilterMenu extends StatelessWidget {
             onTap: () {
               if (discoverFilter != DiscoverFilter.newest) {
                 onTap(DiscoverFilter.newest);
+              }
+            },
+          ),
+          const SizedBox(width: 8),
+          _menuItem(
+            icon: LucideIcons.sparkles,
+            isFofus: discoverFilter == DiscoverFilter.free,
+            title: "คอร์สฟรี",
+            onTap: () {
+              if (discoverFilter != DiscoverFilter.free) {
+                onTap(DiscoverFilter.free);
               }
             },
           ),

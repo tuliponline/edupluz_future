@@ -93,6 +93,11 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
     _isLoadingMore = false;
   }
 
+  Future<void> _onRefresh() async {
+    await _fetchUser();
+    await _fetchCategory();
+  }
+
   @override
   void initState() {
     _fetchUser();
@@ -125,177 +130,182 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         //     fit: BoxFit.cover,
         //   ),
         // ),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        (meData == null)
-                            ? Skeletonizer(
-                                enabled: isLoading,
-                                child: Column(
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          (meData == null)
+                              ? Skeletonizer(
+                                  enabled: isLoading,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("ยินดีต้อนรับ",
+                                          style: AppTextStyles.bodyMedium
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500)),
+                                      Text('EduPluz Mobile App',
+                                          style: AppTextStyles.h4
+                                              .copyWith(height: 2)),
+                                    ],
+                                  ),
+                                )
+                              : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("ยินดีต้อนรับ",
+                                    Text('สวัสดี',
                                         style: AppTextStyles.bodyMedium
                                             .copyWith(
                                                 fontWeight: FontWeight.w500)),
-                                    Text('EduPluz Mobile App',
-                                        style: AppTextStyles.h4
-                                            .copyWith(height: 2)),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          meData.data.firstName == ""
+                                              ? "สมาชิก Edupluz"
+                                              : '${meData.data.firstName} ${meData.data.lastName}',
+                                          style: AppTextStyles.h4.copyWith()),
+                                    ),
                                   ],
                                 ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('สวัสดี',
-                                      style: AppTextStyles.bodyMedium.copyWith(
-                                          fontWeight: FontWeight.w500)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.6,
-                                    child: Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        meData.data.firstName == ""
-                                            ? "สมาชิก Edupluz"
-                                            : '${meData.data.firstName} ${meData.data.lastName}',
-                                        style: AppTextStyles.h4.copyWith()),
-                                  ),
-                                ],
-                              ),
-                        SizedBox(
-                          width: 48,
-                          height: 48,
-                          child: Icon(
-                            LucideIcons.user_round,
-                            color: AppColors.textPrimary,
-                            size: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 14,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Logger().d("Search");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const SearchResultPage()));
-                      },
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: SearchBox(
-                              readOnly: true,
-                              textEditingController: _searchController,
-                              focusNode: _searchFocusNode,
-                              hasFocus: _isSearchFocus,
-                              onSearch: (string) {},
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Container(
+                          SizedBox(
                             width: 48,
                             height: 48,
-                            padding: const EdgeInsets.all(12),
-                            decoration: ShapeDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            child: const Icon(
-                              LucideIcons.settings_2,
-                              color: AppColors.primary,
+                            child: Icon(
+                              LucideIcons.user_round,
+                              color: AppColors.textPrimary,
                               size: 24,
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ),
-                    // const SizedBox(
-                    //   height: 16,
-                    // ),
-                    // const CardPromotion(),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                  ],
-                ),
-              ),
-              // const ListContinueWatch(),
-              ListCoursesCard(),
-              // const SizedBox(
-              //   height: 24,
-              // ),
-              // if (hasCorparate) ListCoursesCroperate(),
-              // const SizedBox(
-              //   height: 24,
-              // ),
-              // ListCoursesMastery(),
-
-              const SizedBox(
-                height: 24,
-              ),
-              (catagories == null)
-                  ? ListCoursesByCatLandscapeLoading(
-                      showDetail: false,
-                    )
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      primary: false,
-                      shrinkWrap: true,
-                      itemCount: showCategory +
-                          (showCategory < catagories!.data.items.length
-                              ? 1
-                              : 0),
-                      itemBuilder: (context, index) {
-                        return Column(
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Logger().d("Search");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SearchResultPage()));
+                        },
+                        child: Row(
                           children: [
-                            (showCategory < catagories!.data.items.length &&
-                                    index == showCategory)
-                                ? const Center(
-                                    child: CircularProgressIndicator())
-                                : ListCoursesByCatLandscape(
-                                    category: catagories!.data.items[index],
-                                    showDetail: false,
-                                  ),
-                            if (showRandomCourses.contains(index))
-                              (index == 0 && isOpenBiz)
-                                  ? const BizNavigatorWidget()
-                                  : const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 24),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: 24),
-                                          CardCoursesRandom(),
-                                        ],
-                                      ),
-                                    ),
-                            const SizedBox(
-                              height: 8,
+                            Expanded(
+                              child: SearchBox(
+                                readOnly: true,
+                                textEditingController: _searchController,
+                                focusNode: _searchFocusNode,
+                                hasFocus: _isSearchFocus,
+                                onSearch: (string) {},
+                              ),
                             ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Container(
+                              width: 48,
+                              height: 48,
+                              padding: const EdgeInsets.all(12),
+                              decoration: ShapeDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              child: const Icon(
+                                LucideIcons.settings_2,
+                                color: AppColors.primary,
+                                size: 24,
+                              ),
+                            )
                           ],
-                        );
-                      })
-            ],
+                        ),
+                      ),
+                      // const SizedBox(
+                      //   height: 16,
+                      // ),
+                      // const CardPromotion(),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                ),
+                // const ListContinueWatch(),
+                ListCoursesCard(),
+                // const SizedBox(
+                //   height: 24,
+                // ),
+                // if (hasCorparate) ListCoursesCroperate(),
+                // const SizedBox(
+                //   height: 24,
+                // ),
+                // ListCoursesMastery(),
+
+                const SizedBox(
+                  height: 24,
+                ),
+                (catagories == null)
+                    ? ListCoursesByCatLandscapeLoading(
+                        showDetail: false,
+                      )
+                    : ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: showCategory +
+                            (showCategory < catagories!.data.items.length
+                                ? 1
+                                : 0),
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              (showCategory < catagories!.data.items.length &&
+                                      index == showCategory)
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : ListCoursesByCatLandscape(
+                                      category: catagories!.data.items[index],
+                                      showDetail: false,
+                                    ),
+                              if (showRandomCourses.contains(index))
+                                (index == 0 && isOpenBiz)
+                                    ? const BizNavigatorWidget()
+                                    : const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 24),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 24),
+                                            CardCoursesRandom(),
+                                          ],
+                                        ),
+                                      ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          );
+                        })
+              ],
+            ),
           ),
         ),
       ),

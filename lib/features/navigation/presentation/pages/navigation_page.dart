@@ -16,7 +16,8 @@ import 'package:shake_to_report/shake_to_report.dart';
 import '../../../../configs/alice_init.dart';
 
 class NavigationPage extends ConsumerStatefulWidget {
-  const NavigationPage({super.key});
+  final int initialIndex;
+  const NavigationPage({super.key, this.initialIndex = 0});
   @override
   _NavigationPageState createState() => _NavigationPageState();
 }
@@ -44,7 +45,29 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
   void initState() {
     // _fetchUserMe();
     super.initState();
-    controller = TabController(initialIndex: 0, length: 4, vsync: this);
+    controller = TabController(
+        initialIndex: widget.initialIndex, length: 4, vsync: this);
+    currentPage = widget.initialIndex;
+
+    // Add listener to handle tab changes
+    controller!.addListener(() {
+      if (!controller!.indexIsChanging) {
+        setState(() {
+          currentPage = controller!.index;
+        });
+      }
+    });
+
+    // Force initial index
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          controller!.animateTo(widget.initialIndex);
+          currentPage = widget.initialIndex;
+        });
+      }
+    });
+
     ShakeToReport.initShakeListener(
       onSubmit: (ReportFormData formData) {
         alice.showInspector();
