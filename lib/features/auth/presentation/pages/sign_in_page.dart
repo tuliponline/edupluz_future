@@ -4,12 +4,11 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:edupluz_future/core/app/version_service.dart';
 import 'package:edupluz_future/core/constant/test_account.dart';
 import 'package:edupluz_future/core/services/auth/authsService_service.dart';
-import 'package:edupluz_future/core/services/firebase/remote_config_service.dart';
+
 import 'package:edupluz_future/core/utili/regex_text.dart';
 import 'package:edupluz_future/core/widgets/app_buttons.dart';
 import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
-import 'package:edupluz_future/features/auth/presentation/pages/confirm_otp_page.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -34,6 +33,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   final _passwordController = TextEditingController();
   bool isLogin = true;
 
+  String? fcmToken;
+
   _signinReview() async {
     setState(() {
       isLogin = true;
@@ -57,6 +58,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
   _doSignIn() async {
     try {
+      Logger().d("fcmToken: $fcmToken");
       EasyLoading.show();
       await AuthsService().login(
         username: _usernameController.text,
