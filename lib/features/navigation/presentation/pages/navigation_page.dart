@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:edupluz_future/core/services/auth/authsService_service.dart';
+import 'package:edupluz_future/core/services/storages/storage_services.dart';
 import 'package:edupluz_future/core/widgets/dialogs/confirm_dialog.dart';
+import 'package:edupluz_future/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:edupluz_future/features/course/presentation/course_screen.dart';
-import 'package:edupluz_future/features/course/presentation/widget/my_courses_list/my_courses_list_screen.dart';
 import 'package:edupluz_future/features/discover/presentation/discover_screen.dart';
 import 'package:edupluz_future/features/navigation/presentation/widget/main_nav_bar.dart';
 import 'package:edupluz_future/features/profile/presentation/profile_screen.dart';
@@ -41,10 +43,36 @@ class _NavigationPageState extends ConsumerState<NavigationPage>
   //   }
   // }
 
+  _checkIsLogin() async {
+    bool isLogin = await AuthsService().checkIsLogin(ref);
+    if (!isLogin) {
+      Logger().d("isLogin false go to sign in page");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const SignInPage()));
+    } else {
+      try {
+        final loginData = await StorageServices.getLoginData();
+        if (loginData == null) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const SignInPage()));
+        }
+        await AuthsService().refreshToken(
+          refreshToken: loginData!.refreshToken,
+        );
+      } catch (e) {
+        Logger().e("error refreshToken on sign in page $e");
+        await AuthsService().logout(ref);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const SignInPage()));
+      }
+    }
+  }
+
   @override
   void initState() {
     // _fetchUserMe();
     super.initState();
+    _checkIsLogin();
     controller = TabController(
         initialIndex: widget.initialIndex, length: 4, vsync: this);
     currentPage = widget.initialIndex;

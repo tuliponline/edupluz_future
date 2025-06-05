@@ -79,6 +79,5 @@ class AuthsService {
     await StorageServices.deleteLoginData();
     ref.read(isSigninProvider.notifier).state = false;
     ref.read(userProvider.notifier).state = null;
-    StorageServices.deleteLoginData();
   }
 }

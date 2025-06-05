@@ -47,6 +47,7 @@ class _AppTextFieldState extends State<AppTextField> {
       focusNode: widget.focusNode,
       style: AppTextStyles.bodyLarge,
       decoration: InputDecoration(
+        errorMaxLines: 2,
         labelText: widget.label,
         hintText: widget.hint,
         hintStyle: AppTextStyles.bodyLarge.copyWith(

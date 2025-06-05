@@ -3,6 +3,7 @@ import 'package:edupluz_future/core/enums/courses_enum.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
 import 'package:edupluz_future/core/providers/courses/courses_favorites_provider.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -11,12 +12,17 @@ Future<CoursesModel> fetchCoursesFavorites({
   int limit = 10,
   SortTypr? sort,
   required WidgetRef ref,
+  required BuildContext context,
 }) async {
   Logger().d("Fetching Courses");
   try {
     String finalPath =
         "${ApiPath.courseFavorites}?page=$page&limit=$limit${sort == null ? "" : "&order_by=created_at:${sort.name}"}";
-    String userData = await PrivateApiService().get(path: finalPath);
+    String userData = await PrivateApiService().get(
+      path: finalPath,
+      ref: ref,
+      context: context,
+    );
     CoursesModel coursesModel = coursesModelFromJson(userData);
     ref.read(coursesFavoritesProvider.notifier).state = coursesModel;
     Logger().d(coursesModel.data.items.length);

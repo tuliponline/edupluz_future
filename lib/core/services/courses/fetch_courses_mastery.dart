@@ -1,17 +1,25 @@
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 Future<CoursesModel> fetchCoursesMastery({
   int page = 1,
   int limit = 10,
+  required WidgetRef ref,
+  required BuildContext context,
 }) async {
   Logger().d("Fetching Courses Top Views");
   try {
     String finalPath = "${ApiPath.courses}?page=$page&limit=$limit";
     Logger().d(finalPath);
-    String userData = await PrivateApiService().get(path: finalPath);
+    String userData = await PrivateApiService().get(
+      path: finalPath,
+      ref: ref,
+      context: context,
+    );
     CoursesModel coursesModel = coursesModelFromJson(userData);
     coursesModel.data.items.shuffle();
     Logger().d(coursesModel.data.items.length);

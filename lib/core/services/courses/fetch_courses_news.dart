@@ -16,7 +16,7 @@ Future<CoursesModel> fetchCoursesNews({
   Logger().d("Fetching Courses Top Views");
   try {
     String finalPath =
-        "${ApiPath.courses}?page=$page&limit=$li  mit&order_by=created_at:desc&filters=status:$status,is_edupluz:$isEdupluz";
+        "${ApiPath.courses}?page=$page&limit=$limit&order_by=created_at:desc&filters=status:$status,is_edupluz:$isEdupluz";
     String userData = await PrivateApiService().get(
       path: finalPath,
       ref: ref,
