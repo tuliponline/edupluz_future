@@ -129,6 +129,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                     onPressed: () async {
                       try {
                         EasyLoading.show();
+                        await _getExamKey();
                         Uint8List cerData =
                             await PrivateApiService().downloadCer(key);
                         await CerService().saveCertificate(cerData);
