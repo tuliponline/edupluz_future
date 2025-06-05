@@ -8,14 +8,22 @@ import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/widgets/toast/snack_bar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 fetchFavoriteCourse(BuildContext context,
-    {required String courseId, required bool isFavorite}) async {
+    {required String courseId,
+    required bool isFavorite,
+    required WidgetRef ref}) async {
   if (isFavorite) {
     String finalPath = "${ApiPath.courseFavorites}/course";
     Logger().d("delete $finalPath");
-    if (await PrivateApiService().delete(path: finalPath, id: courseId)) {
+    if (await PrivateApiService().delete(
+      path: finalPath,
+      id: courseId,
+      ref: ref,
+      context: context,
+    )) {
       toast(context,
           text: "ลบออกจากรายการที่บันทึกแล้ว",
           style: AppTextStyles.bodyMedium.copyWith(color: AppColors.primary));
@@ -24,9 +32,12 @@ fetchFavoriteCourse(BuildContext context,
     String finalPath = ApiPath.courseFavorites;
     Logger().d("add $finalPath");
     await PrivateApiService().post(
-        path: finalPath,
-        language: LanguageEnum.th,
-        body: {"language": "th", "course_id": courseId});
+      ref: ref,
+      context: context,
+      path: finalPath,
+      language: LanguageEnum.th,
+      body: {"language": "th", "course_id": courseId},
+    );
     toast(context,
         text: "เพิ่มในรายการที่บันทึกแล้ว",
         style: AppTextStyles.bodyMedium.copyWith(color: AppColors.primary));

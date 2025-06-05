@@ -22,7 +22,10 @@ class _CardCoursesRandomState extends ConsumerState<CardCoursesRandom> {
   CourseModel? course;
   _ranDomCourses() async {
     try {
-      course = await fetchCourseRandom();
+      course = await fetchCourseRandom(
+        ref: ref,
+        context: context,
+      );
       if (mounted) setState(() {});
     } catch (e) {
       Logger().e(e);

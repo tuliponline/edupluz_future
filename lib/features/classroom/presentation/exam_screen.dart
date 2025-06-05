@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-class ExamScreen extends StatefulWidget {
+class ExamScreen extends ConsumerStatefulWidget {
   final CourseModel course;
   final String examUrl;
   final String examKey;
@@ -20,10 +21,10 @@ class ExamScreen extends StatefulWidget {
       required this.examKey});
 
   @override
-  State<ExamScreen> createState() => _ExamScreenState();
+  ConsumerState<ExamScreen> createState() => _ExamScreenState();
 }
 
-class _ExamScreenState extends State<ExamScreen> {
+class _ExamScreenState extends ConsumerState<ExamScreen> {
   bool isLoading = true;
   @override
   void initState() {
@@ -60,8 +61,8 @@ class _ExamScreenState extends State<ExamScreen> {
               },
               onDownloadStartRequest: (controller, downloadStartRequest) async {
                 EasyLoading.show();
-                Uint8List cerData =
-                    await PrivateApiService().downloadCer(widget.examKey);
+                Uint8List cerData = await PrivateApiService()
+                    .downloadCer(widget.examKey, ref, context);
                 await CerService().saveCertificate(cerData);
                 EasyLoading.dismiss();
                 // Logger().d(cerData);

@@ -37,7 +37,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   _initUserDate() async {
     EasyLoading.show();
-    await getUserService(ref);
+    await getUserService(ref, context);
     name.text = ref.read(userProvider)?.data.firstName ?? "";
     lastName.text = ref.read(userProvider)?.data.lastName ?? "";
     imageUrl = ref.read(userProvider)?.data.avatar == ""
@@ -166,6 +166,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 onPressed: () async {
                   EasyLoading.show();
                   bool result = await updateProfile(
+                      context: context,
                       picture: base64Image ?? "",
                       name: name.text,
                       lastName: lastName.text,

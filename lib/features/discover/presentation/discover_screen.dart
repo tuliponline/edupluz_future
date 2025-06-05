@@ -46,7 +46,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
 
   _fetchUser() async {
     isLoading = true;
-    await getUserService(ref);
+    await getUserService(ref, context);
     isLoading = false;
     RemoteConfigService().cardLandscapeDetail(ref);
     isOpenBiz = await RemoteConfigService().openBizCourses();

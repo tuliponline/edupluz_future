@@ -40,22 +40,26 @@ class _CourseByCategoryScreenState
   _fetchCourses() async {
     if (widget.categoryName == "Mastery") {
       coursesModel = await fetchCoursesMastery(
+        ref: ref,
+        context: context,
         page: page,
         limit: 10,
       );
     } else if (widget.categoryName == "เรียนต่อ") {
       coursesModel = await fetchContinueWatch(ref: ref, page: page);
     } else if (widget.categoryName == "ยอดนิยม") {
-      coursesModel =
-          await fetchCoursesTopViews(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesTopViews(
+          page: page, isEdupluz: widget.isEdupluz, ref: ref, context: context);
     } else if (widget.categoryName == "มาใหม่") {
-      coursesModel =
-          await fetchCoursesNews(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesNews(
+          page: page, isEdupluz: widget.isEdupluz, ref: ref, context: context);
     } else if (widget.categoryName == "สำหรับคุณ") {
-      coursesModel =
-          await fetchCoursesRandom(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesRandom(
+          page: page, isEdupluz: widget.isEdupluz, ref: ref, context: context);
     } else {
       coursesModel = await fetchCoursesBycat(
+        ref: ref,
+        context: context,
         catId: widget.categoryId ?? "",
         page: page,
         limit: 10,

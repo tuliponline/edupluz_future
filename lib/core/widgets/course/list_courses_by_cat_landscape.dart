@@ -38,6 +38,8 @@ class _ListCoursesByCatLandscapeState
 
   _fetchCourses() async {
     coursesModel = await fetchCoursesBycat(
+      context: context,
+      ref: ref,
       catId: widget.category.id.toString(),
       page: page,
       limit: 10,

@@ -28,6 +28,7 @@ class _FavoriteCoursesState extends ConsumerState<FavoriteCourses> {
   _fetchCourses() async {
     if (widget.isFavorite) {
       coursesModel ??= await fetchCoursesFavorites(
+        context: context,
         page: page,
         limit: 10,
         ref: ref,
@@ -39,6 +40,7 @@ class _FavoriteCoursesState extends ConsumerState<FavoriteCourses> {
       );
     } else {
       coursesModel ??= await fetchCoursesJoinings(
+        context: context,
         page: page,
         limit: 10,
         ref: ref,

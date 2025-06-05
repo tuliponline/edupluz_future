@@ -8,19 +8,23 @@ import 'package:edupluz_future/features/profile/presentation/widget/card_order_w
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OrdersPage extends StatefulWidget {
+class OrdersPage extends ConsumerStatefulWidget {
   const OrdersPage({super.key});
 
   @override
-  State<OrdersPage> createState() => _OrdersPageState();
+  ConsumerState<OrdersPage> createState() => _OrdersPageState();
 }
 
-class _OrdersPageState extends State<OrdersPage> {
+class _OrdersPageState extends ConsumerState<OrdersPage> {
   OrdersModel? ordersData;
 
   _getOrders() async {
-    ordersData = await fetchOrders();
+    ordersData = await fetchOrders(
+      ref: ref,
+      context: context,
+    );
     setState(() {});
   }
 

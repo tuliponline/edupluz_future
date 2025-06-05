@@ -37,14 +37,20 @@ class _PreviewPageState extends ConsumerState<PreviewPage>
   _fetchCourseFavolite() async {
     EasyLoading.show();
     await fetchFavoriteCourse(context,
-        courseId: widget.courseId, isFavorite: course?.data.favorited ?? false);
+        courseId: widget.courseId,
+        isFavorite: course?.data.favorited ?? false,
+        ref: ref);
     await _fetchCourseById();
     EasyLoading.dismiss();
   }
 
   _fetchCourseById() async {
     if (widget.courseId != "") {
-      course = await fetchCourseById(id: widget.courseId);
+      course = await fetchCourseById(
+        widget.courseId,
+        ref,
+        context,
+      );
     }
     setState(() {});
   }

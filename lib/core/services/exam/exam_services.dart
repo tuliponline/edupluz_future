@@ -4,6 +4,7 @@ import 'package:edupluz_future/core/models/courses/get_exam_key_200_response.dar
 import 'package:edupluz_future/core/models/courses/get_exams_200_response.dart';
 import 'package:edupluz_future/core/providers/language_provider.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -13,8 +14,11 @@ class ExamServices {
     required String courseId,
     required String chapterId,
     required String lessonId,
+    required BuildContext context,
   }) async {
     final response = await PrivateApiService().post(
+        ref: ref,
+        context: context,
         language: ref.read(languageProvider),
         path: "${ApiPath.exam}/key",
         body: {
@@ -29,6 +33,7 @@ class ExamServices {
     required WidgetRef ref,
     required String key,
     required List<AnswersModel> answers,
+    required BuildContext context,
   }) async {
     Logger().d("key $key");
     answers.forEach((element) {
@@ -37,6 +42,8 @@ class ExamServices {
     });
     try {
       final response = await PrivateApiService().post(
+          ref: ref,
+          context: context,
           language: ref.read(languageProvider),
           path: "${ApiPath.exam}/check?key=$key",
           body: {
@@ -59,9 +66,12 @@ class ExamServices {
     required WidgetRef ref,
     required String key,
     required List<AnswersModel> answers,
+    required BuildContext context,
   }) async {
     try {
       final response = await PrivateApiService().post(
+          ref: ref,
+          context: context,
           language: ref.read(languageProvider),
           path: "${ApiPath.exam}?key=$key",
           body: {
@@ -81,10 +91,15 @@ class ExamServices {
 
   Future<GetExams200Response> getExam({
     required String lessonId,
+    required WidgetRef ref,
+    required BuildContext context,
   }) async {
     try {
-      final response = await PrivateApiService()
-          .get(path: "${ApiPath.exam}?filters=lesson_id:$lessonId");
+      final response = await PrivateApiService().get(
+        path: "${ApiPath.exam}?filters=lesson_id:$lessonId",
+        ref: ref,
+        context: context,
+      );
       Logger().d(response);
       return getExams200ResponseFromJson(response);
     } catch (e) {

@@ -1,6 +1,5 @@
 import 'package:edupluz_future/core/models/courses/create_order_200_response.dart';
 import 'package:edupluz_future/core/models/products/products_model.dart';
-import 'package:edupluz_future/core/models/user/get_user_200_response.dart';
 import 'package:edupluz_future/core/providers/user/user_provider.dart';
 import 'package:edupluz_future/core/services/order/orders_service.dart';
 import 'package:edupluz_future/core/services/products/get_product_service.dart';
@@ -28,7 +27,10 @@ class _PlanPageState extends ConsumerState<PlanPage> {
   _getProducts() async {
     try {
       EasyLoading.show();
-      products = await GetProductService().getProductBuffet();
+      products = await GetProductService().getProductBuffet(
+        ref,
+        context,
+      );
     } catch (e) {
       Logger().e(e);
       EasyLoading.showError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
@@ -224,6 +226,8 @@ class _PlanPageState extends ConsumerState<PlanPage> {
       EasyLoading.show();
 
       CreateOrder200Response order = await OrdersService().createOrder(
+        ref: ref,
+        context: context,
         productId: item.id,
         productName: item.name,
         price: item.price,

@@ -38,6 +38,7 @@ class _ListCoursesByCatLandscapeState
     if (widget.isBusiness) indexSelectesd = 2;
     if (indexSelectesd == 0) {
       coursesModel = await fetchCoursesJoinings(
+        context: context,
         page: page,
         limit: 10,
         ref: ref,
@@ -46,7 +47,12 @@ class _ListCoursesByCatLandscapeState
 
     if (indexSelectesd == 1) {
       coursesModel = await fetchCoursesFavorites(
-          page: page, limit: 10, ref: ref, sort: SortTypr.desc);
+        context: context,
+        page: page,
+        limit: 10,
+        ref: ref,
+        sort: SortTypr.desc,
+      );
     }
     if (indexSelectesd == 2) {
       coursesModel = await fetchCoursesCorperate(

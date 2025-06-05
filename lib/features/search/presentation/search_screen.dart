@@ -1,4 +1,3 @@
-import 'package:edupluz_future/core/services/courses/fetch_courses_mastery.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_news.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_random.dart';
 import 'package:edupluz_future/core/services/courses/fetch_courses_top_views.dart';
@@ -17,17 +16,18 @@ import 'package:edupluz_future/core/models/courses/courses_model.dart'
     as courses_type;
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   final bool isEdupluz;
   const SearchScreen({super.key, this.isEdupluz = true});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isSearchFocus = false;
@@ -59,14 +59,14 @@ class _SearchScreenState extends State<SearchScreen> {
   _getCourses() async {
     Logger().d("Fetching Courses");
     if (selectFilter == 0) {
-      coursesModel =
-          await fetchCoursesTopViews(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesTopViews(
+          ref: ref, context: context, page: page, isEdupluz: widget.isEdupluz);
     } else if (selectFilter == 1) {
-      coursesModel =
-          await fetchCoursesNews(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesNews(
+          ref: ref, context: context, page: page, isEdupluz: widget.isEdupluz);
     } else if (selectFilter == 2) {
-      coursesModel =
-          await fetchCoursesRandom(page: page, isEdupluz: widget.isEdupluz);
+      coursesModel = await fetchCoursesRandom(
+          ref: ref, context: context, page: page, isEdupluz: widget.isEdupluz);
     }
 
     if (coursesModel != null) {

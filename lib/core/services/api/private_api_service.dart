@@ -3,7 +3,10 @@ import 'dart:typed_data';
 
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/constant/app_env.dart';
+import 'package:edupluz_future/features/auth/presentation/pages/sign_in_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 import 'package:http/http.dart' as http;
@@ -14,7 +17,7 @@ import '../auth/authsService_service.dart';
 import '../storages/storage_services.dart';
 
 class PrivateApiService {
-  Future<String> _getToken() async {
+  Future<String> _getToken(WidgetRef ref, BuildContext context) async {
     final loginData = await StorageServices.getLoginData();
     if (loginData == null) {
       throw Exception('Login data not found');
@@ -25,14 +28,22 @@ class PrivateApiService {
       );
       return _loginData.data.accessToken;
     } catch (e) {
+      AuthsService().logout(ref);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SignInPage()),
+        (route) => false,
+      );
       throw Exception('Failed to get access token');
     }
   }
 
   Future<Uint8List> downloadCer(
     String examKey,
+    WidgetRef ref,
+    BuildContext context,
   ) async {
-    String accessToken = await _getToken();
+    String accessToken = await _getToken(ref, context);
 
     Uri uri = Uri.parse(
         "${dotenv.get(AppEnv.apiBasePath)}${ApiPath.exam}/certificate?key=$examKey");
@@ -52,10 +63,12 @@ class PrivateApiService {
 
   Future<String> get({
     required String path,
+    required WidgetRef ref,
+    required BuildContext context,
   }) async {
     Uri uri = Uri.parse("${dotenv.get(AppEnv.apiBasePath)}$path");
     Logger().d(uri.toString());
-    final accessToken = await _getToken();
+    final accessToken = await _getToken(ref, context);
 
     final response = await http.get(uri, headers: {
       'Accept': 'application/json',
@@ -75,10 +88,12 @@ class PrivateApiService {
     required String path,
     required LanguageEnum language,
     required Map<String, dynamic> body,
+    required WidgetRef ref,
+    required BuildContext context,
   }) async {
     Uri uri = Uri.parse("${dotenv.get(AppEnv.apiBasePath)}$path");
     Logger().d(uri.toString());
-    final accessToken = await _getToken();
+    final accessToken = await _getToken(ref, context);
 
     final response = await http.post(uri,
         headers: {
@@ -101,9 +116,11 @@ class PrivateApiService {
     required String path,
     String? id,
     required Map<String, dynamic> body,
+    required WidgetRef ref,
+    required BuildContext context,
   }) async {
     Uri uri = Uri.parse("${dotenv.get(AppEnv.apiBasePath)}$path/${id ?? ""}");
-    final accessToken = await _getToken();
+    final accessToken = await _getToken(ref, context);
 
     final response = await http.patch(uri,
         headers: {
@@ -118,9 +135,14 @@ class PrivateApiService {
     return true;
   }
 
-  Future<bool> delete({required String path, required String id}) async {
+  Future<bool> delete({
+    required String path,
+    required String id,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
     Uri uri = Uri.parse("${dotenv.get(AppEnv.apiBasePath)}$path/$id");
-    final accessToken = await _getToken();
+    final accessToken = await _getToken(ref, context);
 
     final response = await http.delete(uri, headers: {
       'Authorization': "Bearer $accessToken",

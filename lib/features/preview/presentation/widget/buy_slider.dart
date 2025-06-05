@@ -115,9 +115,11 @@ class _BuySliderState extends ConsumerState<BuySlider> {
   _createOrder(BuildContext context, GetUser200Response user) async {
     try {
       EasyLoading.show();
-      ProductsModel productsModel =
-          await GetProductService().getProductByCourseId(course.data.id);
+      ProductsModel productsModel = await GetProductService()
+          .getProductByCourseId(course.data.id, ref, context);
       CreateOrder200Response order = await OrdersService().createOrder(
+        ref: ref,
+        context: context,
         productId: productsModel.data.items[0].id,
         productName: productsModel.data.items[0].name,
         price: productsModel.data.items[0].price,

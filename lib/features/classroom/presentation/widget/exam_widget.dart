@@ -38,6 +38,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
 
   _getExamKey() async {
     GetExamKey200Response response = await ExamServices().getExamKey(
+      context: context,
       ref: ref,
       courseId: widget.courseId,
       chapterId: widget.chapterId,
@@ -80,6 +81,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
     EasyLoading.show();
     try {
       CheckExam200Response response = await ExamServices().checkExam(
+        context: context,
         ref: ref,
         key: key,
         answers: answers,
@@ -130,8 +132,8 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                       try {
                         EasyLoading.show();
                         await _getExamKey();
-                        Uint8List cerData =
-                            await PrivateApiService().downloadCer(key);
+                        Uint8List cerData = await PrivateApiService()
+                            .downloadCer(key, ref, context);
                         await CerService().saveCertificate(cerData);
                         EasyLoading.showSuccess(
                             "ดาวน์โหลดใบรับรองไปยังแกลเลอรี่แล้ว");
@@ -150,6 +152,7 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                     EasyLoading.show();
                     try {
                       await ExamServices().submitExam(
+                        context: context,
                         ref: ref,
                         key: key,
                         answers: answers,

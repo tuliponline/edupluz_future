@@ -1,6 +1,8 @@
 import 'package:edupluz_future/core/constant/api_path.dart';
 import 'package:edupluz_future/core/models/courses/courses_model.dart';
 import 'package:edupluz_future/core/services/api/private_api_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 Future<CoursesModel> fetchCoursesNews({
@@ -8,12 +10,18 @@ Future<CoursesModel> fetchCoursesNews({
   int limit = 10,
   String status = "PUBLISHED",
   bool isEdupluz = true,
+  required WidgetRef ref,
+  required BuildContext context,
 }) async {
   Logger().d("Fetching Courses Top Views");
   try {
     String finalPath =
-        "${ApiPath.courses}?page=$page&limit=$limit&order_by=created_at:desc&filters=status:$status,is_edupluz:$isEdupluz";
-    String userData = await PrivateApiService().get(path: finalPath);
+        "${ApiPath.courses}?page=$page&limit=$li  mit&order_by=created_at:desc&filters=status:$status,is_edupluz:$isEdupluz";
+    String userData = await PrivateApiService().get(
+      path: finalPath,
+      ref: ref,
+      context: context,
+    );
     CoursesModel coursesModel = coursesModelFromJson(userData);
     Logger().d(coursesModel.data.items.length);
     return coursesModel;

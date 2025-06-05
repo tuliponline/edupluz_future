@@ -59,7 +59,11 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
   exam.ExamModel? examData;
   _fetchCourseById() async {
     if (widget.courseId != "") {
-      course = await fetchCourseById(id: widget.courseId);
+      course = await fetchCourseById(
+        widget.courseId,
+        ref,
+        context,
+      );
     }
 
     setState(() {});
@@ -160,6 +164,8 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
     EasyLoading.show();
     var examResponse = await ExamServices().getExam(
       lessonId: lessonId,
+      ref: ref,
+      context: context,
     );
     EasyLoading.dismiss();
     if (examResponse.data.items.isNotEmpty &&
@@ -177,6 +183,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                     EasyLoading.show();
                     GetExamKey200Response response =
                         await ExamServices().getExamKey(
+                      context: context,
                       ref: ref,
                       courseId: course!.data.id,
                       chapterId: course!.data.chapters[chapterIndex].id,
@@ -186,7 +193,7 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
 
                     Logger().d("response.data.key ${response.data.key}");
                     Uint8List cerData = await PrivateApiService()
-                        .downloadCer(response.data.key);
+                        .downloadCer(response.data.key, ref, context);
 
                     await CerService().saveCertificate(cerData);
                     EasyLoading.showSuccess(
@@ -366,7 +373,8 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                                 if (examinationCheck != null &&
                                     examinationCheck!.data.passed) {
                                   Uint8List cerData = await PrivateApiService()
-                                      .downloadCer(examinationKey!.data.key);
+                                      .downloadCer(examinationKey!.data.key,
+                                          ref, context);
                                   await CerService().saveCertificate(cerData);
 
                                   EasyLoading.dismiss();

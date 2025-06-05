@@ -34,6 +34,8 @@ class _ListCoursesByCatLandscapeState
 
   _fetchCourses() async {
     coursesModel = await fetchCoursesMastery(
+      context: context,
+      ref: ref,
       page: page,
       limit: 10,
     );
