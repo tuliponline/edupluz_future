@@ -133,6 +133,8 @@ class _ExamWidgetState extends ConsumerState<ExamWidget> {
                         Uint8List cerData =
                             await PrivateApiService().downloadCer(key);
                         await CerService().saveCertificate(cerData);
+                        EasyLoading.showSuccess(
+                            "ดาวน์โหลดใบรับรองไปยังแกลเลอรี่แล้ว");
                       } catch (e) {
                         Logger().e(e);
                         EasyLoading.showError(

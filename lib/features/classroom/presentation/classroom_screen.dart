@@ -189,7 +189,8 @@ class _ClassroomPageState extends ConsumerState<ClassroomPage> {
                         .downloadCer(response.data.key);
 
                     await CerService().saveCertificate(cerData);
-                    EasyLoading.showSuccess("ดาวน์โหลดใบรับรองสำเร็จ");
+                    EasyLoading.showSuccess(
+                        "ดาวน์โหลดใบรับรองไปยังแกลเลอรี่แล้ว");
                   } catch (e) {
                     Logger().e(e);
                     EasyLoading.showError(
