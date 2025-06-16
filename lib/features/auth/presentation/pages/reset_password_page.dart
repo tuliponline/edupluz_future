@@ -1,3 +1,4 @@
+import 'package:edupluz_future/core/services/auth/forgot_password.dart';
 import 'package:edupluz_future/core/theme/app_colors.dart';
 import 'package:edupluz_future/core/theme/app_text_styles.dart';
 import 'package:edupluz_future/core/utili/regex_text.dart';
@@ -6,8 +7,10 @@ import 'package:edupluz_future/core/widgets/app_snack_bar.dart';
 import 'package:edupluz_future/core/widgets/app_text_field.dart';
 import 'package:edupluz_future/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   final String token;
@@ -96,17 +99,30 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 SizedBox(
                   width: double.infinity,
                   child: AppButton.primaryButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        // TODO: Implement password reset logic
-                        AppSnackBar.success(
-                          context: context,
-                          label: l10n.passwordResetSuccess,
-                          iconColor: AppColors.success,
-                          backgroundColor: AppColors.snackbarBackground,
-                          labelColor: AppColors.success,
-                        );
-                        context.goNamed(Routes.signin.name);
+                        try {
+                          EasyLoading.show();
+                          await ForgotPasswordService().resetPassword(
+                              widget.token, newPasswordController.text);
+                          if (context.mounted) {
+                            AppSnackBar.success(
+                              context: context,
+                              label: l10n.passwordResetSuccess,
+                              iconColor: AppColors.success,
+                              backgroundColor: AppColors.snackbarBackground,
+                              labelColor: AppColors.success,
+                            );
+                          }
+                          if (context.mounted) {
+                            context.goNamed(Routes.signin.name);
+                          }
+                        } catch (e) {
+                          Logger().e(e);
+                          EasyLoading.showError(e.toString());
+                        } finally {
+                          EasyLoading.dismiss();
+                        }
                       }
                     },
                     text: l10n.confirm,
